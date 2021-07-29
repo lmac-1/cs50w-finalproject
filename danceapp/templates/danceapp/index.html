@@ -8,18 +8,12 @@
 
     <a href="{% url 'new_video' %}">New Video</a>
     <a href="{% url 'logout' %}">Logout</a>
-    <!-- <ul>
-        {% for video in videos %}
-            <li> {{ video.title }} </li>
-        {% empty %}
-            <li>No videos found</li>
-        {% endfor %}
-    </ul> -->
+
     <div class="row justify-content-center text-center">
         {% for video in videos %}
-            <div class="col-lg-3 col-sm-4 border rounded mx-4 my-2 p-2 py-auto py-lg-4 btn-light">
+            <a href="{% url 'video' video.pk %}"><div class="col-lg-3 col-sm-4 border rounded mx-4 my-2 p-2 py-auto py-lg-4 btn-light">
                 {{ video.title }}
-            </div>
+            </div></a>
         {% empty %}
             No videos found.
         {% endfor %}

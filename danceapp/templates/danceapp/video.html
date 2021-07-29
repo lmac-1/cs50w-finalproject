@@ -1,0 +1,19 @@
+{% extends "danceapp/layout.html" %}
+
+{% block title %}Video {% endblock %}
+
+{% block body %}
+
+    <h2>{{video.title}}</h2>
+
+    <iframe width="560" height="315" src="{{video.link}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+    </iframe>
+
+    <div>
+        <p style="white-space: pre-line"><strong>Description: </strong>{{video.description}}</p>
+        <p><strong>Style:</strong> {{ video.style }}</p>
+        <p><strong>Teacher(s):</strong> {% for teacher in video.teacher.all %}{{ teacher }} {% endfor %}</p>
+        <p><strong>Tag(s):</strong> {% if video.tag.all %}{% for tag in video.tag.all %}{{tag}} {% endfor %}  {% else %} None {% endif %}</p>
+    </div>
+
+{% endblock %}

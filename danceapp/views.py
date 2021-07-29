@@ -32,6 +32,18 @@ def new_video(request):
             "form": NewVideoForm()
         })
 
+def video(request, video_id):
+    try: 
+        video = Video.objects.get(pk = video_id)
+    except Video.DoesNotExist:
+        # [TODO] Improve error handling
+        return HttpResponse("This video doesn't exist")
+    
+    if request.method == "GET":
+        return render(request, "danceapp/video.html", {
+            "video": video
+        })
+
 def login_view(request):
     if request.method == "POST":
 
