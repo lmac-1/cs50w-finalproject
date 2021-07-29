@@ -67,7 +67,9 @@ class Tag(models.Model):
 class Video(models.Model):
     title = models.CharField(max_length=500)
     link = models.URLField(max_length=600)
+    youtube_id = models.CharField(max_length=30)
     description = models.TextField(blank=True)
+    thumbnail_url = models.URLField(max_length=600)
     style = models.ForeignKey(Style, on_delete=models.CASCADE)
     teacher = models.ManyToManyField(Teacher, related_name="videos")
     student_access = models.ManyToManyField(Student, blank=True, related_name="videos")
