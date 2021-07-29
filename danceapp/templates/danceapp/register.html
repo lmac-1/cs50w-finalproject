@@ -6,8 +6,21 @@
 
     <h2 class="text-center title">Register</h2>
 
+    {% for message in messages %}
+        <div class="alert {{ message.tags }}" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+
     <form action="{% url 'register_student' %}" method="post" class="form-signin">
         {% csrf_token %}
+        <!-- [TODO] Remove at later point, this is just for dev purposes to create teacher accounts -->
+        <div class="form-group">
+            <select class="custom-select" name="account_type">
+                <option value="student">Student</option>
+                <option value="teacher">Teacher</option>
+            </select>
+        </div>
         <div class="form-group">
             <input class="form-control" autofocus type="text" name="username" placeholder="Username">
         </div>
