@@ -15,7 +15,7 @@ class User(AbstractUser):
             return f"{self.first_name} (Teacher)"
         else:
             return f"{self.username} (Other)"
-    
+
     class Meta: 
         # Orders users by first name
         ordering = ['first_name']
