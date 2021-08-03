@@ -1,15 +1,24 @@
 {% extends "danceapp/layout.html" %}
+{% load static %}
 
 {% block title %}New Video {% endblock %}
 
 {% block body %}
 
     <h2 class="text-center title">New Video</h2>
-    <form action="{% url 'new_video' %}" method="POST">
-        {% csrf_token %}
-        {{ form }}
-        <button type="submit" class="btn btn-primary">Add video</button>
-    </form>
+    <input type="text" id="videoInputLink">
+    <button id="newVideo">Load video</button>
+    <div id="newVideoForm" style="display: none;">
+        <form action="{% url 'new_video' %}" method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <button type="submit" class="btn btn-primary">Add video</button>
+        </form>
+    </div>
     
 
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'danceapp/newvideo.js' %}"></script>
 {% endblock %}
