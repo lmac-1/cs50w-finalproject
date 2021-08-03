@@ -11,9 +11,17 @@
 
     <div class="row justify-content-center text-center">
         {% for video in videos %}
-            <a href="{% url 'video' video.pk %}"><div class="col-lg-3 col-sm-4 border rounded mx-4 my-2 p-2 py-auto py-lg-4 btn-light">
-                {{ video.title }}
-            </div></a>
+
+
+            <a class="text-decoration-none" href="{% url 'video' video.pk %}">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ video.thumbnail_url }}" class="card-img-top" alt="Image for {{ video.title }}">
+                    <div class="card-body">
+                        <p class="card-text">{{ video.title }}</p>
+                    </div>
+                </div>
+            </a>
+
         {% empty %}
             No videos found.
         {% endfor %}
