@@ -66,7 +66,6 @@ class Tag(models.Model):
 
 class Video(models.Model):
     title = models.CharField(max_length=500)
-    link = models.URLField(max_length=600)
     youtube_id = models.CharField(max_length=30)
     description = models.TextField(blank=True)
     thumbnail_url = models.URLField(max_length=600)
@@ -76,6 +75,7 @@ class Video(models.Model):
     tags = models.ManyToManyField(Tag, blank=True, related_name="videos")
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    class_date = models.DateField()
 
     def __str__(self):
         return f"{self.title} uploaded by {self.author.first_name}"

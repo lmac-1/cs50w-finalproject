@@ -4,13 +4,6 @@ async function getVideoAndUpdatePage(youtubeId) {
     updatePage(videoObject);
 }
 
-function updatePage(videoObject) {
-    document.getElementById('videoTitle').value = videoObject.title;
-    document.getElementById('videoDescription').value = videoObject.description;
-    document.getElementById('videoThumbnailUrl').value = videoObject.thumbnailUrl;
-    document.getElementById('videoLink').value = `https://www.youtube.com/embed/${videoObject.id}`
-}
-
 // [TODO] Error handling
 async function getVideoDataFromId(youtubeId) {
     const response = await fetch(`https://www.googleapis.com/youtube/v3/videos?id=${youtubeId}&key=AIzaSyBPfi6PU5j6pvvAR3sexwu8APAm_IcfNZ4&part=snippet,contentDetails,statistics,status`);
@@ -32,6 +25,13 @@ async function createVideoObject(videoJsonData) {
 
     // Returns video object which will be used to prepopulate fields
     return {id: videoId, title: videoTitle, description: videoDescription, thumbnailUrl: videoImage};
+}
+
+function updatePage(videoObject) {
+    document.getElementById('videoTitle').value = videoObject.title;
+    document.getElementById('videoDescription').value = videoObject.description;
+    document.getElementById('videoThumbnailUrl').value = videoObject.thumbnailUrl;
+    document.getElementById('videoYoutubeId').value = videoObject.videoId;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
