@@ -6,8 +6,9 @@ from .models import Video
 class NewVideoForm(forms.ModelForm):
     class Meta:
         model = Video
-        fields = ['title', 'thumbnail_url', 'description', 'style', 'teacher', 'tags', 'student_access', 'youtube_id', 'class_date']
+        fields = ['youtube_id', 'title', 'thumbnail_url', 'description', 'style', 'teacher', 'tags', 'student_access', 'class_date']
         widgets = {
+                    'youtube_id': forms.TextInput(attrs={'class': 'form-control', 'id': 'videoYoutubeId', 'readonly':'readonly'}),
                     'title': forms.TextInput(attrs={'class': 'form-control', 'id': 'videoTitle'}),
                     'thumbnail_url': forms.URLInput(attrs={'class': 'form-control', 'id': 'videoThumbnailUrl'}),
                     'description': forms.Textarea(attrs={'rows':6, 'maxlength': 1000, 'class': 'form-control', 'id': 'videoDescription'}),
@@ -15,7 +16,6 @@ class NewVideoForm(forms.ModelForm):
                     'teacher': forms.SelectMultiple(attrs={'class': 'form-control'}), 
                     'tags': forms.SelectMultiple(attrs={'class': 'form-control'}),
                     'student_access': forms.SelectMultiple(attrs={'class': 'form-control'}),
-                    'youtube_id': forms.TextInput(attrs={'class': 'form-control d-none', 'id': 'videoYoutubeId', 'value': ''}),
                     #TODO - add validation
                     'class_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'})
                     
@@ -23,6 +23,6 @@ class NewVideoForm(forms.ModelForm):
                     # 'student_access': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'})
 
                     }
-        labels = {
+        """ labels = {
             'youtube_id': ''
-        }
+        } """

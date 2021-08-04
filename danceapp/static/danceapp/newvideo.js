@@ -31,7 +31,7 @@ function updatePage(videoObject) {
     document.getElementById('videoTitle').value = videoObject.title;
     document.getElementById('videoDescription').value = videoObject.description;
     document.getElementById('videoThumbnailUrl').value = videoObject.thumbnailUrl;
-    document.getElementById('videoYoutubeId').value = videoObject.videoId;
+    document.getElementById('videoYoutubeId').value = videoObject.id;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -44,8 +44,6 @@ document.addEventListener('DOMContentLoaded', function() {
         getVideoAndUpdatePage(videoId);
 
         document.getElementById('newVideoForm').style.display = 'block';
-
-        console.log('hi');
     }
 
 })
