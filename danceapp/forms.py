@@ -17,7 +17,7 @@ class NewVideoForm(forms.ModelForm):
                     'student_access': forms.SelectMultiple(attrs={'class': 'form-control'}),
                     'youtube_id': forms.TextInput(attrs={'class': 'form-control d-none', 'id': 'videoYoutubeId', 'value': ''}),
                     #TODO - add validation
-                    'class_date': forms.DateInput(attrs={'type': 'date'})
+                    'class_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'})
                     
                     #TODO - make CheckboxSelectMultiple Styling Work
                     # 'student_access': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'})
