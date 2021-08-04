@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.db import IntegrityError
@@ -9,9 +10,24 @@ from django.contrib import messages
 from .models import User, Student, Video, Teacher
 from .forms import NewVideoForm
 
+@login_required(login_url='/login')
 def index(request):
+
+    # Admin and teachers can see all videos
+    if request.user.is_staff or request.user.is_teacher:
+        videos = Video.objects.all()
+    # Students can only see videos that teachers have given them access to
+    elif request.user.is_student:
+        try: 
+            student = Student.objects.get(pk=request.user.id)
+            videos = student.videos.all()
+        except Student.DoesNotExist:
+            videos = ''
+    else:
+        videos = ''
+
     return render(request, "danceapp/index.html", {
-        "videos": Video.objects.all()
+        "videos": videos
     })
 
 def new_video(request):
