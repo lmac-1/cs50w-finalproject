@@ -8,25 +8,31 @@ from django.db import IntegrityError
 from django.contrib import messages
 
 from .models import User, Student, Video, Teacher
-from .forms import NewVideoForm
+from .forms import NewVideoForm, SearchVideoForm
+from . import util
 
 @login_required(login_url='/login')
 def index(request):
 
-    # Admin and teachers can see all videos
-    if request.user.is_staff or request.user.is_teacher:
-        videos = Video.objects.all()
-    # Students can only see videos that teachers have given them access to
-    elif request.user.is_student:
-        try: 
-            student = Student.objects.get(pk=request.user.id)
-            videos = student.videos.all()
-        except Student.DoesNotExist:
-            videos = ''
-    else:
-        videos = ''
+    videos = util.get_user_videos(request)
 
     return render(request, "danceapp/index.html", {
+        "videos": videos,
+        "search_form": SearchVideoForm()
+    })
+
+def search(request):
+    
+    # Gets all visible videos for user
+    videos = util.get_user_videos(request)
+    
+    # Title search string
+    q = request.GET['q']
+    print(q)
+
+    videos = videos.filter(title__contains=q)
+
+    return render(request, "danceapp/search.html", {
         "videos": videos
     })
 

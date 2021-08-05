@@ -1,12 +1,11 @@
 {% extends "danceapp/layout.html" %}
 
-{% block title %}Home {% endblock %}
+{% block title %}Search{% endblock %}
 
 {% block body %}
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: lightgray;">
         <form class="form-inline my-2 my-lg-0" action="{% url 'search' %}">
             <input name="q" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            {{ search_form }}
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </nav>
