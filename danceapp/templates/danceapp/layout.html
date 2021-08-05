@@ -12,8 +12,8 @@
     </head>
     <body>
         
-        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #cdb4db;">
-            <span class="navbar-brand mb-0 h1">dance</span>
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #044389;">
+            <span style="color: #FF7B9C;" class="navbar-brand mb-0 h1">dance</span>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -21,11 +21,11 @@
                 <ul class="navbar-nav mr-auto">
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'index' %}">All Videos</a>
+                        <a style="color: #7798AB;" class="nav-link" href="{% url 'index' %}">All Videos</a>
                     </li>
-                        {% if user.is_teacher %}
+                        {% if user.is_teacher or user.is_staff %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'new_video' %}">Add Video</a>
+                            <a style="color: #7798AB;" class="nav-link" href="{% url 'new_video' %}">Add Video</a>
                         </li>
                         {% endif %}
                     {% endif %}
@@ -33,7 +33,7 @@
                 <ul class="navbar-nav justify-content-end">
                     {% if user.is_authenticated %}
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a style="color: #FF7B9C;" class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-user pr-1" aria-hidden="true"></i> Signed in as <strong>{{ user.username }}</strong>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -41,8 +41,8 @@
                             </div>
                         </li>
                     {% else %}
-                        <a class="nav-link mx-lg-2" href="{% url 'login' %}">Login</a>
-                        <a class="nav-link mx-lg-2 " href="{% url 'register_student' %}">Register</a>
+                        <a style="color: #FF7B9C;" class="nav-link mx-lg-2" href="{% url 'login' %}">Login</a>
+                        <a style="color: #FF7B9C;" class="nav-link mx-lg-2 " href="{% url 'register_student' %}">Register</a>
                     {% endif %}
                 </ul>
             </div>
