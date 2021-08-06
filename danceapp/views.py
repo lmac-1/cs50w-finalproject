@@ -7,8 +7,8 @@ from django.http import HttpResponse
 from django.db import IntegrityError
 from django.contrib import messages
 
-from .models import User, Student, Video, Teacher
-from .forms import NewVideoForm, SearchVideoForm
+from .models import User, Student, Video, Teacher, Style
+from .forms import NewVideoForm
 from . import util
 
 @login_required(login_url='/login')
@@ -16,24 +16,45 @@ def index(request):
 
     videos = util.get_user_videos(request)
 
+    teachers = Teacher.objects.all()
+    styles = Style.objects.all()
+
     return render(request, "danceapp/index.html", {
         "videos": videos,
-        "search_form": SearchVideoForm()
+        "teachers": teachers,
+        "styles": styles
     })
 
 def search(request):
     
+    teachers = Teacher.objects.all()
+    styles = Style.objects.all()
+
     # Gets all visible videos for user
     videos = util.get_user_videos(request)
     
-    # Title search string
+    # Gets search strings from URL
     q = request.GET['q']
-    print(q)
+    teacher = request.GET['t']
+    style = request.GET['s']
 
-    videos = videos.filter(title__contains=q)
+    # Filters on title
+    if q != "":
+        videos = videos.filter(title__contains=q)
+    
+    # Filters on teacher
+    if teacher !="":
+        videos = videos.filter(teacher=teacher)
+    
+    # Filters on style
+    if style !="":
+        videos = videos.filter(style=style)
+    
 
     return render(request, "danceapp/search.html", {
-        "videos": videos
+        "videos": videos,
+        "teachers": teachers,
+        "styles": styles
     })
 
 def new_video(request):

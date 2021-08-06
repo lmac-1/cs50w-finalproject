@@ -6,7 +6,34 @@
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: lightgray;">
         <form class="form-inline my-2 my-lg-0" action="{% url 'search' %}">
             <input name="q" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            {{ search_form }}
+            
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">Style</label>
+                </div>
+                <select name="s" class="custom-select" id="inputGroupSelect01">
+                    <option value="" selected>All</option>
+                    {% for style in styles %}
+                    <option value="{{ style.pk }}">{{ style.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">Teachers</label>
+                </div>
+                <select name="t" class="custom-select" id="inputGroupSelect01">
+                    <option value="" selected>All</option>
+                    {% for teacher in teachers %}
+                    <option value="{{ teacher.pk }}">{{ teacher.user.first_name }}</option>
+                    {% endfor %}
+                
+                </select>
+            </div>
+
+
+            
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </nav>
