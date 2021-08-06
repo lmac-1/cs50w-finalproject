@@ -41,14 +41,14 @@
 
     <div class="row justify-content-center text-center" id="videoContainer">
         {% for video in videos %}
-            <a class="text-decoration-none" href="{% url 'video' video.pk %}">
+            <!-- <a class="text-decoration-none" href="{% url 'video' video.pk %}">
                 <div class="card" style="width: 18rem;">
                     <img src="{{ video.thumbnail_url }}" class="card-img-top" alt="Image for {{ video.title }}">
                     <div class="card-body">
                         <p class="card-text">{{ video.title }}</p>
                     </div>
                 </div>
-            </a>
+            </a> -->
 
         {% endfor %}
     </div>
