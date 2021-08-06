@@ -79,6 +79,17 @@ class Video(models.Model):
 
     def __str__(self):
         return f"{self.title} uploaded by {self.author.first_name}"
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "youtube_id": self.youtube_id, 
+            "thumbnail_url": self.thumbnail_url,
+            "style": self.style.name,
+            "teacher": [test.user.first_name for test in self.teacher.all()],
+            "class_date": self.class_date.strftime("%d/%m/%Y")
+        }
     
     class Meta:
         # Orders videos in reverse chronological order

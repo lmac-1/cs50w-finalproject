@@ -8,5 +8,8 @@ urlpatterns = [
     path("video/<int:video_id>", views.video, name="video"),
     path("logout", views.logout_view, name="logout"),
     path("newvideo", views.new_video, name="new_video"),
-    path("search", views.search, name="search")
+    path("search", views.search, name="search"),
+
+    # API Routes
+    path("videos", views.videos, name ="videos")
 ]

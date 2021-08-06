@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.db import IntegrityError
+from django.http import JsonResponse
 from django.contrib import messages
 
 from .models import User, Student, Video, Teacher, Style
@@ -24,6 +25,11 @@ def index(request):
         "teachers": teachers,
         "styles": styles
     })
+
+def videos(request):
+    videos = util.get_user_videos(request)
+
+    return JsonResponse([video.serialize() for video in videos], safe=False)
 
 def search(request):
     
