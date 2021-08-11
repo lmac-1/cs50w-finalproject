@@ -6,16 +6,36 @@
 {% block body %}
 
     <h2 class="text-center title">New Video</h2>
-    <input type="text" id="videoInputLink">
-    <button id="newVideo">Load video</button>
-    <div id="newVideoForm" style="display: none;">
-        <form action="{% url 'new_video' %}" method="POST">
-            {% csrf_token %}
-            {{ form }}
-            <button type="submit" class="btn btn-primary">Add video</button>
-        </form>
+    <div class="row justify-content-center">
+        <div class="form-group col-md-10 col-lg-8">
+            <label for="videoInputLink">YouTube URL:</label>
+            <input class="form-control" type="text" id="videoInputLink">
+            <small id="passwordHelpBlock" class="form-text text-muted">
+                Make sure to copy and paste the YouTube URL directly from YouTube.
+            </small>
+            <div class="text-center">
+                <button class="btn btn-primary mt-3 btn-block" id="newVideo">Load video</button>
+            </div>
+        </div>
+
+        <div class="form-group col-md-10 col-lg-8" id="newVideoForm" style="display: none;">
+            <form action="{% url 'new_video' %}" method="POST">
+                {% csrf_token %}
+
+                {% for field in form %}
+                    <div class="form-group">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                {% endfor %}
+
+                
+                <button type="submit" class="btn btn-primary">Add video</button>
+            </form>
+        </div>
+
     </div>
-    
+
 
 {% endblock %}
 
