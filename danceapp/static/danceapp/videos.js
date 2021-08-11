@@ -1,44 +1,49 @@
-/* let filter = {
-    title: "",
-    style: "",
-    teachers: ""
-}
-let allVideos;
-let visibleVideos; */
+// Creates empty filter object
+let filter = {}
 
-// Removes all child elements of a parent element
+// Removes all child elements of a parent DOM element
 function removeAllChildNodes(parent) {
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild);
     }
 }
 
-/* function filterVideos(videos) {
-    filter.title = document.getElementById('title_input').value;
-    filter.style = document.getElementById('search_style').value;
-    filter.teachers = document.getElementById('search_teacher').value;
-
-    let output;
-} */
-
-function searchTitle(videos) {
-    // Get search string
-    let titleFilter = document.getElementById('title_input').value.toLowerCase();
-        
-    let searchResults = videos.filter(video => video.title.toLowerCase().includes(titleFilter) == true);
-    
+// Filters video json data using given filter object
+function filterVideos(videoJsonData, filter) {
+    // Filters through the json data
+    let searchResults = videoJsonData.filter( (video) => {
+        // Iterates through the keys in the filter
+        for (let key in filter) {
+            // Gets rid of any videos that don't contain the title given in the filter (if present in filter)
+            if (key === 'title' && !video.title.toLowerCase().includes(filter.title)) {
+                return false;
+            }
+            // Gets rid of any videos that don't match the style filter (if present in filter)
+            else if (key === 'style' && video.style != filter.style) {
+                return false;
+            }
+            // Gets rid of any videos that don't match the teacher filter (if present in filter)
+            else if (key === 'teacher' && !video.teacher.includes(filter.teacher)) {
+                return false;
+            } 
+        }
+        // If it passes the following tests, this video matches the search criteria and will be added to the search results
+        return true;
+    })
+    // Generates HTML content for search results
     getVideosHTML(searchResults);
 }
 
 async function clearTitle() {
     const titleInput = document.getElementById('title_input');
     titleInput.value = '';
-    
-    // TODO -  temporary - at the moment resets to showing all videos
-    const videoData = await getAllVideos();
-    getVideosHTML(videoData);
+    // Deletes title field from filter
+    if (filter.hasOwnProperty('title')) {
+        delete filter.title;
+    }
 }
 
+// Hides and shows filters
 function toggleFilters() {
     // Define elements we are going to use
     let styleFilter = document.getElementById('search_style');
@@ -58,10 +63,18 @@ function toggleFilters() {
         styleFilter.value = '';
         teacherFilter.value = '';
 
+        // Resets filter object (if necessary)
+        if (filter.hasOwnProperty('style')) {
+            delete filter.style;
+        }
+        if (filter.hasOwnProperty('teacher')) {
+            delete filter.teacher;
+        }
+
         // Hide filters container
         filtersContainer.classList.add('d-none');
 
-        filterButton.innerHTML = 'View Filters';    
+        filterButton.innerHTML = 'View Filters';
     }
 }
 
@@ -131,18 +144,67 @@ async function getVideosHTML(videoJsonData) {
 // TODO - check if async here is ok
 document.addEventListener('DOMContentLoaded', async function() {
     
-    allVideos = await getAllVideos();
+    // Resets search filters on page load
+    document.getElementById('search_teacher').value = "";
+    document.getElementById('search_style').value = "";
+    document.getElementById('title_input').value = "";
+    
+    // Loads all videos on page load
+    let allVideos = await getAllVideos();
     getVideosHTML(allVideos);
 
     // TODO - make work with enter key too
     document.getElementById('search_title').addEventListener("click", function() {
-        searchTitle(allVideos);
+        let titleValue = document.getElementById('title_input').value.toLowerCase();
+
+        if (titleValue != "") {
+            filter.title = titleValue;
+        }
+        else if (filter.hasOwnProperty('title') && titleValue == "") {
+            delete filter.title;
+        }
+        console.log(filter);
+        filterVideos(allVideos, filter);
     })
 
     // Hides and shows filters
-    document.getElementById('view_filters').addEventListener("click", toggleFilters);
+    document.getElementById('view_filters').addEventListener("click", function() {
+        toggleFilters();
+        filterVideos(allVideos, filter);
+    });
 
-    // TODO - restore results
-    document.getElementById('clear_title').addEventListener("click", clearTitle);
+    document.getElementById('clear_title').addEventListener("click", function() {
+        clearTitle();
+        filterVideos(allVideos, filter);
+    });
 
-})
+    document.getElementById('search_teacher').addEventListener("change", function() {
+        let teacherValue = document.getElementById("search_teacher").value;
+        
+        // Adds teacher to filter
+        if (teacherValue != "") {
+            filter.teacher = parseInt(teacherValue);
+        } 
+        // Deletes 'teacher' property if it exists and no teacher has been selected to search
+        else if (filter.hasOwnProperty('teacher') && teacherValue == "") {
+            delete filter.teacher;
+        }
+
+        filterVideos(allVideos, filter);
+    })
+
+    document.getElementById('search_style').addEventListener("change", function() {
+        let styleValue = document.getElementById("search_style").value;
+
+        // Adds style to filter
+        if (styleValue != "") {
+            filter.style = parseInt(styleValue);
+        }
+        // Deletes 'style' property from filter if it exists and no style has been selected to search
+        else if (filter.hasOwnProperty('style') && styleValue == "") {
+            delete filter.style;
+        }
+        
+        filterVideos(allVideos, filter);
+    })
+});

@@ -41,20 +41,20 @@ def search(request):
     
     # Gets search strings from URL
     q = request.GET['q']
-    teacher = request.GET['t']
-    style = request.GET['s']
+    """ teacher = request.GET['t']
+    style = request.GET['s'] """
 
     # Filters on title
     if q != "":
         videos = videos.filter(title__contains=q)
     
     # Filters on teacher
-    if teacher !="":
+    """ if teacher !="":
         videos = videos.filter(teacher=teacher)
     
     # Filters on style
     if style !="":
-        videos = videos.filter(style=style)
+        videos = videos.filter(style=style) """
     
 
     return render(request, "danceapp/search.html", {

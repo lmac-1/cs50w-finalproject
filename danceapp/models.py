@@ -86,8 +86,8 @@ class Video(models.Model):
             "title": self.title,
             "youtube_id": self.youtube_id, 
             "thumbnail_url": self.thumbnail_url,
-            "style": self.style.name,
-            "teacher": [test.user.first_name for test in self.teacher.all()],
+            "style": self.style.pk,
+            "teacher": [test.pk for test in self.teacher.all()],
             "class_date": self.class_date.strftime("%d/%m/%Y")
         }
     
