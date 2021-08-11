@@ -28,40 +28,7 @@ def index(request):
 
 def videos(request):
     videos = util.get_user_videos(request)
-
     return JsonResponse([video.serialize() for video in videos], safe=False)
-
-def search(request):
-    
-    teachers = Teacher.objects.all()
-    styles = Style.objects.all()
-
-    # Gets all visible videos for user
-    videos = util.get_user_videos(request)
-    
-    # Gets search strings from URL
-    q = request.GET['q']
-    """ teacher = request.GET['t']
-    style = request.GET['s'] """
-
-    # Filters on title
-    if q != "":
-        videos = videos.filter(title__contains=q)
-    
-    # Filters on teacher
-    """ if teacher !="":
-        videos = videos.filter(teacher=teacher)
-    
-    # Filters on style
-    if style !="":
-        videos = videos.filter(style=style) """
-    
-
-    return render(request, "danceapp/search.html", {
-        "videos": videos,
-        "teachers": teachers,
-        "styles": styles
-    })
 
 def new_video(request):
     if request.method == 'POST':
