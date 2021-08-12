@@ -54,6 +54,7 @@ class Style(models.Model):
         # Orders styles by name
         ordering = ['name']
 
+# TODO - delete?
 class Tag(models.Model):
     name = models.CharField(max_length=100)
 
@@ -72,7 +73,7 @@ class Video(models.Model):
     style = models.ForeignKey(Style, on_delete=models.CASCADE)
     teacher = models.ManyToManyField(Teacher, related_name="videos")
     student_access = models.ManyToManyField(Student, blank=True, related_name="videos")
-    tags = models.ManyToManyField(Tag, blank=True, related_name="videos")
+    #tags = models.ManyToManyField(Tag, blank=True, related_name="videos")
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     class_date = models.DateField()
