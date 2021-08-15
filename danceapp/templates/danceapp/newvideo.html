@@ -6,19 +6,22 @@
 {% block body %}
 
     <h2 class="text-center title">New Video</h2>
+
     <div class="row justify-content-center">
-        <div class="form-group col-md-10 col-lg-8">
+        <div class="form-group col-sm-10 col-md-8 col-lg-5">
             <label for="videoInputLink">YouTube URL:</label>
             <input class="form-control" type="text" id="videoInputLink">
             <small id="passwordHelpBlock" class="form-text text-muted">
-                Make sure to copy and paste the YouTube URL directly from YouTube.
+                Make sure to copy and paste the URL directly from YouTube.
             </small>
             <div class="text-center">
                 <button class="btn btn-primary mt-3 btn-block" id="newVideo">Load video</button>
             </div>
         </div>
+    </div>
 
-        <div class="form-group col-md-10 col-lg-8" id="newVideoForm" style="display: none;">
+    <div class="row justify-content-center">
+        <div class="form-group col-sm-10 col-md-8 col-lg-5" id="newVideoForm" style="display: none;">
             <form action="{% url 'new_video' %}" method="POST">
                 {% csrf_token %}
 
@@ -29,9 +32,15 @@
                     </div>
                 {% endfor %}
 
-                
                 <button type="submit" class="btn btn-primary">Add video</button>
             </form>
+        </div>
+    </div>
+
+    <div class="row justify-content-center d-none mx-2 mx-sm-0" id="error_container">
+        <div class="alert alert-danger mt-4 pt-4 pb-3 col-sm-10 col-md-8 col-lg-5">
+            <h5 class="alert-heading">Oops!</h5>
+            <p id="error_message">The link you provided did not contain a valid YouTube ID. Please make sure that you are copying the link directly from YouTube and try again.</p>
         </div>
 
     </div>

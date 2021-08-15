@@ -2,7 +2,7 @@ const apiKey = 'AIzaSyBPfi6PU5j6pvvAR3sexwu8APAm_IcfNZ4';
 
 async function processYoutubeUrl(url) {
     
-    // SPLIT THE URL
+    // Extracts any potential YouTube IDs from the URL, creating an array
     let potentialIds = getPotentialIds(url);
 
     if (potentialIds != null) {
@@ -10,15 +10,15 @@ async function processYoutubeUrl(url) {
         // Here we process the potential Ids to try to get an object with the video information
         let videoData = await getValidVideoObject(potentialIds);
         
+        // If a video object is craeted, update the form with relevant details
         if (videoData != null) {
-            // update the page
-            console.log(videoData)
             updatePage(videoData);
         }
         else {
             invalidId('The URL did not contain a valid ID');
         }
     }
+    // We didn't find any possible YouTube IDs in the URL
     else {
         invalidId('The URL does not contain a parameter with 11 characters that could potentially be an ID');
     }
@@ -89,10 +89,17 @@ function createVideoObject(videoJsonData) {
 
 // this will hold our error handling for invalid ids / no response
 function invalidId(errorMessage) {
+    // Show error message
+    document.getElementById('error_container').classList.remove('d-none');
+    // Print console error for debugging uses
     console.error(errorMessage);
 }
 
 function updatePage(videoData) {
+    // Hides error message
+    let errorContainer = document.getElementById('error_container');
+    errorContainer.classList.add('d-none');
+    
     document.getElementById('videoTitle').value = videoData.title;
     document.getElementById('videoDescription').value = videoData.description;
     document.getElementById('videoThumbnailUrl').value = videoData.thumbnailUrl;
@@ -102,11 +109,17 @@ function updatePage(videoData) {
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    // clear form
+    // Clear form on page load
+    document.getElementById('videoInputLink').value = "";
+    // TODO - clear other fields
+
 
     // When user submits the 'New Video' button
     document.getElementById('newVideo').onclick = () => {
         
+        // Rehides form
+        document.getElementById('newVideoForm').style.display = 'none';
+
         // Gets YouTube URL from the form input
         const youtubeUrl = document.getElementById('videoInputLink').value;
         processYoutubeUrl(youtubeUrl);
