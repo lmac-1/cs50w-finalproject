@@ -108,3 +108,17 @@ class Comment(models.Model):
     class Meta: 
         # Orders comment by most recent first, by default
         ordering = ['-time']
+
+class Notification(models.Model):
+    video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name="notifications")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notifications")
+    message = models.CharField(max_length=5000)
+    time = models.DateTimeField(auto_now_add=True)
+    read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Notification for {self.user.first_name} : {self.message}"
+    
+    class Meta:
+        # Orders notifications by most recent first by default
+        ordering = ['-time']
