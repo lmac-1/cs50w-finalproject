@@ -95,3 +95,16 @@ class Video(models.Model):
     class Meta:
         # Orders videos in reverse chronological order
         ordering = ['-created_at']
+
+class Comment(models.Model):
+    video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name="comments")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
+    comment = models.CharField(max_length=5000)
+    time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.comment)
+
+    class Meta: 
+        # Orders comment by most recent first, by default
+        ordering = ['-time']

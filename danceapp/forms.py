@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Video
+from .models import Video, Comment
 
 # Model form for a new video
 class NewVideoForm(forms.ModelForm):
@@ -25,3 +25,12 @@ class NewVideoForm(forms.ModelForm):
         labels = {
             'teacher': 'Teacher(s):'
         }
+
+class CommentForm(forms.ModelForm): 
+    class Meta:
+        model = Comment
+        fields = ['comment']
+        labels = {
+            'comment': ''
+        }
+        widgets = {"comment": forms.Textarea(attrs={'rows': 2, 'class': 'form-control', 'maxlength': '5000'})}

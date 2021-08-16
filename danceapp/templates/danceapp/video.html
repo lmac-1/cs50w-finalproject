@@ -13,12 +13,25 @@
         <p style="white-space: pre-line"><strong>Description: </strong>{{video.description}}</p>
         <p><strong>Style:</strong> {{ video.style }}</p>
         <p><strong>Teacher(s):</strong> {% for teacher in video.teacher.all %}{{ teacher }} {% endfor %}</p>
-        <p><strong>Tag(s):</strong>{% for tag in video.tag.all %} {{tag}} {% empty %} None {% endfor %}</p>
+        <!-- <p><strong>Tag(s):</strong>{% for tag in video.tag.all %} {{tag}} {% empty %} None {% endfor %}</p> -->
         <p><strong>Date:</strong> {{ video.class_date }}</p>
         {% if user.is_staff or user.is_teacher %}
             <p><strong>Student(s):</strong>{% for student in video.student_access.all %} {{ student.user.first_name }} {% empty %} None {% endfor %}</p>
         {% endif %}
         
+    </div>
+    <div>
+        <h1>Comments</h1>
+        {% for comment in comments %}
+            <strong>{{ comment.user }}:</strong> {{ comment.comment }}<br>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        <form action="{% url 'add_comment' video.id %}" method="POST">
+            {% csrf_token %}
+            {{ comment_form }}
+            <button class="btn btn-primary mt-3">Add comment</button>
+        </form>
     </div>
 
 {% endblock %}

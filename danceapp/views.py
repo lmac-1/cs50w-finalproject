@@ -9,7 +9,7 @@ from django.http import JsonResponse
 from django.contrib import messages
 
 from .models import User, Student, Video, Teacher, Style
-from .forms import NewVideoForm
+from .forms import NewVideoForm, CommentForm
 from . import util
 
 @login_required(login_url='/login')
@@ -48,17 +48,44 @@ def new_video(request):
             "form": NewVideoForm()
         })
 
+# [TODO] Add login required
 def video(request, video_id):
     try: 
         video = Video.objects.get(pk = video_id)
+        comments = video.comments.all()
     except Video.DoesNotExist:
         # [TODO] Improve error handling
         return HttpResponse("This video doesn't exist")
     
     if request.method == "GET":
         return render(request, "danceapp/video.html", {
-            "video": video
+            "video": video,
+            "comment_form": CommentForm(),
+            "comments": comments
         })
+
+def add_comment(request, video_id):
+    if request.method == "POST": 
+        video = Video.objects.get(pk = video_id)
+
+        # Take in the data the user submitted and save it as form
+        form = CommentForm(request.POST)
+
+        # Check if form data is valid (server-side)
+        if form.is_valid():
+            
+            # Sets item and user fields
+            form.instance.video = video
+            form.instance.user = request.user
+
+            # Saves comment to database
+            form.save()
+
+            # Success message that we will show in the template
+            messages.success(request, 'Comment successfully added.')
+
+            # Reloads page
+            return HttpResponseRedirect(reverse("video", args=(video_id,)))
 
 def login_view(request):
     if request.method == "POST":
