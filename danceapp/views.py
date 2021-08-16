@@ -8,7 +8,7 @@ from django.db import IntegrityError
 from django.http import JsonResponse
 from django.contrib import messages
 
-from .models import User, Student, Video, Teacher, Style
+from .models import User, Student, Video, Teacher, Style, Notification
 from .forms import NewVideoForm, CommentForm
 from . import util
 
@@ -41,6 +41,18 @@ def new_video(request):
             form.instance.author = request.user
             # Saves new listing
             new_video = form.save()
+            
+            # Gets students from form
+            students = form.cleaned_data.get('student_access')
+
+            # Iterates through students
+            for student in students:
+                user = student.user
+                message = f"You have a new video available: {form.cleaned_data.get('title')}"
+                # Adds a notification to notify them of the new video
+                notification = Notification(video=new_video, user=user, message=message)
+                notification.save()
+
             # Redirect to listing page 
             return HttpResponseRedirect(reverse("index",))
     else:
