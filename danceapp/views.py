@@ -78,7 +78,9 @@ def video(request, video_id):
 
 def add_comment(request, video_id):
     if request.method == "POST": 
+        # [TODO] - error handling try/catch?
         video = Video.objects.get(pk = video_id)
+        teachers = video.teacher.all()
 
         # Take in the data the user submitted and save it as form
         form = CommentForm(request.POST)
@@ -95,6 +97,23 @@ def add_comment(request, video_id):
 
             # Success message that we will show in the template
             messages.success(request, 'Comment successfully added.')
+
+            for teacher in teachers:
+                # Gets user for teacher of the video
+                user_teacher = teacher.user
+                
+                # Works out name to show in notification text
+                if request.user.first_name != '':
+                    message_name = request.user.first_name
+                else:
+                    message_name = request.user.username
+                
+                # Creates notification message
+                message = f"{message_name} added a new comment on your video {video.title}"
+                
+                # Adds a notification to notify them of the new video
+                notification = Notification(video=video, user=user_teacher, message=message)
+                notification.save()
 
             # Reloads page
             return HttpResponseRedirect(reverse("video", args=(video_id,)))
