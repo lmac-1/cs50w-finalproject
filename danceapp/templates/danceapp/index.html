@@ -7,15 +7,15 @@
     <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-center">
 
         <div id="titleContainer" class="form-inline my-2 my-lg-0">
-            <button class="btn btn-sm btn-primary mr-2" id="clear_title">Clear title</button>
+            <!-- <button class="btn btn-sm btn-primary mr-2" id="clear_title">Clear title</button> -->
             <input id="title_input" class="form-control mr-sm-2" type="search" placeholder="Search titles" aria-label="Search">
             <button id="search_title" class="btn btn-sm btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            <button id="view_filters" class="btn btn-sm btn-outline-primary ml-2">View Filters</button>
+            <!-- <button id="view_filters" class="btn btn-sm btn-outline-primary ml-2">View Filters</button> -->
         </div>
 
     </nav>
 
-    <nav class="navbar navbar-extend-lg navbar-light d-flex justify-content-center">
+    <!-- <nav class="navbar navbar-extend-lg navbar-light d-flex justify-content-center">
         <div id="filters_container" class="form-inline d-none">
         
             <div class="input-group">
@@ -44,12 +44,31 @@
             </div>
 
         </div>
-    </nav>
+    </nav> -->
 
     <div class="row">
         <!-- FILTERS SIDE BAR -->
         <div class="col-xl-2 filterContainer filters-div">
-            Filters
+            <!-- Style -->
+            <div class="form-group pt-3">
+                <label for="exampleFormControlSelect1">Style</label>
+                <select class="form-control" id="exampleFormControlSelect1" id="search_style">
+                    <option value="" selected>All</option>
+                    {% for style in styles %}
+                    <option value="{{ style.pk }}">{{ style.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- Teacher -->
+            <div class="form-group pt-3">
+                <label for="exampleFormControlSelect1">Teacher</label>
+                <select class="form-control" id="exampleFormControlSelect1" id="search_teacher">
+                    <option value="" selected>All</option>
+                    {% for teacher in teachers %}
+                    <option value="{{ teacher.pk }}">{{ teacher.user.first_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
         </div>
 
         <div class="d-flex flex-wrap justify-content-center align-items-center col-lg-10 containerVideos" id="videoContainer">
