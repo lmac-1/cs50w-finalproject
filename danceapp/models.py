@@ -66,11 +66,14 @@ class Tag(models.Model):
         ordering = ['name']
 
 class Video(models.Model):
+    LEVELS = [('BEG', 'Beginner'), ('INT', 'Intermediate'), ('ADV', 'Advanced')]
+    
     title = models.CharField(max_length=500)
     youtube_id = models.CharField(max_length=30)
     description = models.TextField(blank=True)
     thumbnail_url = models.URLField(max_length=600)
     style = models.ForeignKey(Style, on_delete=models.CASCADE)
+    level = models.CharField(max_length=10, choices=LEVELS)
     teacher = models.ManyToManyField(Teacher, related_name="videos")
     student_access = models.ManyToManyField(Student, blank=True, related_name="videos")
     #tags = models.ManyToManyField(Tag, blank=True, related_name="videos")

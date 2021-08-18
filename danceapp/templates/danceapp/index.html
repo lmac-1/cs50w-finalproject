@@ -51,8 +51,8 @@
         <div class="col-xl-2 filterContainer filters-div">
             <!-- Style -->
             <div class="form-group pt-3">
-                <label for="exampleFormControlSelect1">Style</label>
-                <select class="form-control" id="exampleFormControlSelect1" id="search_style">
+                <label for="search_style">Style</label>
+                <select class="form-control" id="search_style">
                     <option value="" selected>All</option>
                     {% for style in styles %}
                     <option value="{{ style.pk }}">{{ style.name }}</option>
@@ -61,14 +61,25 @@
             </div>
             <!-- Teacher -->
             <div class="form-group pt-3">
-                <label for="exampleFormControlSelect1">Teacher</label>
-                <select class="form-control" id="exampleFormControlSelect1" id="search_teacher">
+                <label for="search_teacher">Teacher</label>
+                <select class="form-control" id="search_teacher">
                     <option value="" selected>All</option>
                     {% for teacher in teachers %}
                     <option value="{{ teacher.pk }}">{{ teacher.user.first_name }}</option>
                     {% endfor %}
                 </select>
             </div>
+            <!-- Level -->
+            <div class="form-group pt-3">
+                <label for="search_level">Level</label>
+                <select id="search_level" class="form-control">
+                    <option value="" selected>All</option>
+                    {% for value, level in levels %}
+                    <option value="{{ value }}">{{level}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
         </div>
 
         <div class="d-flex flex-wrap justify-content-center align-items-center col-lg-10 containerVideos" id="videoContainer">
@@ -82,7 +93,7 @@
                             </div>
                             <p class="card-text card-video-title font-weight-bold mb-0 text-left my-auto pt-1 px-2">{{ video.title }}</p>
                             {{ video.class_date|date:"d/m/y"}}
-                            Beginners
+                            {{ video.get_level_display }}
                             <!-- <div><span class="badge badge-secondary">{{ video.style }} </span></div> -->
                         </div>
                     </div>

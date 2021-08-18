@@ -23,7 +23,8 @@ def index(request):
     return render(request, "danceapp/index.html", {
         "videos": videos,
         "teachers": teachers,
-        "styles": styles
+        "styles": styles,
+        "levels": Video.LEVELS
     })
 
 def videos(request):
