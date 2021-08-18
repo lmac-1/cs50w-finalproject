@@ -91,6 +91,7 @@ class Video(models.Model):
             "youtube_id": self.youtube_id, 
             "thumbnail_url": self.thumbnail_url,
             "style": self.style.pk,
+            "level": self.level,
             "teacher": [test.pk for test in self.teacher.all()],
             "class_date": self.class_date.strftime("%d/%m/%Y")
         }

@@ -26,6 +26,10 @@ function filterVideos(videoJsonData, filter) {
             else if (key === 'teacher' && !video.teacher.includes(filter.teacher)) {
                 return false;
             } 
+            // Gets rid of any videos that don't match level (if set)
+            else if (key === 'level' && video.level != filter.level) {
+                return false;
+            }
         }
         // If it passes the following tests, this video matches the search criteria and will be added to the search results
         return true;
@@ -34,17 +38,17 @@ function filterVideos(videoJsonData, filter) {
     getVideosHTML(searchResults);
 }
 
-async function clearTitle() {
+/* async function clearTitle() {
     const titleInput = document.getElementById('title_input');
     titleInput.value = '';
     // Deletes title field from filter
     if (filter.hasOwnProperty('title')) {
         delete filter.title;
     }
-}
+} */
 
 // Hides and shows filters
-function toggleFilters() {
+/* function toggleFilters() {
     // Define elements we are going to use
     let styleFilter = document.getElementById('search_style');
     let teacherFilter = document.getElementById('search_teacher');
@@ -76,7 +80,7 @@ function toggleFilters() {
 
         filterButton.innerHTML = 'View Filters';
     }
-}
+} */
 
 // Fetches video JSON data of all videos visible to logged in user
 async function getAllVideos() {
@@ -148,12 +152,12 @@ document.addEventListener('DOMContentLoaded', async function() {
     document.getElementById('search_teacher').value = "";
     document.getElementById('search_style').value = "";
     document.getElementById('title_input').value = "";
-    
+    document.getElementById('search_level').value = "";    
     // Loads all videos on page load
     let allVideos = await getAllVideos();
     getVideosHTML(allVideos);
 
-    // TODO - make work with enter key too
+    // TODO - make work with enter key too (try doing search event)
     document.getElementById('search_title').addEventListener("click", function() {
         let titleValue = document.getElementById('title_input').value.toLowerCase();
 
@@ -168,15 +172,15 @@ document.addEventListener('DOMContentLoaded', async function() {
     })
 
     // Hides and shows filters
-    document.getElementById('view_filters').addEventListener("click", function() {
+    /* document.getElementById('view_filters').addEventListener("click", function() {
         toggleFilters();
         filterVideos(allVideos, filter);
-    });
+    }); */
 
-    document.getElementById('clear_title').addEventListener("click", function() {
+    /* document.getElementById('clear_title').addEventListener("click", function() {
         clearTitle();
         filterVideos(allVideos, filter);
-    });
+    }); */
 
     document.getElementById('search_teacher').addEventListener("change", function() {
         let teacherValue = document.getElementById("search_teacher").value;
@@ -205,6 +209,21 @@ document.addEventListener('DOMContentLoaded', async function() {
             delete filter.style;
         }
         
+        filterVideos(allVideos, filter);
+    })
+
+    document.getElementById('search_level').addEventListener("change", function() {
+        let levelValue = document.getElementById("search_level").value;
+
+        // Adds level to the filter
+        if (levelValue != "") {
+            filter.level = levelValue;
+        }
+        // Deletes 'level' property fom filter if it exists and no level has been selected to search
+        else if (filter.hasOwnProperty('level') && styleValue == "") {
+            delete filter.level;
+        }
+        s
         filterVideos(allVideos, filter);
     })
 });
