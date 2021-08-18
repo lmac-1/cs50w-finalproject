@@ -4,18 +4,18 @@
 {% block title %}Home {% endblock %}
 
 {% block body %}
-    <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-center" style="background-color: lightgray;">
+    <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-center">
 
         <div id="titleContainer" class="form-inline my-2 my-lg-0">
             <button class="btn btn-sm btn-primary mr-2" id="clear_title">Clear title</button>
-            <input id="title_input" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <input id="title_input" class="form-control mr-sm-2" type="search" placeholder="Search titles" aria-label="Search">
             <button id="search_title" class="btn btn-sm btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             <button id="view_filters" class="btn btn-sm btn-outline-primary ml-2">View Filters</button>
         </div>
 
     </nav>
 
-    <nav class="navbar navbar-extend-lg navbar-light d-flex justify-content-center mt-0 pb-3 mb-3" style="background-color: lightgray;">
+    <nav class="navbar navbar-extend-lg navbar-light d-flex justify-content-center">
         <div id="filters_container" class="form-inline d-none">
         
             <div class="input-group">
@@ -46,25 +46,50 @@
         </div>
     </nav>
 
-    <div class="row justify-content-center text-center" id="videoContainer">
-        {% for video in videos %}
-            <!-- <a class="text-decoration-none" href="{% url 'video' video.pk %}">
-                <div class="card" style="width: 18rem;">
-                    <img src="{{ video.thumbnail_url }}" class="card-img-top" alt="Image for {{ video.title }}">
-                    <div class="card-body">
-                        <p class="card-text">{{ video.title }}</p>
+    <div class="row">
+        <!-- FILTERS SIDE BAR -->
+        <div class="col-xl-2 filterContainer filters-div">
+            Filters
+        </div>
+
+        <div class="d-flex flex-wrap justify-content-center align-items-center col-lg-10 containerVideos" id="videoContainer">
+            {% for video in videos %}
+                <a class="text-decoration-none" href="{% url 'video' video.pk %}">
+                    <div class="card m-2 text-dark box-shadow border-light" style="width: 18rem;">
+                        <img src="{{ video.thumbnail_url }}" class="card-img-top" alt="Image for {{ video.title }}">
+                        <div class="card-body card-homepage d-flex flex-column justify-content-between pt-1 px-2 pb-3" style="height: 7rem;">
+                            <div class="text-uppercase text-right card-teacher-text text-muted">
+                                <small class="font-weight-light card-teacher-text">{% for teacher in video.teacher.all %}<i class="fas fa-user pr-1"></i>{{ teacher }} {% endfor %}</small>
+                            </div>
+                            <p class="card-text card-video-title font-weight-bold mb-0 text-left my-auto pt-1 px-2">{{ video.title }}</p>
+                            {{ video.class_date|date:"d/m/y"}}
+                            Beginners
+                            <!-- <div><span class="badge badge-secondary">{{ video.style }} </span></div> -->
+                        </div>
                     </div>
-                </div>
-            </a> -->
-
-        {% endfor %}
+                </a>
+            {% endfor %}
+        </div>    
+        
     </div>
-    
+    <script type="text/javascript">
+        window.onresize = screenWidth;
+        window.onload = screenWidth;
 
-
+        function screenWidth() {
+            if (window.innerWidth <= 1199) {
+                console.log("somos unos genios");
+                document.getElementsByClassName("filterContainer")[0].classList.remove('d-block');
+                document.getElementsByClassName("filterContainer")[0].classList.add('d-none');
+            } else {
+                document.getElementsByClassName("filterContainer")[0].classList.remove('d-none');
+                documen.getElementsByClassName("filterContainer")[0].classList.add('d-block');
+            }
+        }    
+    </script>
 {% endblock %}
 
 
 {% block script %}
-<script src="{% static 'danceapp/videos.js' %}"></script>
+<!-- <script src="{% static 'danceapp/videos.js' %}"></script> -->
 {% endblock %}
