@@ -46,7 +46,7 @@
         </div>
     </nav> -->
 
-    <div class="row">
+    <div class="row justify-content-center">
         <!-- FILTERS SIDE BAR -->
         <div class="col-xl-2 filterContainer filters-div">
             <!-- Style -->
@@ -85,17 +85,23 @@
         <div class="d-flex flex-wrap justify-content-center align-items-center col-lg-10 containerVideos" id="videoContainer">
             {% for video in videos %}
                 <a class="text-decoration-none" href="{% url 'video' video.pk %}">
-                    <div class="card m-2 text-dark box-shadow border-light" style="width: 18rem;">
-                        <img src="{{ video.thumbnail_url }}" class="card-img-top" alt="Image for {{ video.title }}">
-                        <div class="card-body card-homepage d-flex flex-column justify-content-between pt-1 px-2 pb-3" style="height: 7rem;">
-                            <div class="text-uppercase text-right card-teacher-text text-muted">
-                                <small class="font-weight-light card-teacher-text">{% for teacher in video.teacher.all %}<i class="fas fa-user pr-1"></i>{{ teacher }} {% endfor %}</small>
+                    
+                    <div class="card m-2 text-dark card-box-shadow border-0" style="width: 18rem;">
+                        
+                            <img src="{{ video.thumbnail_url }}" class="card-img-top card-thumbnail" alt="Image for {{ video.title }}">
+                        
+                            <div class="card-homepage card-body">
+                            
+                                <div class="card-video-title card-text font-weight-bold text-left d-flex align-items-center px-3">
+                                    {{ video.title }}
+                                </div>
+                                <div class="card-subtext d-flex justify-content-between align-items-center px-3 bg-light border-top">
+                                    <div><i class="far fa-calendar-alt"></i> {{ video.class_date|date:"d/m/y"}} </div>
+                                    <div><i class="fab fa-deezer"></i> {{ video.get_level_display }}</div>
+                                    <div class="d-flex flex-column justify-content-center align-items-center">{% for teacher in video.teacher.all %}<div class="pb"><i class="fas fa-user pr-1"></i>{{ teacher }}</div>{% endfor %}</div>
+                                </div>    
                             </div>
-                            <p class="card-text card-video-title font-weight-bold mb-0 text-left my-auto pt-1 px-2">{{ video.title }}</p>
-                            {{ video.class_date|date:"d/m/y"}}
-                            {{ video.get_level_display }}
-                            <!-- <div><span class="badge badge-secondary">{{ video.style }} </span></div> -->
-                        </div>
+
                     </div>
                 </a>
             {% endfor %}
@@ -108,7 +114,6 @@
 
         function screenWidth() {
             if (window.innerWidth <= 1199) {
-                console.log("somos unos genios");
                 document.getElementsByClassName("filterContainer")[0].classList.remove('d-block');
                 document.getElementsByClassName("filterContainer")[0].classList.add('d-none');
             } else {

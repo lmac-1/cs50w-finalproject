@@ -3,27 +3,40 @@ ul {
     list-style-type: none;
 }
 
-.box-shadow {
+.card-box-shadow {
     /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
 
-   /*  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px; */
+    /* box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px; */
 
     box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
 }
 
 .card-homepage {
     padding: 0;
-    
 }
 
-.card-teacher-text {
+.card-thumbnail {
+    height: 10rem;
+    width: 18rem;
+    object-fit: cover;
+}
+
+.card-subtext {
+    height: 3.375rem;
     font-size: 0.73rem;
+    color: #a9a9a9;
+    line-height: 0.73rem;
 }
 
 .card-video-title {
+    height: 3.625rem;
     line-height: 1.2;
 }
 
 .filters-div {
     background-color: #F1EDEE;
+}
+
+.pb:nth-child(2) {
+    padding-top: 0.5rem;
 }
