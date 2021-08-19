@@ -10,6 +10,7 @@ function removeAllChildNodes(parent) {
 
 // Filters video json data using given filter object
 function filterVideos(videoJsonData, filter) {
+    
     // Filters through the json data
     let searchResults = videoJsonData.filter( (video) => {
         // Iterates through the keys in the filter
@@ -253,7 +254,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         else if (filter.hasOwnProperty('level') && styleValue == "") {
             delete filter.level;
         }
-        s
         filterVideos(allVideos, filter);
     })
 });
