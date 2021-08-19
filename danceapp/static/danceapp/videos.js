@@ -118,29 +118,59 @@ async function getVideosHTML(videoJsonData) {
 
         // Create enclosing DIV for video
         const videoDiv = document.createElement('div');
-        videoDiv.className = 'card';
+        videoDiv.className = 'card m-2 text-dark card-box-shadow border-0';
         videoDiv.style = 'width: 18rem;';
         videoDiv.id = `video_container_${video.id}`;
         videoLink.appendChild(videoDiv);
 
         // Create video image thumbnail
         const videoThumbnail = document.createElement('img');
-        videoThumbnail.className = 'card-img-top';
+        videoThumbnail.className = 'card-img-top card-thumbnail';
         videoThumbnail.alt = `Image for ${video.title}`;
         videoThumbnail.src = video.thumbnail_url;
         videoDiv.appendChild(videoThumbnail);
 
-        // Create other div to hold the link text
+        // Create other div to hold the card body
         const videoBodyDiv = document.createElement('div');
-        videoBodyDiv.className = 'card-body';
+        videoBodyDiv.className = 'card-homepage card-body';
         videoDiv.appendChild(videoBodyDiv);
 
+        // Create other div to hold the title section
+        const videoTitleDiv = document.createElement('div');
+        videoTitleDiv.className = 'card-video-title card-text font-weight-bold text-left d-flex align-items-center px-3';
+        videoTitleDiv.innerHTML = video.title;
+        videoBodyDiv.appendChild(videoTitleDiv);
 
-        // Create link text
-        const videoLinkText = document.createElement('p');
-        videoLinkText.className = 'card-text';
-        videoLinkText.innerHTML = video.title;
-        videoBodyDiv.appendChild(videoLinkText);
+        // Create another div to hold the date, level and teachers
+        const videoSubTextDiv = document.createElement('div');
+        videoSubTextDiv.className = 'card-subtext d-flex justify-content-between align-items-center px-3 bg-light border-top';
+        videoBodyDiv.appendChild(videoSubTextDiv);
+
+        // Create div for level
+        const videoLevelDiv = document.createElement('div');
+        videoLevelDiv.innerHTML = `<i class="fab fa-deezer"></i> ${video.level}`;
+        videoSubTextDiv.appendChild(videoLevelDiv);
+
+        // Create div for date
+        const videoDateDiv = document.createElement('div');
+        videoDateDiv.innerHTML = `<i class="far fa-calendar-alt"></i> ${video.class_date}`;
+        videoSubTextDiv.appendChild(videoDateDiv);
+
+        
+
+        // Create div for teachers
+        const videoTeachersContainer = document.createElement('div');
+        videoTeachersContainer.classList = 'd-flex flex-column justify-content-center align-items-center';
+        videoSubTextDiv.appendChild(videoTeachersContainer);
+
+        // Create div for each teacher (sometimes there are two)
+        video.teacher.forEach(teacher => {
+            const teacherDiv = document.createElement('div');
+            teacherDiv.classList = 'pb';
+            teacherDiv.innerHTML = `<i class="fas fa-user pr-1"></i>${teacher.name}`;
+            videoTeachersContainer.appendChild(teacherDiv); 
+        })
+
     });
 
 }
