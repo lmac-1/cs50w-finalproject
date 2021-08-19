@@ -39,7 +39,7 @@ class Teacher(models.Model):
             return self.user.first_name
         else:
             return self.user.username
-        
+
     class Meta: 
         # Orders teachers by first name
         ordering = ['user']
@@ -92,7 +92,7 @@ class Video(models.Model):
             "thumbnail_url": self.thumbnail_url,
             "style": self.style.pk,
             "level": self.level,
-            "teacher": [test.pk for test in self.teacher.all()],
+            "teacher": [{"name": teacher.user.first_name, "value": teacher.pk} for teacher in self.teacher.all()],
             "class_date": self.class_date.strftime("%d/%m/%Y")
         }
     
