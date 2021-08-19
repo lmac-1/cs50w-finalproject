@@ -11,6 +11,11 @@ ul {
     box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
 }
 
+.card-box-shadow:hover {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    /* TODO: add animation */
+}
+
 .card-homepage {
     padding: 0;
 }
