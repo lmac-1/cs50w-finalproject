@@ -13,6 +13,7 @@ function filterVideos(videoJsonData, filter) {
     
     // Filters through the json data
     let searchResults = videoJsonData.filter( (video) => {
+        
         // Iterates through the keys in the filter
         for (let key in filter) {
             // Gets rid of any videos that don't contain the title given in the filter (if present in filter)
@@ -24,9 +25,10 @@ function filterVideos(videoJsonData, filter) {
                 return false;
             }
             // Gets rid of any videos that don't match the teacher filter (if present in filter)
-            else if (key === 'teacher' && !video.teacher.includes(filter.teacher)) {
+            else if (key === 'teacher' && !video.teacher.some(e => e.value == filter.teacher)) {
                 return false;
-            } 
+            }
+
             // Gets rid of any videos that don't match level (if set)
             else if (key === 'level' && video.level != filter.level) {
                 return false;
@@ -144,17 +146,17 @@ async function getVideosHTML(videoJsonData) {
 
         // Create another div to hold the date, level and teachers
         const videoSubTextDiv = document.createElement('div');
-        videoSubTextDiv.className = 'card-subtext d-flex justify-content-between align-items-center px-3 bg-light border-top';
+        videoSubTextDiv.className = 'card-subtext d-flex justify-content-between align-items-center px-3 bg-light';
         videoBodyDiv.appendChild(videoSubTextDiv);
 
         // Create div for level
         const videoLevelDiv = document.createElement('div');
-        videoLevelDiv.innerHTML = `<i class="fab fa-deezer"></i> ${video.level}`;
+        videoLevelDiv.innerHTML = `<i class="fab fa-deezer card-icon"></i> ${video.level}`;
         videoSubTextDiv.appendChild(videoLevelDiv);
 
         // Create div for date
         const videoDateDiv = document.createElement('div');
-        videoDateDiv.innerHTML = `<i class="far fa-calendar-alt"></i> ${video.class_date}`;
+        videoDateDiv.innerHTML = `<i class="far fa-calendar-alt card-icon"></i> ${video.class_date}`;
         videoSubTextDiv.appendChild(videoDateDiv);
 
         
@@ -168,7 +170,7 @@ async function getVideosHTML(videoJsonData) {
         video.teacher.forEach(teacher => {
             const teacherDiv = document.createElement('div');
             teacherDiv.classList = 'pb';
-            teacherDiv.innerHTML = `<i class="fas fa-user pr-1"></i>${teacher.name}`;
+            teacherDiv.innerHTML = `<i class="fas fa-user card-icon pr-1"></i>${teacher.name}`;
             videoTeachersContainer.appendChild(teacherDiv); 
         })
 
@@ -198,7 +200,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         else if (filter.hasOwnProperty('title') && titleValue == "") {
             delete filter.title;
         }
-        console.log(filter);
         filterVideos(allVideos, filter);
     })
 
@@ -215,7 +216,6 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     document.getElementById('search_teacher').addEventListener("change", function() {
         let teacherValue = document.getElementById("search_teacher").value;
-        
         // Adds teacher to filter
         if (teacherValue != "") {
             filter.teacher = parseInt(teacherValue);
@@ -224,7 +224,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         else if (filter.hasOwnProperty('teacher') && teacherValue == "") {
             delete filter.teacher;
         }
-
         filterVideos(allVideos, filter);
     })
 
@@ -245,13 +244,12 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     document.getElementById('search_level').addEventListener("change", function() {
         let levelValue = document.getElementById("search_level").value;
-
         // Adds level to the filter
         if (levelValue != "") {
             filter.level = levelValue;
         }
         // Deletes 'level' property fom filter if it exists and no level has been selected to search
-        else if (filter.hasOwnProperty('level') && styleValue == "") {
+        else if (filter.hasOwnProperty('level') && levelValue == "") {
             delete filter.level;
         }
         filterVideos(allVideos, filter);
