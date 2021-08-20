@@ -3,17 +3,41 @@ ul {
     list-style-type: none;
 }
 
+.filter-title {
+    font-weight: bold !important;
+    color: #f9cf00;
+    text-transform: uppercase;
+}
+
+.btn-search {
+    background-color:  #f9cf00;
+    color: white;
+}
+
+.btn-search:hover {
+    /* color: #4484ce; */
+    background-color: #d5c201;
+    color: white;
+}
+
+.filter-icon {
+    color: #f9cf00;
+    font-size: 1.8rem;
+}
+
 .card-box-shadow {
     /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
 
     /* box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px; */
 
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
+    /* box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px; */
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .card-box-shadow:hover {
     box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
     /* TODO: add animation */
+    
 }
 
 .card-homepage {
@@ -29,8 +53,9 @@ ul {
 .card-subtext {
     height: 3.375rem;
     font-size: 0.73rem;
-    color: #a9a9a9;
+    /* color: #a9a9a9; */
     line-height: 0.73rem;
+    border-top: 1px solid #EBF2FA;
 }
 
 .card-video-title {
@@ -38,8 +63,21 @@ ul {
     line-height: 1.2;
 }
 
-.filters-div {
-    background-color: #F1EDEE;
+.card-icon {
+    /* color: #D55672; */
+    /* color: #1B263B; */
+    color: #f9cf00;
+}
+
+.filters-sidebar {
+    /* background-color: #4484ce; */
+    border: 1px solid #f9cf00;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 25%;
+    border-radius: 25px;
+    height: 100%;
+    box-shadow: rgba(250, 225, 223, 1) 0px 5px 15px 0px;
 }
 
 .pb:nth-child(2) {
