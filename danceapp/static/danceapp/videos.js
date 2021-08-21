@@ -8,6 +8,41 @@ function removeAllChildNodes(parent) {
     }
 }
 
+function toggleFilters() {
+    // Defines elements we are going to use
+    let filterContainer = document.getElementById('filter-container');
+    let styleFilter = document.getElementById('search_style');
+    let teacherFilter = document.getElementById('search_teacher');
+    let levelFilter = document.getElementById('search_level');
+    
+    // If filters are hidden, show them
+    if (filterContainer.classList.contains('d-none')) {
+        filterContainer.classList.remove('d-none');
+        filterContainer.classList.add('d-flex');
+    } 
+    // If filters are visible, reset them and hide
+    else if (filterContainer.classList.contains('d-flex')) {
+        filterContainer.classList.remove('d-flex');
+        filterContainer.classList.add('d-none');
+
+        // Reset filters back to 'all'
+        styleFilter.value = '';
+        teacherFilter.value = '';
+        levelFilter.value = '';
+
+        // Resets filter object (if necessary)
+        if (filter.hasOwnProperty('style')) {
+            delete filter.style;
+        }
+        if (filter.hasOwnProperty('teacher')) {
+            delete filter.teacher;
+        }
+        if (filter.hasOwnProperty('style')) {
+            delete filter.style;
+        }
+    }
+}
+
 // Filters video json data using given filter object
 function filterVideos(videoJsonData, filter) {
     
@@ -50,40 +85,6 @@ function filterVideos(videoJsonData, filter) {
     }
 } */
 
-// Hides and shows filters
-/* function toggleFilters() {
-    // Define elements we are going to use
-    let styleFilter = document.getElementById('search_style');
-    let teacherFilter = document.getElementById('search_teacher');
-    let filtersContainer = document.getElementById('filters_container');
-    let filterButton = document.getElementById('view_filters');
-
-    // If filters are hidden, show them
-    if (filtersContainer.className.includes('d-none')) {
-        filtersContainer.classList.remove('d-none');
-        filterButton.innerHTML = 'Clear Filters';
-    } 
-    // If filters are visible, reset them and hide
-    else {
-        
-        // Reset filters back to 'all'
-        styleFilter.value = '';
-        teacherFilter.value = '';
-
-        // Resets filter object (if necessary)
-        if (filter.hasOwnProperty('style')) {
-            delete filter.style;
-        }
-        if (filter.hasOwnProperty('teacher')) {
-            delete filter.teacher;
-        }
-
-        // Hide filters container
-        filtersContainer.classList.add('d-none');
-
-        filterButton.innerHTML = 'View Filters';
-    }
-} */
 
 // Fetches video JSON data of all videos visible to logged in user
 async function getAllVideos() {
@@ -190,6 +191,12 @@ document.addEventListener('DOMContentLoaded', async function() {
     let allVideos = await getAllVideos();
     getVideosHTML(allVideos);
 
+    // Toggles filters on smaller devices
+    document.getElementById('filter-toggle').addEventListener("click", function() {
+        toggleFilters();
+        filterVideos(allVideos,filter);
+    });
+
     // TODO - make work with enter key too (try doing search event)
     document.getElementById('search_title').addEventListener("click", function() {
         let titleValue = document.getElementById('title_input').value.toLowerCase();
@@ -203,11 +210,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         filterVideos(allVideos, filter);
     })
 
-    // Hides and shows filters
-    /* document.getElementById('view_filters').addEventListener("click", function() {
-        toggleFilters();
-        filterVideos(allVideos, filter);
-    }); */
 
     /* document.getElementById('clear_title').addEventListener("click", function() {
         clearTitle();
