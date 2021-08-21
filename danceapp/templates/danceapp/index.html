@@ -6,12 +6,12 @@
 {% block body %}
     <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-center">
         <div class="d-flex">
-            <i class="fas fa-filter pr-4 filter-icon pt-1" style="color: #f9cf00;"></i>
+            
+            <button class="btn" type="button" id="filter-toggle">
+                <i class="fas fa-filter"></i>
+            </button>
 
             <div id="titleContainer" class="form-inline">
-                <!-- <button class="btn btn-sm btn-primary mr-2" id="clear_title">Clear title</button> -->
-                <!-- <input id="title_input" class="form-control mr-sm-2" type="search" placeholder="Search titles" aria-label="Search">
-                <button id="search_title" class="btn btn-sm btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
                 <div class="input-group">
                     <input type="search" class="form-control" placeholder="Search title" aria-label="Search title" id="title_input">
                     <div class="input-group-append">
@@ -20,17 +20,16 @@
                         </button>
                     </div>
                 </div>
-                <!-- <button id="view_filters" class="btn btn-sm btn-outline-primary ml-2">View Filters</button> -->
             </div>
         </div>
     </nav>
 
     <div class="row justify-content-center">
         <!-- FILTERS SIDE BAR -->
-        <div class="filterContainer filters-sidebar d-block mx-auto p-3" style="width: 200px;">
+        <div id="filter-container" class="filters-sidebar d-none mx-auto">
             <!-- Style -->
-            <div class="form-group pt-3">
-                <p class="filter-title mb-2"><i class="fas fa-filter pr-1" style="color: #f9cf00;"></i>Style</p>
+            <div class="form-group filter-section">
+                <div class="filter-label">Style</div>
                 <select class="form-control" id="search_style">
                     <option value="" selected>All</option>
                     {% for style in styles %}
@@ -39,8 +38,8 @@
                 </select>
             </div>
             <!-- Teacher -->
-            <div class="form-group pt-3">
-                <p class="filter-title mb-2"><i class="fas fa-filter pr-1" style="color: #f9cf00;"></i>Teacher</p>
+            <div class="form-group filter-section">
+                <div class="filter-label">Teacher</div>
                 <select class="form-control" id="search_teacher">
                     <option value="" selected>All</option>
                     {% for teacher in teachers %}
@@ -49,10 +48,10 @@
                 </select>
             </div>
             <!-- Level -->
-            <div class="form-group pt-3">
+            <div class="form-group filter-section">
                 
-                <p class="filter-title mb-2"><i class="fas fa-filter pr-1" style="color: #f9cf00;"></i>Level</p>
-                <select id="search_level" class="form-control">
+                <div class="filter-label">Level</div>
+                <select class="form-control" id="search_level">
                     <option value="" selected>All</option>
                     {% for value, level in levels %}
                     <option value="{{ value }}">{{level}}</option>
@@ -94,14 +93,30 @@
     <script type="text/javascript">
         window.onresize = screenWidth;
         window.onload = screenWidth;
-
+        // TODO - make sure mobile menu is hidden in these stages too
         function screenWidth() {
+            let filterContainer = document.getElementById('filter-container')
+            
             if (window.innerWidth <= 1199) {
-                document.getElementsByClassName("filterContainer")[0].classList.remove('d-block');
-                document.getElementsByClassName("filterContainer")[0].classList.add('d-none');
+                // Switching between side bar and central filter view
+                if (filterContainer.classList.contains('filters-sidebar')) {
+                    filterContainer.classList.remove('mx-auto');
+                    filterContainer.classList.remove('filters-sidebar');
+                    filterContainer.classList.remove('d-block');
+                    // Hide filters TODO - maybe show them if the user has already applied filters
+                    filterContainer.classList.add('d-none');
+                }
+                // Only adds d-flex property if not already set to be hidden
+                if (!filterContainer.classList.contains('d-none')) {
+                    filterContainer.classList.add('d-flex');
+                }
+                
             } else {
-                document.getElementsByClassName("filterContainer")[0].classList.remove('d-none');
-                document.getElementsByClassName("filterContainer")[0].classList.add('d-block');
+                filterContainer.classList.remove('d-flex');
+                filterContainer.classList.remove('d-none');
+                filterContainer.classList.add('d-block');
+                filterContainer.classList.add('filters-sidebar');
+                filterContainer.classList.add('mx-auto');
             }
         }    
     </script>
