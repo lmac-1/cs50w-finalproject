@@ -8,6 +8,7 @@
         <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="{% static 'danceapp/styles.css' %}">
         <script src="https://kit.fontawesome.com/ee1e4d6724.js" crossorigin="anonymous"></script>
+
         {% block script %}
         {% endblock %}
     </head>
@@ -15,8 +16,8 @@
         <!-- Other colours: #f19f4d
         #f9cf00 -->
         
-        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #4484ce;">
-            <span style="color: #f9cf00;" class="navbar-brand mb-0 h1">dance</span>
+        <nav class="navbar navbar-expand-lg navbar-light align-items-center" style="background-color: #4484ce;">
+            <span style="color: #f9cf00;" class="navbar-brand brand-name mb-0 h1">dance</span>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -37,18 +38,26 @@
                     {% if user.is_authenticated %}
                         <li class="nav-item dropdown">
                             <a style="color: #d9d9d9;" class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-user pr-1" aria-hidden="true"></i> Signed in as <strong>{{ user.username }}</strong>
+                                <i class="fa fa-user pr-1" aria-hidden="true"></i><strong> {{ user.username }}</strong>
                             </a>
+                            
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
                             </div>
                         </li>
+                        
                     {% else %}
                         <a style="color: #d9d9d9;" class="nav-link mx-lg-2" href="{% url 'login' %}">Login</a>
                         <a style="color: #d9d9d9;" class="nav-link mx-lg-2 " href="{% url 'register_student' %}">Register</a>
                     {% endif %}
                 </ul>
             </div>
+            {% if user.is_authenticated %}
+                <div class="my-auto mr-3 notification">
+                        <i class="fas fa-bell"></i>
+                        <span id="circle"></span>
+                </div>
+            {% endif %}
         </nav>
 
         

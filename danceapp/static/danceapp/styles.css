@@ -1,6 +1,50 @@
-
 ul {
     list-style-type: none;
+}
+
+.brand-name {
+    display: none;
+}
+
+.notification {
+    position: absolute;
+    right: 1rem;
+    font-size: 20px;
+    text-align:center;
+    color: #d9d9d9;
+
+    /* Small view only */
+    border: 1px solid rgba(0,0,0,.1);
+    padding: 5px 19px 5px 16px;
+    border-radius: 25%;
+}
+
+#circle {
+    position: absolute;
+    left: 1.6rem;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 100%;
+    background: #f07379;
+}
+
+@media screen and (min-width: 992px) {
+    .brand-name {
+        display: block;
+    }
+
+    .notification {
+        display: block;
+        right: 10rem;
+        padding: 0;
+        border: none;
+    }
+
+    #circle {
+        top: 0rem;
+        left: 0.6rem;
+    }
+    
 }
 
 #filter-container {
@@ -9,13 +53,13 @@ ul {
 
 .filters-sidebar {
     /* background-color: #4484ce; */
-    border: 1px solid #f9cf00;
+    
     position: -webkit-sticky;
     position: sticky;
     top: 25%;
     border-radius: 25px;
     height: 100%;
-    box-shadow: rgba(250, 225, 223, 1) 0px 5px 15px 0px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 5px 15px 0px;
     padding: 1rem;
 }
 
