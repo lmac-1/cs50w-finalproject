@@ -93,18 +93,27 @@
     <script type="text/javascript">
         window.onresize = screenWidth;
         window.onload = screenWidth;
-        // TODO - make sure mobile menu is hidden in these stages too
+        
         function screenWidth() {
-            let filterContainer = document.getElementById('filter-container')
-            
+            let filterContainer = document.getElementById('filter-container');
+            let teacherFilter = document.getElementById('search_teacher').value;
+            let levelFilter = document.getElementById('search_level').value;
+            let styleFilter = document.getElementById('search_style').value;
+
             if (window.innerWidth <= 1199) {
+                
                 // Switching between side bar and central filter view
                 if (filterContainer.classList.contains('filters-sidebar')) {
                     filterContainer.classList.remove('mx-auto');
                     filterContainer.classList.remove('filters-sidebar');
                     filterContainer.classList.remove('d-block');
-                    // Hide filters TODO - maybe show them if the user has already applied filters
-                    filterContainer.classList.add('d-none');
+                    
+                    // Only hide filters in transition if none have been applied
+                    if (styleFilter == '' && levelFilter == '' && teacherFilter == '') {
+                        filterContainer.classList.add('d-none');
+                    }
+                    
+                    
                 }
                 // Only adds d-flex property if not already set to be hidden
                 if (!filterContainer.classList.contains('d-none')) {
