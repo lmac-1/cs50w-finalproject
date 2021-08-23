@@ -68,7 +68,7 @@ class Tag(models.Model):
 class Video(models.Model):
     LEVELS = [('BEG', 'Beginner'), ('INT', 'Intermediate'), ('ADV', 'Advanced')]
     
-    title = models.CharField(max_length=500)
+    title = models.CharField(max_length=59)
     youtube_id = models.CharField(max_length=30)
     description = models.TextField(blank=True)
     thumbnail_url = models.URLField(max_length=600)
@@ -98,7 +98,7 @@ class Video(models.Model):
     
     class Meta:
         # Orders videos in reverse chronological order
-        ordering = ['-created_at']
+        ordering = ['-class_date']
 
 class Comment(models.Model):
     video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name="comments")
