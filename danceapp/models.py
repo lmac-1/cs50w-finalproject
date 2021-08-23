@@ -80,6 +80,7 @@ class Video(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     class_date = models.DateField()
+    saved_by = models.ManyToManyField(Student, related_name="favourites")
 
     def __str__(self):
         return f"{self.title} uploaded by {self.author.first_name}"
@@ -102,6 +103,9 @@ class Video(models.Model):
 
 class CalenaStep(models.Model):
     name = models.CharField(max_length=40)
+
+    def __str__(self):
+        return self.name
 
 class Comment(models.Model):
     video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name="comments")
