@@ -100,6 +100,9 @@ class Video(models.Model):
         # Orders videos in reverse chronological order
         ordering = ['-class_date']
 
+class CalenaStep(models.Model):
+    name = models.CharField(max_length=40)
+
 class Comment(models.Model):
     video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name="comments")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
