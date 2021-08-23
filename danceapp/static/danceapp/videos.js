@@ -37,8 +37,8 @@ function toggleFilters() {
         if (filter.hasOwnProperty('teacher')) {
             delete filter.teacher;
         }
-        if (filter.hasOwnProperty('style')) {
-            delete filter.style;
+        if (filter.hasOwnProperty('level')) {
+            delete filter.level;
         }
     }
 }
@@ -72,6 +72,7 @@ function filterVideos(videoJsonData, filter) {
         // If it passes the following tests, this video matches the search criteria and will be added to the search results
         return true;
     })
+    
     // Generates HTML content for search results
     getVideosHTML(searchResults);
 }
