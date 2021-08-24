@@ -6,7 +6,8 @@ class User(AbstractUser):
     pass
     # Flag that determines whether the user is a student or teacher
     is_student = models.BooleanField('student status', default=False)
-    is_teacher = models.BooleanField('teacher status', default=False)  
+    is_teacher = models.BooleanField('teacher status', default=False)
+    profile_picture = models.URLField(max_length=600, blank=True)  
 
     def __str__(self):
         if (self.is_student):
@@ -123,6 +124,7 @@ class Comment(models.Model):
 class Notification(models.Model):
     video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name="notifications")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notifications")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="updates")
     message = models.CharField(max_length=5000)
     time = models.DateTimeField(auto_now_add=True)
     read = models.BooleanField(default=False)

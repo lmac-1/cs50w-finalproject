@@ -51,7 +51,7 @@ def new_video(request):
                 user = student.user
                 message = f"You have a new video available: {form.cleaned_data.get('title')}"
                 # Adds a notification to notify them of the new video
-                notification = Notification(video=new_video, user=user, message=message)
+                notification = Notification(video=new_video, user=user, author=request.user, message=message)
                 notification.save()
 
             # Redirect to listing page 
@@ -113,7 +113,7 @@ def add_comment(request, video_id):
                 message = f"{message_name} added a new comment on your video {video.title}"
                 
                 # Adds a notification to notify them of the new video
-                notification = Notification(video=video, user=user_teacher, message=message)
+                notification = Notification(video=video, user=user_teacher, author=request.user, message=message)
                 notification.save()
 
             # Reloads page
