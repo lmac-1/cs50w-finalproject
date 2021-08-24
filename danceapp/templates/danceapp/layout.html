@@ -61,33 +61,37 @@
                     </div>
                     
                     <div class="d-none" id="notification-section">
-                        <div class="d-flex pb-2 justify-content-between border-bottom">
-                            <div class="font-weight-bold">Notifications</div>
-                            <a>View all</a>
-                        </div>
-                        <div class="all-notifications">
-                            <a href="{% url 'video' 10 %}" class="notification-item d-flex">
-                                <img class="notification-picture align-self-center" src="https://static.wikia.nocookie.net/warnerbros/images/3/3e/Hermione.jpg/revision/latest?cb=20120729103114&path-prefix=es" alt="profile pic of hermione">
-                                <div class="d-flex flex-column pl-3">
-                                    <div class="notification-text">Hermione added a new comment on your video Salsa Basic Step for On2 (Beginner)</div>
-                                    <div class="notification-time text-muted font-weight-light">1 hour ago</div>
-                                </div>
-                            </a>
-                            <a href="{% url 'video' 18 %}" class="notification-item d-flex">
-                                <img class="notification-picture align-self-center" src="https://hips.hearstapps.com/es.h-cdn.co/fotoes/images/cinefilia/que-tienes-de-ron-weasley/120274313-1-esl-ES/Que-tienes-de-Ron-Weasley.jpg" alt="profile pic of hermione">
-                                <div class="d-flex flex-column pl-3">
-                                    <div class="notification-text">Ron added a new comment on your video How to move your hips in salsa</div>
-                                    <div class="notification-time text-muted">3 hours ago</div>
-                                </div>
-                            </a>
-                            <a href="{% url 'video' 18 %}" class="notification-item d-flex">
-                                <img class="notification-picture align-self-center" src="https://frikimaestro.com/wp-content/uploads/2020/05/Albus.png" alt="profile pic of hermione">
-                                <div class="d-flex flex-column pl-3">
-                                    <div class="notification-text">Albus uploaded a new video How to perfect your basic step</div>
-                                    <div class="notification-time text-muted">1 day ago</div>
-                                </div>
-                            </a>
-                            
+                        <div class="notification-scroll">
+                            <div class="d-flex pb-2 justify-content-between border-bottom">
+                                <div class="font-weight-bold">Notifications</div>
+                                <a id="view-notifications" href="{% url 'notifications' %}">View all</a>
+                            </div>
+                            <div class="all-notifications">
+                                <a href="{% url 'video' 10 %}" class="notification-item d-flex">
+                                    <img class="notification-picture align-self-center" src="https://static.wikia.nocookie.net/warnerbros/images/3/3e/Hermione.jpg/revision/latest?cb=20120729103114&path-prefix=es" alt="profile pic of hermione">
+                                    <div class="d-flex flex-column pl-3">
+                                        <div class="notification-text">Hermione added a new comment on your video Salsa Basic Step for On2 (Beginner)</div>
+                                        <div class="notification-time text-muted font-weight-light">1 hour ago</div>
+                                    </div>
+                                </a>
+                                <a href="{% url 'video' 18 %}" class="notification-item d-flex">
+                                    <img class="notification-picture align-self-center" src="https://hips.hearstapps.com/es.h-cdn.co/fotoes/images/cinefilia/que-tienes-de-ron-weasley/120274313-1-esl-ES/Que-tienes-de-Ron-Weasley.jpg" alt="profile pic of hermione">
+                                    <div class="d-flex flex-column pl-3">
+                                        <div class="notification-text">Ron added a new comment on your video How to move your hips in salsa</div>
+                                        <div class="notification-time text-muted">3 hours ago</div>
+                                    </div>
+                                </a>
+                                <a href="{% url 'video' 18 %}" class="notification-item d-flex">
+                                    <img class="notification-picture align-self-center" src="https://frikimaestro.com/wp-content/uploads/2020/05/Albus.png" alt="profile pic of hermione">
+                                    <div class="d-flex flex-column pl-3">
+                                        <div class="notification-text">Albus uploaded a new video How to perfect your basic step</div>
+                                        <div class="notification-time text-muted">1 day ago</div>
+                                    </div>
+                                </a>
+                                <!-- <div class="notification-item d-flex">
+                                    <div">You do not have any notifications.</div>
+                                </div> -->
+                            </div>
                         </div>
                     </div>
                 </div>

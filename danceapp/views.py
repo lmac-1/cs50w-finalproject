@@ -31,6 +31,9 @@ def videos(request):
     videos = util.get_user_videos(request)
     return JsonResponse([video.serialize() for video in videos], safe=False)
 
+def notifications(request):
+    return render(request, "danceapp/notifications.html")
+
 def new_video(request):
     if request.method == 'POST':
         # Take in the data the user submitted and save it as form
