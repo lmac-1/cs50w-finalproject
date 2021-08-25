@@ -8,7 +8,7 @@ from django.db import IntegrityError
 from django.http import JsonResponse
 from django.contrib import messages
 
-from .models import User, Student, Video, Teacher, Style, Notification
+from .models import User, Student, Video, Teacher, Style, Notification, CalenaStep
 from .forms import NewVideoForm, CommentForm
 from . import util
 
@@ -24,7 +24,8 @@ def index(request):
         "videos": videos,
         "teachers": teachers,
         "styles": styles,
-        "levels": Video.LEVELS
+        "levels": Video.LEVELS,
+        "steps": CalenaStep.objects.all()
     })
 
 def videos(request):
