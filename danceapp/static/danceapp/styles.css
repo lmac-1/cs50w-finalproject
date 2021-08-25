@@ -8,7 +8,7 @@ ul {
 
 .notification-icon {
     position: absolute;
-    right: 1rem;
+    right: 0rem;
     top: 0.4rem;
     font-size: 20px;
     text-align:center;
@@ -30,7 +30,8 @@ ul {
     width: 0.75rem;
     height: 0.75rem;
     border-radius: 100%;
-    background: #f07379;
+    /* background: #f07379; */
+    background: #FF8CC6;
 }
 
 #view-notifications {
@@ -154,7 +155,7 @@ ul {
     .filter-label {
         font-size: 1rem;
         font-weight: bold;
-        color: #f9cf00;
+        color: #FF8CC6;
     }
 
     .filter-section {
@@ -173,7 +174,7 @@ ul {
 }
 
 #filter-toggle {
-    color: #f9cf00;
+    color: #FF8CC6;
     font-size: 1.8rem;
 }
 
@@ -182,7 +183,7 @@ ul {
 }
 
 .btn-search {
-    background-color:  hsl(50, 100%, 49%);
+    background-color:  #FF8CC6;
     color: white;
 }
 
@@ -232,7 +233,7 @@ ul {
 .card-icon {
     /* color: #D55672; */
     /* color: #1B263B; */
-    color: #f9cf00;
+    color: #FF8CC6;
 }
 
 .pb:nth-child(2) {
