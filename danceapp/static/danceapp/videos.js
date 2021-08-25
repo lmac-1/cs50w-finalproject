@@ -68,6 +68,11 @@ function filterVideos(videoJsonData, filter) {
             else if (key === 'level' && video.level != filter.level) {
                 return false;
             }
+
+            // Gets rid of any videos that don't match calena steps (if set in filter)
+            else if (key === 'step' && video.calena_steps.indexOf(filter.step) == -1) {
+                return false;
+            }
         }
         // If it passes the following tests, this video matches the search criteria and will be added to the search results
         return true;
@@ -187,7 +192,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     document.getElementById('search_teacher').value = "";
     document.getElementById('search_style').value = "";
     document.getElementById('title_input').value = "";
-    document.getElementById('search_level').value = "";    
+    document.getElementById('search_level').value = ""; 
+    document.getElementById('search_step').value = ""; 
+
     // Loads all videos on page load
     let allVideos = await getAllVideos();
     getVideosHTML(allVideos);
@@ -211,7 +218,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         filterVideos(allVideos, filter);
     })
 
-
     /* document.getElementById('clear_title').addEventListener("click", function() {
         clearTitle();
         filterVideos(allVideos, filter);
@@ -232,6 +238,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     document.getElementById('search_style').addEventListener("change", function() {
         let styleValue = document.getElementById("search_style").value;
+        let stepDiv = document.getElementById("steps");
 
         // Adds style to filter
         if (styleValue != "") {
@@ -241,7 +248,40 @@ document.addEventListener('DOMContentLoaded', async function() {
         else if (filter.hasOwnProperty('style') && styleValue == "") {
             delete filter.style;
         }
+
+        // TODO - add animation to make less intense
+        // Unhiding salsa calena steps dropdown when Salsa Calena chosen
+        if (styleValue == '1') { // Salsa calena
+            stepDiv.classList.remove('d-none');
+        } 
+        // Cleaning up filter and menu when a different style is selected
+        else {
+            document.getElementById('search_step').value = '';
+            
+            if (!stepDiv.classList.contains('d-none')) {
+                stepDiv.classList.add('d-none');
+            }
+
+            if (filter.hasOwnProperty('step')) {
+                delete filter.step;
+            }
+        }
         
+        filterVideos(allVideos, filter);
+    })
+
+    document.getElementById('search_step').addEventListener("change", function() {
+        let stepValue = document.getElementById('search_step').value;
+        
+        // Adds style to filter
+        if (stepValue != "") {
+            filter.step = parseInt(stepValue);
+        }
+        // Deletes 'step' property from filter if it exists and no step has been selected to search
+        else if (filter.hasOwnProperty('step') && stepValue == "") {
+            delete filter.step;
+        }
+
         filterVideos(allVideos, filter);
     })
 

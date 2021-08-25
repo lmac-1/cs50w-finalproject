@@ -1,5 +1,4 @@
 function screenWidth() {
-    console.log('Im in screen width');
     let notificationContainer = document.getElementById('notification-section');
     let page = window.location.pathname;
     
@@ -14,6 +13,7 @@ function screenWidth() {
         let teacherFilter = document.getElementById('search_teacher').value;
         let levelFilter = document.getElementById('search_level').value;
         let styleFilter = document.getElementById('search_style').value;
+        let stepFilter = document.getElementById('search_step').value;
 
         if (window.innerWidth <= 1199) {
         
@@ -24,7 +24,7 @@ function screenWidth() {
                 filterContainer.classList.remove('d-block');
                 
                 // Only hide filters in transition if none have been applied
-                if (styleFilter == '' && levelFilter == '' && teacherFilter == '') {
+                if (styleFilter == '' && levelFilter == '' && teacherFilter == '' && stepFilter == '') {
                     filterContainer.classList.add('d-none');
                 }
             }

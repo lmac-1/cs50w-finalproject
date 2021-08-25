@@ -33,7 +33,17 @@
                 <select class="form-control" id="search_style">
                     <option value="" selected>All</option>
                     {% for style in styles %}
-                    <option value="{{ style.pk }}">{{ style.name }}</option>
+                        <option value="{{ style.pk }}">{{ style.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- Steps -->
+            <div class="form-group filter-section d-none" id="steps">
+                <div class="filter-label">Step</div>
+                <select class="form-control" id="search_step">
+                    <option value="">All</option>
+                    {% for step in steps %}
+                        <option value="{{ step.pk }}">{{ step.name }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -43,7 +53,7 @@
                 <select class="form-control" id="search_teacher">
                     <option value="" selected>All</option>
                     {% for teacher in teachers %}
-                    <option value="{{ teacher.pk }}">{{ teacher.user.first_name }}</option>
+                        <option value="{{ teacher.pk }}">{{ teacher.user.first_name }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -54,7 +64,7 @@
                 <select class="form-control" id="search_level">
                     <option value="" selected>All</option>
                     {% for value, level in levels %}
-                    <option value="{{ value }}">{{level}}</option>
+                        <option value="{{ value }}">{{level}}</option>
                     {% endfor %}
                 </select>
             </div>
