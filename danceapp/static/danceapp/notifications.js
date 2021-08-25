@@ -1,5 +1,16 @@
 document.addEventListener('DOMContentLoaded', function() {
     
+    window.onresize = hideNotificationsForMediumScreens;
+
+    function hideNotificationsForMediumScreens() {
+        let notificationContainer = document.getElementById('notification-section');
+        
+        // If notifications open and screen is resized to medium screen or lower, hide notifications
+        if (window.innerWidth < 992 & !notificationContainer.classList.contains('d-none')) {
+            notificationContainer.classList.add('d-none');
+        }
+    }
+
     document.getElementById('notification-toggle').addEventListener("click", function() {
         // Desktop (large and above) will show the notifications
         if (window.innerWidth >= 992) {
