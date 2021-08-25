@@ -1,7 +1,5 @@
-window.onresize = screenWidth;
-window.onload = screenWidth;
-    
 function screenWidth() {
+    console.log('Im in screen width');
     let notificationContainer = document.getElementById('notification-section');
     let page = window.location.pathname;
     
@@ -44,3 +42,10 @@ function screenWidth() {
         }
     }
 }   
+
+document.addEventListener('DOMContentLoaded', function() {
+    // I have done this instead of window.onload as it seems to be faster
+    screenWidth()
+    
+    window.onresize = screenWidth;
+})
