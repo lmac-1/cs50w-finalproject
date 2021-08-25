@@ -33,4 +33,4 @@ class CommentForm(forms.ModelForm):
         labels = {
             'comment': ''
         }
-        widgets = {"comment": forms.Textarea(attrs={'rows': 2, 'class': 'form-control ml-2', 'maxlength': '5000', 'placeholder': 'Add a public comment'})}
+        widgets = {"comment": forms.Textarea(attrs={'rows': 2, 'id': 'comment-textarea', 'class': 'form-control ml-2', 'maxlength': '5000', 'placeholder': 'Add a public comment'})}

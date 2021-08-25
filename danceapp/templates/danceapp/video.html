@@ -9,7 +9,7 @@
         
     <div class="mx-auto my-4" style="max-width: 900px;">
         <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/{{video.youtube_id}}" frameborder="0" allowfullscreen allow="picture-in-picture"></iframe>
+            <iframe src="https://www.youtube.com/embed/{{video.youtube_id}}" frameborder="0" allowfullscreen></iframe>
         </div>
     </div>
     
@@ -52,8 +52,11 @@
                         {{ comment_form }}
 
                     </div>
-                    <!-- TODO hide comment button and cancel button like on youtube when you click in textarea  -->
-                    <button class="btn btn-primary mt-3">Add comment</button>
+                    <!-- TODO add animation to make smoother -->
+                    <div id="comment-buttons" class="text-right mt-3 d-none">
+                        <a id="cancel-comment" class="btn btn-secondary mr-2">Cancel</a>
+                        <button id="add-comment" class="btn btn-primary">Add comment</button>
+                    </div>
                 </form>
             </div>
 
@@ -80,5 +83,5 @@
 {% endblock %}
 
 {% block script %}
-<script src="{% static 'danceapp/comments.js' %}"></script>
+<script type="text/javascript" src="{% static 'danceapp/comments.js' %}" defer></script>
 {% endblock %}
