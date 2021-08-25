@@ -76,7 +76,7 @@ ul {
 }
 
 .notification-item {
-    padding-top: 1rem;
+    padding-top: 2rem;
     text-decoration: none;
     color: #27303d;
 }
@@ -111,6 +111,9 @@ ul {
         left: 0.6rem;
     }
     
+    .notification-item {
+        padding-top: 1rem;
+    }
 }
 
 
