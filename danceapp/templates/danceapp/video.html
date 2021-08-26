@@ -1,5 +1,6 @@
 {% extends "danceapp/layout.html" %}
 {% load static %}
+{% load humanize %}
 
 {% block title %}Video {% endblock %}
 
@@ -68,7 +69,7 @@
                         <div class="d-flex flex-column pl-3">
                             <div class="d-flex">
                                 <div class="comment-name font-weight-bold">{{ comment.user.first_name }} {{ comment.user.last_name }}</div>
-                                <div class="comment-time text-muted pl-2">{{ comment.time }}</div>
+                                <div class="comment-time text-muted pl-2">{{ comment.time|naturaltime }}</div>
                             </div>
                             <div class="comment-text">{{ comment.comment }}</div>
                         </div>
