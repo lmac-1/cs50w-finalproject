@@ -95,6 +95,23 @@ def reset_notifications(request):
 
         return JsonResponse({"message": "Notifications reset"}, status=201)
 
+@login_required
+@csrf_exempt
+def read_notification(request, notification_id):
+    try: 
+        notification = Notification.objects.get(pk=notification_id)
+        
+    except Notification.DoesNotExist:
+        return JsonResponse({"error": "Notification not found"}, status=404)
+    
+    if request.method != "POST":
+        return JsonResponse({"error": "Invalid request."}, status=404)
+    else:
+        notification.read = True
+        notification.save()
+
+        return JsonResponse({"message":"Success"}, status=201)
+
 
 # [TODO] Add login required + test
 @login_required

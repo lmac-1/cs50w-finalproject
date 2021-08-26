@@ -1,3 +1,5 @@
+let notifications = document.querySelectorAll('.notification-item');
+
 function resetNotifications() {
     fetch('/reset_notifications', {
         method: 'POST'
@@ -7,6 +9,25 @@ function resetNotifications() {
         // Print result
         console.log(result);
     });
+}
+
+// Marks given notification as read and redirects to video page
+function readNotification(notification_id, direccionHref) {
+    try {
+        let url = `/read_notification/${notification_id}`;
+
+        fetch(url, {
+            method: 'POST'
+        })
+        .then(response => response.json())
+        .then(result => {
+            console.log(result);
+            if (result.message) location.href = `/video/${direccionHref}`;
+            
+        })
+    } catch (err) {
+        console.log(err);
+    }    
 }
 
 document.getElementById('notification-toggle').addEventListener("click", function() {
@@ -29,3 +50,10 @@ document.getElementById('notification-toggle').addEventListener("click", functio
     
     
 })
+
+// Marks notifications as read and redirects to video page when clicked
+notifications.forEach(function (notification, index) {
+    notification.addEventListener('click', () => {
+        readNotification(notification.dataset.notification_id, notification.dataset.video_id);
+    }); 
+});

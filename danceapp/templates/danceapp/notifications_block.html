@@ -6,7 +6,7 @@
 <div class="all-notifications">
                                 
     {% for notification in notifications %}
-        <a href="{% url 'video' notification.video.pk %}" class="notification-item px-3 d-flex border-bottom {% if notification.read != True %}unread{% endif %}">
+        <a data-notification_id="{{notification.pk}}" href="javascript:void(0)" data-video_id="{{notification.video.pk}}" class="notification-item px-3 d-flex border-bottom {% if notification.read != True %}unread{% endif %}">
             <!-- TODO make profile picture work -->
             <img class="circular-picture align-self-center" src="{% static 'danceapp/images/no-profile-pic.png' %}" alt="profile pic">
             <div class="d-flex flex-column pl-3">
