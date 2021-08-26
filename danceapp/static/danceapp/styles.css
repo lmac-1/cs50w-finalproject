@@ -81,7 +81,8 @@ ul {
 }
 
 .notification-item {
-    padding-top: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     text-decoration: none;
     color: #27303d;
 }
@@ -115,13 +116,7 @@ ul {
         top: 0rem;
         left: 0.6rem;
     }
-    
-    .notification-item {
-        padding-top: 1rem;
-    }
 }
-
-
 
 #filter-container {
     flex-direction: column;
