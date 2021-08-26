@@ -6,13 +6,14 @@ from .models import Video, Comment
 class NewVideoForm(forms.ModelForm):
     class Meta:
         model = Video
-        fields = ['youtube_id', 'title', 'thumbnail_url', 'description', 'style', 'teacher', 'student_access', 'class_date']
+        fields = ['youtube_id', 'title', 'thumbnail_url', 'description', 'style', 'level', 'teacher', 'student_access', 'class_date']
         widgets = {
                     'youtube_id': forms.TextInput(attrs={'class': 'form-control', 'id': 'videoYoutubeId', 'readonly':'readonly'}),
                     'title': forms.TextInput(attrs={'class': 'form-control', 'id': 'videoTitle'}),
                     'thumbnail_url': forms.URLInput(attrs={'class': 'form-control', 'id': 'videoThumbnailUrl'}),
-                    'description': forms.Textarea(attrs={'rows':6, 'maxlength': 1000, 'class': 'form-control', 'id': 'videoDescription'}),
+                    'description': forms.Textarea(attrs={'rows': 6, 'maxlength': 1000, 'class': 'form-control', 'id': 'videoDescription'}),
                     'style': forms.Select(attrs={'class': 'form-control'}),
+                    'level': forms.Select(attrs={'class': 'form-control'}),
                     'teacher': forms.CheckboxSelectMultiple(attrs={'class': 'column-checkbox'}), 
                     'student_access': forms.CheckboxSelectMultiple(attrs={'class': 'column-checkbox'}),
                     #TODO - add validation
