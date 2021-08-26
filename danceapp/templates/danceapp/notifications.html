@@ -11,49 +11,7 @@
             
             <h2 class="text-center border-bottom pb-2">Notifications</h2>
             
-            <!-- Shared with the other section - todo - move to code block -->
-            <div class="all-notifications">
-                
-                {% for notification in notifications %}
-                    <a href="{% url 'video' notification.video.pk %}" class="notification-item d-flex">
-                        <!-- TODO make profile picture work -->
-                        <img class="circular-picture align-self-center" src="{% static 'danceapp/images/no-profile-pic.png' %}" alt="profile pic">
-                        <div class="d-flex flex-column pl-3">
-                            <div class="notification-text">{{ notification.message }}</div>
-                            <div class="notification-time text-muted font-weight-light">{{ notification.time|naturaltime }}</div>
-                        </div>
-                    </a>
-                {% empty %}
-                    <div class="notification-item d-flex">
-                        <div>You do not have any notifications.</div>
-                    </div>
-                {% endfor %}
-                
-                <a href="{% url 'video' 10 %}" class="notification-item d-flex">
-                    <img class="circular-picture align-self-center" src="https://static.wikia.nocookie.net/warnerbros/images/3/3e/Hermione.jpg/revision/latest?cb=20120729103114&path-prefix=es" alt="profile pic of hermione">
-                    <div class="d-flex flex-column pl-3">
-                        <div class="notification-text">Hermione added a new comment on your video Salsa Basic Step for On2 (Beginner)</div>
-                        <div class="notification-time text-muted font-weight-light">1 hour ago</div>
-                    </div>
-                </a>
-                <a href="{% url 'video' 18 %}" class="notification-item d-flex">
-                    <img class="circular-picture align-self-center" src="https://hips.hearstapps.com/es.h-cdn.co/fotoes/images/cinefilia/que-tienes-de-ron-weasley/120274313-1-esl-ES/Que-tienes-de-Ron-Weasley.jpg" alt="profile pic of hermione">
-                    <div class="d-flex flex-column pl-3">
-                        <div class="notification-text">Ron added a new comment on your video How to move your hips in salsa</div>
-                        <div class="notification-time text-muted">3 hours ago</div>
-                    </div>
-                </a>
-                <a href="{% url 'video' 18 %}" class="notification-item d-flex">
-                    <img class="circular-picture align-self-center" src="https://pbs.twimg.com/profile_images/552830833568907264/Rg6EfwFc_400x400.jpeg" alt="profile pic of hermione">
-                    <div class="d-flex flex-column pl-3">
-                        <div class="notification-text">Albus uploaded a new video How to perfect your basic step</div>
-                        <div class="notification-time text-muted">1 day ago</div>
-                    </div>
-                </a>
-                <!-- <div class="notification-item d-flex">
-                    <div">You do not have any notifications.</div>
-                </div> -->
-            </div>
+            {% include "danceapp/notifications_block.html" %}
 
         </div>
     </div>
