@@ -8,9 +8,10 @@ urlpatterns = [
     path("video/<int:video_id>", views.video, name="video"),
     path("logout", views.logout_view, name="logout"),
     path("newvideo", views.new_video, name="new_video"),
-    path("add_comment/<int:video_id>", views.add_comment, name="add_comment"),    
+    path("add_comment/<int:video_id>", views.add_comment, name="add_comment"),
+    path("notifications", views.notifications, name="notifications"),
+    path("reset_notifications", views.reset_notifications, name="reset_notifications"),    
 
     # API Routes
     path("videos", views.videos, name ="videos"),
-    path("notifications", views.notifications, name="notifications")
 ]

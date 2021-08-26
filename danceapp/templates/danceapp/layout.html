@@ -9,7 +9,7 @@
         <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="{% static 'danceapp/styles.css' %}">
         <script src="https://kit.fontawesome.com/ee1e4d6724.js" crossorigin="anonymous"></script>
-        <script src="{% static 'danceapp/notifications.js' %}"></script>
+        <script src="{% static 'danceapp/notifications.js' %}" defer></script>
         {% block script %}
         {% endblock %}
     </head>
@@ -58,15 +58,25 @@
                     
                     <div class="my-auto mr-3 notification-icon" id="notification-toggle">
                         <i class="fas fa-bell"></i>
-                        <span id="circle"></span>
+                        
+                            <span id="circle" class="{% if user.unread_notifications == 0 %}d-none {% else %}d-flex {% endif %}align-items-center flex-column">
+                                {{user.unread_notifications}}
+                            </span>
+                        
                     </div>
                     
                     <div class="d-none notification-shadow" id="notification-section">
                         <div class="notification-scroll">
                             
-                            <div class="d-flex pb-2 justify-content-between border-bottom">
+                            <div class="d-flex pb-2 px-3 justify-content-between border-bottom">
+                                
                                 <div class="font-weight-bold">Notifications</div>
-                                <a id="view-notifications" href="{% url 'notifications' %}">View all</a>
+                                <div class="d-flex flex-column">
+                                    <a id="view-notifications" href="{% url 'notifications' %}">View all</a>
+                                    <!-- TODO fix styling -->
+                                    <div id="mark-read">Mark all as read</div>
+                                </div>
+                                
                             </div>
 
                             {% include "danceapp/notifications_block.html" %}

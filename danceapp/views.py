@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
@@ -7,6 +8,7 @@ from django.http import HttpResponse
 from django.db import IntegrityError
 from django.http import JsonResponse
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import User, Student, Video, Teacher, Style, Notification, CalenaStep
 from .forms import NewVideoForm, CommentForm
@@ -14,9 +16,10 @@ from . import util
 
 @login_required(login_url='/login')
 def index(request):
-
+    # Gets available videos for given user
     videos = util.get_user_videos(request)
 
+    # Needed for filter dropdowns
     teachers = Teacher.objects.all()
     styles = Style.objects.all()
 
@@ -28,10 +31,14 @@ def index(request):
         "steps": CalenaStep.objects.all()
     })
 
+# API route
+# TODO check this when not logged in and see what happens
+@login_required
 def videos(request):
     videos = util.get_user_videos(request)
     return JsonResponse([video.serialize() for video in videos], safe=False)
 
+# All notifications
 def notifications(request):
     return render(request, "danceapp/notifications.html")
 
@@ -52,11 +59,18 @@ def new_video(request):
 
             # Iterates through students
             for student in students:
-                user = student.user
-                message = f"You have a new video available: {form.cleaned_data.get('title')}"
+                
+                user_student = student.user
+                message = f"{request.user.first_name} uploaded a new video: {form.cleaned_data.get('title')}"
+                """ message = f"You have a new video available: {form.cleaned_data.get('title')}" """
+                
                 # Adds a notification to notify them of the new video
-                notification = Notification(video=new_video, user=user, author=request.user, message=message)
+                notification = Notification(video=new_video, user=user_student, author=request.user, message=message)
                 notification.save()
+
+                # Increments the students total unread notifications by 1
+                user_student.unread_notifications += 1
+                user_student.save()
 
             # Redirect to listing page 
             return HttpResponseRedirect(reverse("index",))
@@ -65,7 +79,25 @@ def new_video(request):
             "form": NewVideoForm()
         })
 
-# [TODO] Add login required
+@login_required
+@csrf_exempt
+def reset_notifications(request):
+    try:
+        user = User.objects.get(pk=request.user.pk)
+    except User.DoesNotExist:
+        return JsonResponse({"error": "User not found."}, status=404)
+    
+    if request.method != "POST":
+        return JsonResponse({"error": "Invalid request."}, status=404)
+    else: 
+        user.unread_notifications = 0
+        user.save()
+
+        return JsonResponse({"message": "Notifications reset"}, status=201)
+
+
+# [TODO] Add login required + test
+@login_required
 def video(request, video_id):
     try: 
         video = Video.objects.get(pk = video_id)
@@ -101,7 +133,7 @@ def add_comment(request, video_id):
             form.save()
 
             # Success message that we will show in the template
-            messages.success(request, 'Comment successfully added.')
+            # messages.success(request, 'Comment successfully added.')
 
             for teacher in teachers:
                 # Gets user for teacher of the video
@@ -119,6 +151,10 @@ def add_comment(request, video_id):
                 # Adds a notification to notify them of the new video
                 notification = Notification(video=video, user=user_teacher, author=request.user, message=message)
                 notification.save()
+
+                # Increments teachers total unread notifications by 1
+                user_teacher.unread_notifications += 1
+                user_teacher.save()
 
             # Reloads page
             return HttpResponseRedirect(reverse("video", args=(video_id,)))

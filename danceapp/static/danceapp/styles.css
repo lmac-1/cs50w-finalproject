@@ -31,11 +31,21 @@ ul {
 #circle {
     position: absolute;
     left: 1.6rem;
-    width: 0.75rem;
-    height: 0.75rem;
+    width: 1rem;
+    height: 1rem;
     border-radius: 100%;
     /* background: #f07379; */
     background: #FF8CC6;
+    font-size: 0.5rem;
+    font-weight: bold;
+}
+
+.unread {
+    background-color: #f8f9fa;
+}
+
+#mark-read {
+    font-size: 0.8rem;
 }
 
 #view-notifications {
@@ -63,7 +73,7 @@ ul {
     color: #27303d;
     width: 22rem;
     background: #fff;
-    padding: 1rem;
+    padding: 1rem 0 0;
 }
 
 .notification-shadow {
