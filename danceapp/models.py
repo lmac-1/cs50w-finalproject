@@ -7,7 +7,8 @@ class User(AbstractUser):
     # Flag that determines whether the user is a student or teacher
     is_student = models.BooleanField('student status', default=False)
     is_teacher = models.BooleanField('teacher status', default=False)
-    profile_picture = models.URLField(max_length=600, blank=True)  
+    profile_picture = models.URLField(max_length=600, blank=True)
+    unread_notifications = models.IntegerField(default=0) 
 
     def __str__(self):
         if (self.is_student):
