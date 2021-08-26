@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -62,11 +63,29 @@
                     
                     <div class="d-none notification-shadow" id="notification-section">
                         <div class="notification-scroll">
+                            
                             <div class="d-flex pb-2 justify-content-between border-bottom">
                                 <div class="font-weight-bold">Notifications</div>
                                 <a id="view-notifications" href="{% url 'notifications' %}">View all</a>
                             </div>
+
                             <div class="all-notifications">
+                                
+                                {% for notification in notifications %}
+                                    <a href="{% url 'video' notification.video.pk %}" class="notification-item d-flex">
+                                        <!-- TODO make profile picture work -->
+                                        <img class="circular-picture align-self-center" src="{% static 'danceapp/images/no-profile-pic.png' %}" alt="profile pic">
+                                        <div class="d-flex flex-column pl-3">
+                                            <div class="notification-text">{{ notification.message }}</div>
+                                            <div class="notification-time text-muted font-weight-light">{{ notification.time|naturaltime }}</div>
+                                        </div>
+                                    </a>
+                                {% empty %}
+                                    <div class="notification-item d-flex">
+                                        <div>You do not have any notifications.</div>
+                                    </div>
+                                {% endfor %}
+                                
                                 <a href="{% url 'video' 10 %}" class="notification-item d-flex">
                                     <img class="circular-picture align-self-center" src="https://static.wikia.nocookie.net/warnerbros/images/3/3e/Hermione.jpg/revision/latest?cb=20120729103114&path-prefix=es" alt="profile pic of hermione">
                                     <div class="d-flex flex-column pl-3">
