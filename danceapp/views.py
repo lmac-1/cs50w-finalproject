@@ -112,6 +112,28 @@ def read_notification(request, notification_id):
 
         return JsonResponse({"message":"Success"}, status=201)
 
+@login_required
+@csrf_exempt
+def read_all_notifications(request):
+    # Get user from request
+    try:
+        user = User.objects.get(pk=request.user.pk)
+    except User.DoesNotExist:
+            return JsonResponse({"error": "User not found"}, status=404)
+    
+    if request.method != "POST":
+        return JsonResponse({"error": "Invalid request."}, status=404)
+    else:
+        # Find unread notifications for user
+        unread_notifications = request.user.notifications.all().filter(read=False)
+
+        # Iterate through unread notifications and mark as read
+        for notification in unread_notifications:
+            notification.read = True
+            notification.save()
+
+        return JsonResponse({"message":"Success"}, status=201)
+
 
 # [TODO] Add login required + test
 @login_required

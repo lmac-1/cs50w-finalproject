@@ -30,6 +30,36 @@ function readNotification(notification_id, direccionHref) {
     }    
 }
 
+function readAllNotificationsAndUpdatePage() {
+    try {
+        fetch('/read_all_notifications', {
+            method: 'POST'
+        })
+        .then(response => response.json())
+        .then(result => {
+            console.log(result);
+            if (result.message) {
+                notifications.forEach(function (notification) {
+                    
+                    if (notification.classList.contains('unread')) {
+                        notification.classList.remove('unread');
+                    }
+
+                })
+            }
+        })
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+// Marks notifications as read and redirects to video page when clicked
+notifications.forEach(function (notification, index) {
+    notification.addEventListener('click', () => {
+        readNotification(notification.dataset.notification_id, notification.dataset.video_id);
+    }); 
+});
+
 document.getElementById('notification-toggle').addEventListener("click", function() {
     // Resets number of notifications to 0
     if (document.getElementById('circle').classList.contains('d-flex')) {
@@ -51,9 +81,4 @@ document.getElementById('notification-toggle').addEventListener("click", functio
     
 })
 
-// Marks notifications as read and redirects to video page when clicked
-notifications.forEach(function (notification, index) {
-    notification.addEventListener('click', () => {
-        readNotification(notification.dataset.notification_id, notification.dataset.video_id);
-    }); 
-});
+document.querySelector('#mark-read').addEventListener('click', readAllNotificationsAndUpdatePage)

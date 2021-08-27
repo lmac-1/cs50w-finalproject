@@ -10,7 +10,7 @@
             <!-- TODO make profile picture work -->
             <img class="circular-picture align-self-center" src="{% static 'danceapp/images/no-profile-pic.png' %}" alt="profile pic">
             <div class="d-flex flex-column pl-3">
-                <div class="notification-text {% if notification.read != True %}font-weight-bold{% endif %}">{{ notification.message }}</div>
+                <div class="notification-text">{{ notification.message }}</div>
                 <div class="notification-time text-muted font-weight-light">{{ notification.time|naturaltime }}</div>
             </div>
         </a>
