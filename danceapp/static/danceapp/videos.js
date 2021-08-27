@@ -153,7 +153,7 @@ async function getVideosHTML(videoJsonData) {
 
         // Create another div to hold the date, level and teachers
         const videoSubTextDiv = document.createElement('div');
-        videoSubTextDiv.className = 'card-subtext d-flex justify-content-between align-items-center px-3 bg-light';
+        videoSubTextDiv.className = 'card-subtext d-flex justify-content-between align-items-center px-3 bg-light rounded-bottom';
         videoBodyDiv.appendChild(videoSubTextDiv);
 
         // Create div for level
@@ -165,8 +165,6 @@ async function getVideosHTML(videoJsonData) {
         const videoDateDiv = document.createElement('div');
         videoDateDiv.innerHTML = `<i class="far fa-calendar-alt card-icon"></i> ${video.class_date}`;
         videoSubTextDiv.appendChild(videoDateDiv);
-
-        
 
         // Create div for teachers
         const videoTeachersContainer = document.createElement('div');
