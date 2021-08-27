@@ -192,18 +192,29 @@ ul {
 }
 
 #filter-toggle:hover {
-    color: #d5c201;
+    color: #BD77B1;
 }
 
-.btn-search {
+.btn-pink {
     background-color:  #FF8CC6;
     color: white;
 }
 
-.btn-search:hover {
-    background-color: #d5c201;
+.btn-pink:hover {
+    background-color: #BD77B1;
     color: white;
 }
+
+.btn-pink-outline {
+    background-color: white;
+    color: #FF8CC6 !important;
+    
+}
+
+.btn-pink-outline:hover {
+    color: #BD77B1 !important;
+}
+
 
 .card-box-shadow {
     /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
