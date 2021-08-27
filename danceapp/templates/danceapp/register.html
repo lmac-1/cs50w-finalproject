@@ -3,44 +3,53 @@
 {% block title %}Register {% endblock %}
 
 {% block body %}
+    <div class="d-flex pt-5 flex-column align-content-centre">
 
-    <h2 class="text-center title">Register</h2>
+        <div class="align-self-center text-center border rounded p-3 p-sm-5 bg-light">
 
-    {% for message in messages %}
-        <div class="alert {{ message.tags }}" role="alert">
-            {{ message }}
-        </div>
-    {% endfor %}
+            <h2 class="text-center title pb-3">Register</h2>
 
-    <form action="{% url 'register_student' %}" method="post" class="form-signin">
-        {% csrf_token %}
-        <!-- [TODO] Remove at later point, this is just for dev purposes to create teacher accounts -->
-        <div class="form-group">
-            <select class="custom-select" name="account_type">
-                <option value="student">Student</option>
-                <option value="teacher">Teacher</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <input class="form-control" autofocus type="text" name="username" placeholder="Username">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="email" name="email" placeholder="Email Address">
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control" name="first_name" placeholder="First name">
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control" name="last_name" placeholder="Surname">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="password" name="password" placeholder="Password">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
-        </div>
-        <input class="btn btn-lg btn-primary btn-block mt-2" type="submit" value="Register">
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
 
-    </form>
+            <form action="{% url 'register_student' %}" method="post">
+                {% csrf_token %}
+                <!-- [TODO] Remove at later point, this is just for dev purposes to create teacher accounts -->
+                <div class="form-group">
+                    <select class="custom-select" name="account_type">
+                        <option value="student">Student</option>
+                        <option value="teacher">Teacher</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" autofocus type="text" name="username" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="email" name="email" placeholder="Email Address">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="first_name" placeholder="First name">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="last_name" placeholder="Surname">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" name="password" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
+                </div>
+                <input class="btn btn-lg btn-primary btn-block mt-2 mb-2" type="submit" value="Register">
+            </form>
+
+            <small>Already have an account? <a href="{% url 'login' %}">Login here.</a></small>
+
+        </div>
+        
+    </div>
+    
 
 {% endblock %}
