@@ -214,7 +214,10 @@ def login_view(request):
             messages.error(request, 'Invalid username and/or password')
             return HttpResponseRedirect(reverse("login"))
     else:
-        return render(request, "danceapp/login.html")
+        if request.user.is_authenticated:
+            return HttpResponseRedirect(reverse("index"))
+        else:
+            return render(request, "danceapp/login.html")
 
 # Register a new student (teachers can only be added via admin Django view)
 def register_student(request):
