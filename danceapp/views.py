@@ -16,15 +16,12 @@ from . import util
 
 @login_required(login_url='/login')
 def index(request):
-    # Gets available videos for given user
-    videos = util.get_user_videos(request)
 
     # Needed for filter dropdowns
     teachers = Teacher.objects.all()
     styles = Style.objects.all()
 
     return render(request, "danceapp/index.html", {
-        "videos": videos,
         "teachers": teachers,
         "styles": styles,
         "levels": Video.LEVELS,
@@ -37,6 +34,19 @@ def index(request):
 def videos(request):
     videos = util.get_user_videos(request)
     return JsonResponse([video.serialize() for video in videos], safe=False)
+
+def saved_videos(request):
+    try: 
+        user = User.objects.get(pk=request.user.pk)
+    except User.DoesNotExist:
+        return render(request, "danceapp/error.html", {
+            "message": "Sorry, an error has occurred."
+        })
+    videos = user.student.favourites.all()
+
+    return render(request, "danceapp/saved_videos.html", {
+        "videos": videos
+    } )
 
 @login_required
 def new_video(request):

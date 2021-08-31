@@ -15,6 +15,7 @@ urlpatterns = [
     path("read_all_notifications", views.read_all_notifications, name="read_all_notifications"),
     path("update_favourites/<int:video_id>", views.update_favourites, name="update_favourites"),
     path("delete_comment/<int:comment_id>", views.delete_comment, name="delete_comment"),
+    path("saved_videos", views.saved_videos, name="saved_videos"),
 
     # API Routes
     path("videos", views.videos, name ="videos"),

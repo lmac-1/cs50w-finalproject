@@ -35,6 +35,12 @@
                             <a style="color: #d9d9d9;" class="nav-link" href="{% url 'new_video' %}">Add Video</a>
                         </li>
                         {% endif %}
+                        {% if user.is_student %}
+                        <li class="nav-item">
+                            <a style="color: #d9d9d9;" class="nav-link" href="{% url 'saved_videos' %}">Saved Videos</a>
+                        </li>
+                        {% endif %}
+
                     {% endif %}
                 </ul>
                 <ul class="navbar-nav justify-content-end">
