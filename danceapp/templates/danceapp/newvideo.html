@@ -22,7 +22,7 @@
 
     <div class="row justify-content-center">
         <div class="form-group col-sm-10 col-md-8 col-lg-5" id="newVideoForm" style="display: none;">
-            <form action="{% url 'new_video' %}" method="POST">
+            <form action="{% url 'new_video' %}" method="POST" id="video_form">
                 {% csrf_token %}
 
                 {% for field in form %}

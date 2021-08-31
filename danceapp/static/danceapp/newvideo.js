@@ -111,7 +111,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Clear form on page load
     document.getElementById('videoInputLink').value = "";
-    // TODO - clear other fields
+    
+    // Reset form fields
+    document.getElementById('video_form').reset()
 
     
     document.getElementById('style').onchange = () => {
@@ -139,6 +141,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Rehides form
         document.getElementById('newVideoForm').style.display = 'none';
+        // Resets form (clears all fields)
+        document.getElementById('video_form').reset()
 
         // Gets YouTube URL from the form input
         const youtubeUrl = document.getElementById('videoInputLink').value;
