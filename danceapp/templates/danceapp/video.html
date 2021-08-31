@@ -46,7 +46,7 @@
         <div class="col-12 col-md-11 px-4 px-md-1 mx-sm-auto" style="max-width: 900px;">
             
             {% if comments.count > 0 %}
-                <div class="pt-3">{{comments.count}} comments</div>
+                <div class="pt-3">{{comments.count}} {% if comments.count > 1 %}comments{% else %}comment{% endif %}</div>
             {% else %}
                 <div class="pt-3">Be the first to leave a comment!</div>
             {% endif %}
