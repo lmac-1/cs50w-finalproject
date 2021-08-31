@@ -33,7 +33,12 @@ function deleteComment(commentId) {
             // Deletes the comment from the page if we have successfully deleted the comment from the database
             if (deleted) {
                 document.getElementById(`comment-${commentId}`).remove();
-            } else {
+            } 
+            // If POST request returns an error, then show this in the console
+            else if (result.error) {
+                console.error(result.error);
+            }
+            else {
                 console.error('We couldnt delete your comment, as you are not the author');
             }
         })
