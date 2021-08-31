@@ -40,38 +40,41 @@ def videos(request):
 
 @login_required
 def new_video(request):
-    # TODO - validation that teacher is doing request
     if request.method == 'POST':
-        # Take in the data the user submitted and save it as form
-        form = NewVideoForm(request.POST)
 
-        # Check if form data is valid (server-side)
-        if form.is_valid():
-            # Sets author field in new listing
-            form.instance.author = request.user
-            # Saves new listing
-            new_video = form.save()
+        # Only allows non-students to add videos
+        if request.user.is_student != True:
             
-            # Gets students from form
-            students = form.cleaned_data.get('student_access')
+            # Take in the data the user submitted and save it as form
+            form = NewVideoForm(request.POST)
 
-            # Iterates through students
-            for student in students:
+            # Check if form data is valid (server-side)
+            if form.is_valid():
+                # Sets author field in new listing
+                form.instance.author = request.user
+                # Saves new listing
+                new_video = form.save()
                 
-                user_student = student.user
-                message = f"{request.user.first_name} uploaded a new video: {form.cleaned_data.get('title')}"
-                """ message = f"You have a new video available: {form.cleaned_data.get('title')}" """
-                
-                # Adds a notification to notify them of the new video
-                notification = Notification(video=new_video, user=user_student, author=request.user, message=message)
-                notification.save()
+                # Gets students from form
+                students = form.cleaned_data.get('student_access')
 
-                # Increments the students total unread notifications by 1
-                user_student.unread_notifications += 1
-                user_student.save()
+                # Iterates through students
+                for student in students:
+                    
+                    user_student = student.user
+                    message = f"{request.user.first_name} uploaded a new video: {form.cleaned_data.get('title')}"
+                    """ message = f"You have a new video available: {form.cleaned_data.get('title')}" """
+                    
+                    # Adds a notification to notify them of the new video
+                    notification = Notification(video=new_video, user=user_student, author=request.user, message=message)
+                    notification.save()
 
-            # Redirect to listing page 
-            return HttpResponseRedirect(reverse("index",))
+                    # Increments the students total unread notifications by 1
+                    user_student.unread_notifications += 1
+                    user_student.save()
+
+                # Redirect to listing page 
+                return HttpResponseRedirect(reverse("index",))
     else:
         if request.user.is_teacher or request.user.is_staff:
             return render(request, "danceapp/newvideo.html", {
