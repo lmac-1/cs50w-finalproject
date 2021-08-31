@@ -113,6 +113,26 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('videoInputLink').value = "";
     // TODO - clear other fields
 
+    
+    document.getElementById('style').onchange = () => {
+        
+        let stepsField = document.getElementById('steps');
+
+        // TODO add animation
+        // If salsa calena is selected, show the salsa calena steps field
+        if (document.getElementById('style').value == 1) {
+            stepsField.classList.remove('d-none');
+        } else {
+            // Hides calena steps field
+            if (!stepsField.classList.contains('d-none')) {
+                stepsField.classList.add('d-none');
+            }
+            // Unticks any checkboxes in the calena step field
+            document.querySelectorAll('#steps input').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+        }
+    }
 
     // When user submits the 'New Video' button
     document.getElementById('newVideo').onclick = () => {
