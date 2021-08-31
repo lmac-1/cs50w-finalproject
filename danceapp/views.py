@@ -38,11 +38,9 @@ def videos(request):
     videos = util.get_user_videos(request)
     return JsonResponse([video.serialize() for video in videos], safe=False)
 
-# All notifications
-def notifications(request):
-    return render(request, "danceapp/notifications.html")
-
+@login_required
 def new_video(request):
+    # TODO - validation that teacher is doing request
     if request.method == 'POST':
         # Take in the data the user submitted and save it as form
         form = NewVideoForm(request.POST)
@@ -78,6 +76,10 @@ def new_video(request):
         return render(request, "danceapp/newvideo.html", {
             "form": NewVideoForm()
         })
+
+# All notifications
+def notifications(request):
+    return render(request, "danceapp/notifications.html")
 
 @login_required
 @csrf_exempt
@@ -152,6 +154,41 @@ def video(request, video_id):
             "comments": comments
         })
 
+@login_required
+@csrf_exempt
+def update_favourites(request, video_id):
+    
+    # Adding to favourites must be via POST
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+    
+    user = request.user
+
+    if user.is_student != True:
+        return JsonResponse({"error": "Only students can save videos"}, status=400)
+
+    # Saves student instance of user
+    user = request.user.student
+
+    # Finds video
+    try:
+        video = Video.objects.get(pk = video_id)
+    except Video.DoesNotExist:
+        return JsonResponse({"error": "Video not found"}, status=404)
+
+    # If the video is in user's favourites, remove it
+    if (user.favourites.filter(pk=video_id).exists()):
+        video.saved_by.remove(user)
+        in_favourites = False
+    # If the video is not in favourites, add it
+    else: 
+        video.saved_by.add(user)
+        in_favourites = True
+
+    # We pass back the in_favourites parameter to build logic to update the page
+    return JsonResponse({"in_favourites": in_favourites}, status=200)
+
+@login_required
 def add_comment(request, video_id):
     if request.method == "POST": 
         # [TODO] - error handling try/catch?

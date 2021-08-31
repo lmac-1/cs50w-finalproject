@@ -310,3 +310,7 @@ ul {
 .comment-item {
     padding-bottom: 1rem;
 }
+
+#save-video {
+    cursor: pointer;
+}
