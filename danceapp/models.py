@@ -8,7 +8,7 @@ class User(AbstractUser):
     is_student = models.BooleanField('student status', default=False)
     is_teacher = models.BooleanField('teacher status', default=False)
     profile_picture = models.URLField(max_length=600, blank=True)
-    unread_notifications = models.IntegerField(default=0) 
+    unread_notifications = models.IntegerField(default=0)
 
     def __str__(self):
         if (self.is_student):
@@ -56,17 +56,6 @@ class Style(models.Model):
         # Orders styles by name
         ordering = ['name']
 
-# TODO - delete?
-class Tag(models.Model):
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
-    
-    class Meta:
-        # Orders tags by name
-        ordering = ['name']
-
 class CalenaStep(models.Model):
     name = models.CharField(max_length=40)
 
@@ -84,7 +73,6 @@ class Video(models.Model):
     level = models.CharField(max_length=10, choices=LEVELS)
     teacher = models.ManyToManyField(Teacher, related_name="videos")
     student_access = models.ManyToManyField(Student, blank=True, related_name="videos")
-    #tags = models.ManyToManyField(Tag, blank=True, related_name="videos")
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     class_date = models.DateField()
