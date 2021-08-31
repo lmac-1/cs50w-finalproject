@@ -52,9 +52,17 @@ ul {
     font-size: 0.8rem;
 }
 
+#mark-read:hover {
+    text-decoration: none;
+}
+
 #view-notifications {
     text-decoration: none;
     font-size: 0.8rem;
+}
+
+.notification-title {
+    font-size: 1.25rem;
 }
 
 /* Top arrow for notification box */
@@ -312,5 +320,9 @@ ul {
 }
 
 #save-video {
+    cursor: pointer;
+}
+
+.delete-comment {
     cursor: pointer;
 }

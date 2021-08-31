@@ -70,12 +70,12 @@
                     <div class="d-none notification-shadow" id="notification-section">
                         <div class="notification-scroll">
                             
-                            <div class="d-flex pb-2 px-3 justify-content-between border-bottom">
+                            <div class="d-flex pb-2 px-3 justify-content-between align-items-center border-bottom">
                                 
-                                <div class="font-weight-bold">Notifications</div>
+                                <div class="notification-title font-weight-bold">Notifications</div>
+
                                 <div class="d-flex flex-column">
-                                    <a id="view-notifications" href="{% url 'notifications' %}">View all</a>
-                                    <!-- TODO fix styling -->
+                                    <a id="view-notifications" class="pb-1" href="{% url 'notifications' %}">View all</a>
                                     <a id="mark-read" href="javascript:void(0)">Mark all as read</a>
                                 </div>
                                 
