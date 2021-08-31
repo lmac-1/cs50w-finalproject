@@ -77,8 +77,9 @@ document.getElementById('notification-toggle').addEventListener("click", functio
     else {
         location.href = "/notifications";
     }
-    
-    
 })
 
-document.querySelector('#mark-read').addEventListener('click', readAllNotificationsAndUpdatePage)
+// Works for both the mobile and web view
+document.querySelectorAll('.mark-read').forEach(element => {
+    element.addEventListener('click', readAllNotificationsAndUpdatePage)
+})

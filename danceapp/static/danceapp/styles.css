@@ -48,21 +48,20 @@ ul {
     font-weight: bold;
 }
 
-#mark-read {
+.mark-read {
     font-size: 0.8rem;
 }
 
-#mark-read:hover {
+.mark-read:hover {
     text-decoration: none;
-}
-
-#view-notifications {
-    text-decoration: none;
-    font-size: 0.8rem;
 }
 
 .notification-title {
     font-size: 1.25rem;
+}
+
+.notification-title:hover {
+    text-decoration: none;
 }
 
 /* Top arrow for notification box */

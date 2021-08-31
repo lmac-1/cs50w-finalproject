@@ -55,7 +55,7 @@
                     {% endif %}
                 </ul>
             </div>
-            {% if user.is_authenticated %}
+            {% if user.is_authenticated and request.path != '/notifications' %}
                 <div class="notifications">
                     
                     <div class="my-auto mr-3 notification-icon" id="notification-toggle">
@@ -72,11 +72,10 @@
                             
                             <div class="d-flex pb-2 px-3 justify-content-between align-items-center border-bottom">
                                 
-                                <div class="notification-title font-weight-bold">Notifications</div>
+                                <a id="view-notifications" href="{% url 'notifications' %}" class="notification-title font-weight-bold">Notifications</a>
 
                                 <div class="d-flex flex-column">
-                                    <a id="view-notifications" class="pb-1" href="{% url 'notifications' %}">View all</a>
-                                    <a id="mark-read" href="javascript:void(0)">Mark all as read</a>
+                                    <a class="mark-read" href="javascript:void(0)">Mark all as read</a>
                                 </div>
                                 
                             </div>
