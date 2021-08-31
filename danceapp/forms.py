@@ -19,9 +19,6 @@ class NewVideoForm(forms.ModelForm):
                     'student_access': forms.CheckboxSelectMultiple(attrs={'class': 'column-checkbox'}),
                     #TODO - add validation
                     'class_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'})
-                    
-                    #TODO - make CheckboxSelectMultiple Styling Work
-                    # 'student_access': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'})
 
                     }
         labels = {

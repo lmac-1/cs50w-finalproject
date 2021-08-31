@@ -120,7 +120,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         let stepsField = document.getElementById('steps');
 
-        // TODO add animation
         // If salsa calena is selected, show the salsa calena steps field
         if (document.getElementById('style').value == 1) {
             stepsField.classList.remove('d-none');

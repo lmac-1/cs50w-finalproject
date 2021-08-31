@@ -82,16 +82,6 @@ function filterVideos(videoJsonData, filter) {
     getVideosHTML(searchResults);
 }
 
-/* async function clearTitle() {
-    const titleInput = document.getElementById('title_input');
-    titleInput.value = '';
-    // Deletes title field from filter
-    if (filter.hasOwnProperty('title')) {
-        delete filter.title;
-    }
-} */
-
-
 // Fetches video JSON data of all videos visible to logged in user
 async function getAllVideos() {
     const response = await fetch(`/videos`);
@@ -121,7 +111,6 @@ async function getVideosHTML(videoJsonData) {
         // Create link element for video
         const videoLink = document.createElement('a');
         videoLink.className = 'text-decoration-none';
-        // TODO change these links to be less hardcoded (Django)
         videoLink.href=`/video/${video.id}`;
         videoLink.id = `link_for_${video.id}`
         videoContainer.appendChild(videoLink);
@@ -183,7 +172,6 @@ async function getVideosHTML(videoJsonData) {
 
 }
 
-// TODO - check if async here is ok
 document.addEventListener('DOMContentLoaded', async function() {
     
     // Resets search filters on page load
@@ -215,11 +203,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
         filterVideos(allVideos, filter);
     })
-
-    /* document.getElementById('clear_title').addEventListener("click", function() {
-        clearTitle();
-        filterVideos(allVideos, filter);
-    }); */
 
     document.getElementById('search_teacher').addEventListener("change", function() {
         let teacherValue = document.getElementById("search_teacher").value;
@@ -264,7 +247,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 delete filter.step;
             }
         }
-        
+
         filterVideos(allVideos, filter);
     })
 

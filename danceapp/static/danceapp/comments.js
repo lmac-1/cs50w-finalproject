@@ -71,5 +71,3 @@ document.querySelectorAll('.delete-comment').forEach(item => {
         deleteComment(commentId);
     })
 })
-
-/* TODO people should be able to delete (maybe edit) comments */
