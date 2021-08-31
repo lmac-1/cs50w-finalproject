@@ -73,7 +73,7 @@ def new_video(request):
             # Redirect to listing page 
             return HttpResponseRedirect(reverse("index",))
     else:
-        if request.user.is_teacher:
+        if request.user.is_teacher or request.user.is_staff:
             return render(request, "danceapp/newvideo.html", {
                 "form": NewVideoForm()
             })
