@@ -78,7 +78,7 @@
                                 <div class="comment-name font-weight-bold">{{ comment.author.first_name }} {{ comment.author.last_name }}</div>
                                 <div class="comment-time text-muted pl-2">{{ comment.time|naturaltime }}</div>
                                 <!-- delete-comment class is used in JavaScript - do not remove -->
-                                <div class="pl-2 delete-comment" data-comment_id="{{comment.pk}}">X</div>
+                                {% if user == comment.author %}<div class="pl-2 delete-comment" data-comment_id="{{comment.pk}}"><i class="far fa-trash-alt"></i></div>{% endif %}
                             </div>
                             <div class="comment-text">{{ comment.comment }}</div>
                         </div>
