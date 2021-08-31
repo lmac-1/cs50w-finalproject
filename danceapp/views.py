@@ -10,7 +10,7 @@ from django.http import JsonResponse
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import User, Student, Video, Teacher, Style, Notification, CalenaStep
+from .models import User, Student, Video, Teacher, Style, Notification, CalenaStep, Comment
 from .forms import NewVideoForm, CommentForm
 from . import util
 
@@ -211,14 +211,12 @@ def add_comment(request, video_id):
             
             # Sets item and user fields
             form.instance.video = video
-            form.instance.user = request.user
+            form.instance.author = request.user
 
             # Saves comment to database
             form.save()
 
-            # Success message that we will show in the template
-            # messages.success(request, 'Comment successfully added.')
-
+            # Raises notification for teachers of uploaded video
             for teacher in teachers:
                 # Gets user for teacher of the video
                 user_teacher = teacher.user
@@ -242,6 +240,27 @@ def add_comment(request, video_id):
 
             # Reloads page
             return HttpResponseRedirect(reverse("video", args=(video_id,)))
+
+@login_required
+@csrf_exempt
+def delete_comment(request, comment_id):
+
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+    
+    try: 
+        comment = Comment.objects.get(pk=comment_id)
+    except Comment.DoesNotExist:
+        return JsonResponse({"error": "Comment not found."}, status=400)
+
+    # We only delete comments for users if they are the author
+    if comment.author == request.user:
+        comment.delete()
+        deleted = True
+    else:
+        deleted = False
+
+    return JsonResponse({"deleted": deleted}, status=200)
 
 def login_view(request):
     if request.method == "POST":

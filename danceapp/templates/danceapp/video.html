@@ -70,13 +70,15 @@
 
             <div class="comments" style="font-size: 14px;">
                 {% for comment in comments %}
-                    <div class="comment-item d-flex">
+                    <div class="comment-item d-flex" id="comment-{{comment.pk}}">
                         <!-- TODO change to profile picture -->
                         <img class="circular-picture comment-picture" src="{% static 'danceapp/images/no-profile-pic.png' %}" alt="profilepic">
                         <div class="d-flex flex-column pl-3">
                             <div class="d-flex">
-                                <div class="comment-name font-weight-bold">{{ comment.user.first_name }} {{ comment.user.last_name }}</div>
+                                <div class="comment-name font-weight-bold">{{ comment.author.first_name }} {{ comment.author.last_name }}</div>
                                 <div class="comment-time text-muted pl-2">{{ comment.time|naturaltime }}</div>
+                                <!-- delete-comment class is used in JavaScript - do not remove -->
+                                <div class="pl-2 delete-comment" data-comment_id="{{comment.pk}}">X</div>
                             </div>
                             <div class="comment-text">{{ comment.comment }}</div>
                         </div>
@@ -92,5 +94,8 @@
 
 {% block script %}
 <script type="text/javascript" src="{% static 'danceapp/comments.js' %}" defer></script>
-<script type="text/javascript" src="{% static 'danceapp/likevideo.js' %}" defer></script>
+{% if user.is_student %}
+    <script type="text/javascript" src="{% static 'danceapp/likevideo.js' %}" defer></script>
+{% endif %}
+
 {% endblock %}
