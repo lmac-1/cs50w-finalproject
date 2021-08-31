@@ -73,9 +73,14 @@ def new_video(request):
             # Redirect to listing page 
             return HttpResponseRedirect(reverse("index",))
     else:
-        return render(request, "danceapp/newvideo.html", {
-            "form": NewVideoForm()
-        })
+        if request.user.is_teacher:
+            return render(request, "danceapp/newvideo.html", {
+                "form": NewVideoForm()
+            })
+        else:
+            return render(request, "danceapp/error.html", {
+                "message": "You do not have permission to see this page."
+            })
 
 # All notifications
 def notifications(request):
