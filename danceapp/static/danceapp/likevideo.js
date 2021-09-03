@@ -8,11 +8,12 @@ function updateFavourites(videoId) {
         })
         .then(response => response.json())
         .then(result => {
-            const likesPost = result.in_favourites;
+            // Response will tell us if the video is in the user's likes
+            const videoInUserFavourites = result.in_favourites;
             const heartIcon = document.getElementById('heart-icon');
 
             // Update page to reflect database change
-            if (likesPost) {
+            if (videoInUserFavourites) {
                 heartIcon.className = 'fas fa-heart';
             } else {
                 heartIcon.className = 'far fa-heart';
