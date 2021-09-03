@@ -29,8 +29,7 @@ def index(request):
     })
 
 # API route
-# TODO check this when not logged in and see what happens
-@login_required
+@login_required(login_url='/login')
 def videos(request):
     videos = util.get_user_videos(request)
     return JsonResponse([video.serialize() for video in videos], safe=False)
@@ -48,7 +47,7 @@ def saved_videos(request):
         "videos": videos
     } )
 
-@login_required
+@login_required(login_url='/login')
 def new_video(request):
     if request.method == 'POST':
 
@@ -99,7 +98,7 @@ def new_video(request):
 def notifications(request):
     return render(request, "danceapp/notifications.html")
 
-@login_required
+@login_required(login_url='/login')
 @csrf_exempt
 def reset_notifications(request):
     try:
@@ -115,7 +114,7 @@ def reset_notifications(request):
 
         return JsonResponse({"message": "Notifications reset"}, status=201)
 
-@login_required
+@login_required(login_url='/login')
 @csrf_exempt
 def read_notification(request, notification_id):
     try: 
@@ -132,7 +131,7 @@ def read_notification(request, notification_id):
 
         return JsonResponse({"message":"Success"}, status=201)
 
-@login_required
+@login_required(login_url='/login')
 @csrf_exempt
 def read_all_notifications(request):
     # Get user from request
@@ -155,8 +154,7 @@ def read_all_notifications(request):
         return JsonResponse({"message":"Success"}, status=201)
 
 
-# [TODO] Add login required + test
-@login_required
+@login_required(login_url='/login')
 def video(request, video_id):
     try: 
         video = Video.objects.get(pk = video_id)
@@ -172,7 +170,7 @@ def video(request, video_id):
             "comments": comments
         })
 
-@login_required
+@login_required(login_url='/login')
 @csrf_exempt
 def update_favourites(request, video_id):
     
@@ -206,7 +204,7 @@ def update_favourites(request, video_id):
     # We pass back the in_favourites parameter to build logic to update the page
     return JsonResponse({"in_favourites": in_favourites}, status=200)
 
-@login_required
+@login_required(login_url='/login')
 def add_comment(request, video_id):
     if request.method == "POST": 
         # [TODO] - error handling try/catch?
@@ -251,7 +249,7 @@ def add_comment(request, video_id):
             # Reloads page
             return HttpResponseRedirect(reverse("video", args=(video_id,)))
 
-@login_required
+@login_required(login_url='/login')
 @csrf_exempt
 def delete_comment(request, comment_id):
 
