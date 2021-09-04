@@ -10,25 +10,27 @@ function removeAllChildNodes(parent) {
 
 function toggleFilters() {
     // Defines elements we are going to use
-    let filterContainer = document.getElementById('filter-container');
+    let filtersContainer = document.getElementById('filter-container');
     let styleFilter = document.getElementById('search_style');
     let teacherFilter = document.getElementById('search_teacher');
     let levelFilter = document.getElementById('search_level');
+    let calenaStepFilter = document.getElementById('search_step');
     
     // If filters are hidden, show them
-    if (filterContainer.classList.contains('d-none')) {
-        filterContainer.classList.remove('d-none');
-        filterContainer.classList.add('d-flex');
+    if (filtersContainer.classList.contains('d-none')) {
+        filtersContainer.classList.remove('d-none');
+        filtersContainer.classList.add('d-flex');
     } 
     // If filters are visible, reset them and hide
-    else if (filterContainer.classList.contains('d-flex')) {
-        filterContainer.classList.remove('d-flex');
-        filterContainer.classList.add('d-none');
+    else if (filtersContainer.classList.contains('d-flex')) {
+        filtersContainer.classList.remove('d-flex');
+        filtersContainer.classList.add('d-none');
 
         // Reset filters back to 'all'
         styleFilter.value = '';
         teacherFilter.value = '';
         levelFilter.value = '';
+        calenaStepFilter.value = '';
 
         // Resets filter object (if necessary)
         if (filter.hasOwnProperty('style')) {
@@ -40,6 +42,9 @@ function toggleFilters() {
         if (filter.hasOwnProperty('level')) {
             delete filter.level;
         }
+        if (filter.hasOwnProperty('step')) {
+            delete filter.step; 
+        }
     }
 }
 
@@ -47,7 +52,7 @@ function toggleFilters() {
 function filterVideos(videoJsonData, filter) {
     
     // Filters through the json data
-    let searchResults = videoJsonData.filter( (video) => {
+    let filterSearchResults = videoJsonData.filter( (video) => {
         
         // Iterates through the keys in the filter
         for (let key in filter) {
@@ -63,76 +68,80 @@ function filterVideos(videoJsonData, filter) {
             else if (key === 'teacher' && !video.teacher.some(e => e.value == filter.teacher)) {
                 return false;
             }
-
             // Gets rid of any videos that don't match level (if set)
             else if (key === 'level' && video.level != filter.level) {
                 return false;
             }
-
             // Gets rid of any videos that don't match calena steps (if set in filter)
             else if (key === 'step' && video.calena_steps.indexOf(filter.step) == -1) {
                 return false;
             }
         }
-        // If it passes the following tests, this video matches the search criteria and will be added to the search results
+        // If it passes all of the above tests, this video matches the search criteria and will be added to the search results
         return true;
     })
     
     // Generates HTML content for search results
-    getVideosHTML(searchResults);
+    getVideosHTML(filterSearchResults);
 }
 
 // Fetches video JSON data of all videos visible to logged in user
 async function getAllVideos() {
-    const response = await fetch(`/videos`);
-    const jsonVideoData = await response.json();
-    console.log(jsonVideoData);
-    return jsonVideoData;
+    try {
+        // TODO const or let here
+        const response = await fetch(`/videos`);
+        const jsonVideoData = await response.json();
+        //console.log(jsonVideoData); // Debugging purposes
+        return jsonVideoData;
+    }
+    catch (err) {
+        console.error(err);
+    }
 }
 
 // Produces HTML content for given video json data
 async function getVideosHTML(videoJsonData) {
-    // Get video container
-    let videoContainer = document.getElementById("videoContainer");
+    // Gets video container
+    let allVideosContainer = document.getElementById("videoContainer");
 
     // First clear the HTML of previous search results, if any
-    removeAllChildNodes(videoContainer);
+    removeAllChildNodes(allVideosContainer);
 
     // If no videos, update HTML
     if (videoJsonData.length === 0) {
         const noResults = document.createElement('div');
         noResults.innerHTML = "No videos found.";
-        videoContainer.appendChild(noResults);
+        allVideosContainer.appendChild(noResults);
     }
 
     // Iterate through videos
     videoJsonData.forEach(video => {
 
         // Create link element for video
-        const videoLink = document.createElement('a');
-        videoLink.className = 'text-decoration-none';
-        videoLink.href=`/video/${video.id}`;
-        videoLink.id = `link_for_${video.id}`
-        videoContainer.appendChild(videoLink);
+        const videoLinkElement = document.createElement('a');
+        videoLinkElement.className = 'text-decoration-none';
+        videoLinkElement.href=`/video/${video.id}`;
+        videoLinkElement.id = `link_for_${video.id}`
+        allVideosContainer.appendChild(videoLinkElement);
 
-        // Create enclosing DIV for video
-        const videoDiv = document.createElement('div');
-        videoDiv.className = 'card m-2 text-dark card-box-shadow border-0';
-        videoDiv.style = 'width: 18rem;';
-        videoDiv.id = `video_container_${video.id}`;
-        videoLink.appendChild(videoDiv);
+        // Creates container for video
+        const videoContainer = document.createElement('div');
+        videoContainer.className = 'card m-2 text-dark card-box-shadow border-0';
+        videoContainer.style = 'width: 18rem;';
+        videoContainer.id = `video_container_${video.id}`;
+        videoLinkElement.appendChild(videoContainer);
 
         // Create video image thumbnail
         const videoThumbnail = document.createElement('img');
         videoThumbnail.className = 'card-img-top card-thumbnail';
         videoThumbnail.alt = `Image for ${video.title}`;
         videoThumbnail.src = video.thumbnail_url;
-        videoDiv.appendChild(videoThumbnail);
+        videoContainer.appendChild(videoThumbnail);
 
         // Create other div to hold the card body
         const videoBodyDiv = document.createElement('div');
         videoBodyDiv.className = 'card-homepage card-body';
-        videoDiv.appendChild(videoBodyDiv);
+        videoContainer.appendChild(videoBodyDiv);
 
         // Create other div to hold the title section
         const videoTitleDiv = document.createElement('div');
@@ -141,24 +150,24 @@ async function getVideosHTML(videoJsonData) {
         videoBodyDiv.appendChild(videoTitleDiv);
 
         // Create another div to hold the date, level and teachers
-        const videoSubTextDiv = document.createElement('div');
-        videoSubTextDiv.className = 'card-subtext d-flex justify-content-between align-items-center px-3 bg-light rounded-bottom';
-        videoBodyDiv.appendChild(videoSubTextDiv);
+        const videoDetailsDiv = document.createElement('div');
+        videoDetailsDiv.className = 'card-subtext d-flex justify-content-between align-items-center px-3 bg-light rounded-bottom';
+        videoBodyDiv.appendChild(videoDetailsDiv);
 
         // Create div for level
         const videoLevelDiv = document.createElement('div');
         videoLevelDiv.innerHTML = `<i class="fab fa-deezer card-icon"></i> ${video.level}`;
-        videoSubTextDiv.appendChild(videoLevelDiv);
+        videoDetailsDiv.appendChild(videoLevelDiv);
 
         // Create div for date
         const videoDateDiv = document.createElement('div');
         videoDateDiv.innerHTML = `<i class="far fa-calendar-alt card-icon"></i> ${video.class_date}`;
-        videoSubTextDiv.appendChild(videoDateDiv);
+        videoDetailsDiv.appendChild(videoDateDiv);
 
         // Create div for teachers
         const videoTeachersContainer = document.createElement('div');
         videoTeachersContainer.classList = 'd-flex flex-column justify-content-center align-items-center';
-        videoSubTextDiv.appendChild(videoTeachersContainer);
+        videoDetailsDiv.appendChild(videoTeachersContainer);
 
         // Create div for each teacher (sometimes there are two)
         video.teacher.forEach(teacher => {
@@ -193,54 +202,58 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // TODO - make work with enter key too (try doing search event)
     document.getElementById('search_title').addEventListener("click", function() {
-        let titleValue = document.getElementById('title_input').value.toLowerCase();
+        // Converts title string to lower case
+        let titleUserSearchString = document.getElementById('title_input').value.toLowerCase();
 
-        if (titleValue != "") {
-            filter.title = titleValue;
+        // Adds title to filter if non blank
+        if (titleUserSearchString != "") {
+            filter.title = titleUserSearchString;
         }
-        else if (filter.hasOwnProperty('title') && titleValue == "") {
+        // Else, reset filter
+        else if (filter.hasOwnProperty('title') && titleUserSearchString == "") {
             delete filter.title;
         }
+        // Apply filter
         filterVideos(allVideos, filter);
     })
 
     document.getElementById('search_teacher').addEventListener("change", function() {
-        let teacherValue = document.getElementById("search_teacher").value;
+        let teacherValueChosenByUser = document.getElementById("search_teacher").value;
         // Adds teacher to filter
-        if (teacherValue != "") {
-            filter.teacher = parseInt(teacherValue);
+        if (teacherValueChosenByUser != "") {
+            filter.teacher = parseInt(teacherValueChosenByUser);
         } 
         // Deletes 'teacher' property if it exists and no teacher has been selected to search
-        else if (filter.hasOwnProperty('teacher') && teacherValue == "") {
+        else if (filter.hasOwnProperty('teacher') && teacherValueChosenByUser == "") {
             delete filter.teacher;
         }
+        // Apply filter
         filterVideos(allVideos, filter);
     })
 
     document.getElementById('search_style').addEventListener("change", function() {
-        let styleValue = document.getElementById("search_style").value;
-        let stepDiv = document.getElementById("steps");
+        let styleValueChosenByUser = document.getElementById("search_style").value;
+        let calenaStepDiv = document.getElementById("steps");
 
         // Adds style to filter
-        if (styleValue != "") {
-            filter.style = parseInt(styleValue);
+        if (styleValueChosenByUser != "") {
+            filter.style = parseInt(styleValueChosenByUser);
         }
         // Deletes 'style' property from filter if it exists and no style has been selected to search
-        else if (filter.hasOwnProperty('style') && styleValue == "") {
+        else if (filter.hasOwnProperty('style') && styleValueChosenByUser == "") {
             delete filter.style;
         }
 
-        // TODO - add animation to make less intense
         // Unhiding salsa calena steps dropdown when Salsa Calena chosen
-        if (styleValue == '1') { // Salsa calena
-            stepDiv.classList.remove('d-none');
+        if (styleValueChosenByUser == '1') { // Salsa calena
+            calenaStepDiv.classList.remove('d-none');
         } 
         // Cleaning up filter and menu when a different style is selected
         else {
             document.getElementById('search_step').value = '';
             
-            if (!stepDiv.classList.contains('d-none')) {
-                stepDiv.classList.add('d-none');
+            if (!calenaStepDiv.classList.contains('d-none')) {
+                calenaStepDiv.classList.add('d-none');
             }
 
             if (filter.hasOwnProperty('step')) {
@@ -252,14 +265,14 @@ document.addEventListener('DOMContentLoaded', async function() {
     })
 
     document.getElementById('search_step').addEventListener("change", function() {
-        let stepValue = document.getElementById('search_step').value;
+        let stepValueChosenByUser = document.getElementById('search_step').value;
         
-        // Adds style to filter
-        if (stepValue != "") {
-            filter.step = parseInt(stepValue);
+        // Adds step to filter
+        if (stepValueChosenByUser != "") {
+            filter.step = parseInt(stepValueChosenByUser);
         }
         // Deletes 'step' property from filter if it exists and no step has been selected to search
-        else if (filter.hasOwnProperty('step') && stepValue == "") {
+        else if (filter.hasOwnProperty('step') && stepValueChosenByUser == "") {
             delete filter.step;
         }
 
@@ -267,13 +280,13 @@ document.addEventListener('DOMContentLoaded', async function() {
     })
 
     document.getElementById('search_level').addEventListener("change", function() {
-        let levelValue = document.getElementById("search_level").value;
+        let levelValueChosenByUser = document.getElementById("search_level").value;
         // Adds level to the filter
-        if (levelValue != "") {
-            filter.level = levelValue;
+        if (levelValueChosenByUser != "") {
+            filter.level = levelValueChosenByUser;
         }
         // Deletes 'level' property fom filter if it exists and no level has been selected to search
-        else if (filter.hasOwnProperty('level') && levelValue == "") {
+        else if (filter.hasOwnProperty('level') && levelValueChosenByUser == "") {
             delete filter.level;
         }
         filterVideos(allVideos, filter);
