@@ -7,6 +7,8 @@ function screenWidth() {
         notificationContainer.classList.add('d-none');
     }
 
+    // TODO store class names essential to each size in an array ?
+
     // If we are on the home page
     if (page.length === 0 || page === "/" || page.match(/^\/?index/)) {
         let filterContainer = document.getElementById('filter-container');

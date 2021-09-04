@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.db import IntegrityError
 from django.http import JsonResponse
 from django.contrib import messages
+# TODO look into removing csrf_exempt
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import User, Student, Video, Teacher, Style, Notification, CalenaStep, Comment
@@ -100,7 +101,7 @@ def notifications(request):
 
 @login_required(login_url='/login')
 @csrf_exempt
-def reset_notifications(request):
+def reset_notifications_counter(request):
     try:
         user = User.objects.get(pk=request.user.pk)
     except User.DoesNotExist:
@@ -249,6 +250,7 @@ def add_comment(request, video_id):
             # Reloads page
             return HttpResponseRedirect(reverse("video", args=(video_id,)))
 
+# TODO - should API routes have login_url login or something else? 
 @login_required(login_url='/login')
 @csrf_exempt
 def delete_comment(request, comment_id):
