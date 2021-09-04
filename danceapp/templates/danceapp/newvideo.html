@@ -27,19 +27,26 @@
 
                 {% for field in form %}
                     {% if field.name == 'calena_steps' %}
-                    <div class="form-group d-none" id="steps">
-                        {{ field.label_tag }}
-                        <ul class="d-flex flex-wrap">
-                            {% for pk, choice in field.field.widget.choices %}
-                            <li class="pr-3 pb-2">
-                                <label for="id_{{field.name}}_{{ forloop.counter0 }}">
-                                <input id="id_{{field.name}}_{{ forloop.counter0 }}" name="{{field.name}}" type="checkbox" value="{{pk}}" />
-                                {{ choice }}
-                                </label>
-                            </li>
-                            {% endfor %}
-                        </ul>
+                    <div id="steps-container" class="d-none">
+
+                        <div class="form-group" id="steps">
+                            {{ field.label_tag }}
+                            <ul class="d-flex flex-wrap">
+                                {% for pk, choice in field.field.widget.choices %}
+                                <li class="pr-3 pb-2">
+                                    <label for="id_{{field.name}}_{{ forloop.counter0 }}">
+                                    <input id="id_{{field.name}}_{{ forloop.counter0 }}" name="{{field.name}}" type="checkbox" value="{{pk}}" />
+                                    {{ choice }}
+                                    </label>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <a class="btn btn-pink mb-2" id="add-new-step-button">Add new step</a>                        
+
                     </div>
+                    
                     {% else %}
                     <div class="form-group">
                         {{ field.label_tag }}

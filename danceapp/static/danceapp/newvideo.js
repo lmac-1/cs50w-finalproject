@@ -13,7 +13,7 @@ async function processYoutubeUrl(url) {
             
             // If a video object is craeted, update the form with relevant details
             if (videoData != null) {
-                updatePage(videoData);
+                prepopulateVideoForm(videoData);
             }
             else {
                 invalidId('The URL did not contain a valid ID');
@@ -113,7 +113,7 @@ function invalidId(errorMessage) {
     console.error(errorMessage);
 }
 
-function updatePage(videoData) {
+function prepopulateVideoForm(videoData) {
     // Hides error message
     let errorContainer = document.getElementById('error_container');
     errorContainer.classList.add('d-none');
@@ -123,6 +123,78 @@ function updatePage(videoData) {
     document.getElementById('videoThumbnailUrl').value = videoData.thumbnailUrl;
     document.getElementById('videoYoutubeId').value = videoData.id;
     document.getElementById('newVideoForm').style.display = 'block';
+}
+
+// Shows a given Bootstrap element
+function showBootstrapElement(element) {
+    if (element.classList.contains('d-none')) {
+        element.classList.remove('d-none');
+    }
+}
+
+// Hides a given Bootstrap element
+function hideBootstrapElement(element) {
+    if (!element.classList.contains('d-none')) {
+        element.classList.add('d-none');
+    }
+}
+
+function saveNewStep(stepName) {
+    console.log(`User wasnts to add ${stepName}`);
+}
+
+function addNewStepHTML() {
+
+    let stepsContainer = document.querySelector('#steps-container');
+
+        // Create new step container
+        let addNewStepContainer = document.createElement('div');
+        addNewStepContainer.className = 'mb-2';
+        addNewStepContainer.id = 'new-step-container';
+        stepsContainer.appendChild(addNewStepContainer);
+
+        // Create form group to hold the input
+        let stepFormGroup = document.createElement('div');
+        stepFormGroup.className = 'form-group';
+        addNewStepContainer.appendChild(stepFormGroup);
+
+        // Create label
+        let labelForInput = document.createElement('label');
+        labelForInput.for = 'new-step-name';
+        labelForInput.innerHTML = 'Step name';
+        stepFormGroup.appendChild(labelForInput);
+
+        // Create input
+        let inputNewStep = document.createElement('input');
+        inputNewStep.type = 'text';
+        inputNewStep.className = 'form-control';
+        inputNewStep.id = 'new-step-name';
+        stepFormGroup.appendChild(inputNewStep);
+
+        // Create button container
+        let buttonContainer = document.createElement('div');
+        buttonContainer.className = 'd-flex justify-content-end my-2';
+        addNewStepContainer.appendChild(buttonContainer);
+
+        // Create cancel button
+        let cancelButton = document.createElement('a');
+        cancelButton.className = 'btn btn-pink-outline';
+        cancelButton.innerHTML = 'Cancel';  
+        cancelButton.addEventListener('click', function() {
+            addNewStepContainer.remove();
+            showBootstrapElement(document.querySelector('#add-new-step-button'));
+        })
+        buttonContainer.appendChild(cancelButton);
+
+        // Create save button
+        let saveButton = document.createElement('a');
+        saveButton.className = 'btn btn-pink ml-2';
+        saveButton.innerHTML = 'Save';
+        saveButton.addEventListener('click', function() {
+            saveNewStep(inputNewStep.value);
+        })
+        buttonContainer.appendChild(saveButton);
+
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -136,10 +208,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // When the style field is updated, carry out the following actions:
     document.getElementById('style').onchange = () => {
         
-        let stepsField = document.getElementById('steps');
+        let stepsField = document.getElementById('steps-container');
 
         // If salsa calena is selected, show the salsa calena steps field
-        if (document.getElementById('style').value == 1) {
+        if (document.getElementById('style').value == 2) {
             stepsField.classList.remove('d-none');
         } else {
             // Hides calena steps field
@@ -152,6 +224,13 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
+
+    document.querySelector('#add-new-step-button').addEventListener("click", function() {
+        
+        hideBootstrapElement(document.querySelector('#add-new-step-button'));
+        
+        addNewStepHTML();
+    })
 
     // When user submits the 'New Video' button
     document.getElementById('newVideo').onclick = () => {
