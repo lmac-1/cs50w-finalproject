@@ -1,17 +1,17 @@
 let commentButtons = document.getElementById('comment-buttons');
-let submitButton = document.getElementById('add-comment')
-let cancelButton = document.getElementById('cancel-comment')
 let commentTextArea = document.getElementById('comment-textarea');
+let submitButton = document.getElementById('add-comment');
+let cancelButton = document.getElementById('cancel-comment');
 
 // Shows a given Bootstrap element
-function showElement(element) {
+function showBootstrapElement(element) {
     if (element.classList.contains('d-none')) {
         element.classList.remove('d-none');
     }
 }
 
 // Hides a given Bootstrap element
-function hideElement(element) {
+function hideBootstrapElement(element) {
     if (!element.classList.contains('d-none')) {
         element.classList.add('d-none');
     }
@@ -28,10 +28,11 @@ function deleteComment(commentId) {
         })
         .then(response => response.json())
         .then(result => {
-            const deleted = result.deleted;
+            // The response tells us whether the comment should be deleted or not
+            const commentDeleted = result.deleted;
 
-            // Deletes the comment from the page if we have successfully deleted the comment from the database
-            if (deleted) {
+            // Deletes the comment from the page
+            if (commentDeleted) {
                 document.getElementById(`comment-${commentId}`).remove();
             } 
             // If POST request returns an error, then show this in the console
@@ -50,24 +51,24 @@ function deleteComment(commentId) {
 
 // Clicking on text area shows the comment buttons
 commentTextArea.addEventListener('focus', function() {
-    showElement(commentButtons);
+    showBootstrapElement(commentButtons);
 })
 
 // Submitting the comment rehides the buttons
 submitButton.addEventListener('click', function() {
-    hideElement(commentButtons);
+    hideBootstrapElement(commentButtons);
 })
 
 // Cancel button hides buttons and clears comment
 cancelButton.addEventListener('click', function() {
-    hideElement(commentButtons);
+    hideBootstrapElement(commentButtons);
     commentTextArea.value = '';
 })
 
 // Deletes comments
-document.querySelectorAll('.delete-comment').forEach(item => {
-    item.addEventListener('click', event => {
-        let commentId= item.dataset.comment_id;
+document.querySelectorAll('.delete-comment').forEach(deleteCommentButton => {
+    deleteCommentButton.addEventListener('click', event => {
+        let commentId = deleteCommentButton.dataset.comment_id;
         deleteComment(commentId);
     })
 })
