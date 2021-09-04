@@ -1,22 +1,28 @@
-const apiKey = 'AIzaSyBPfi6PU5j6pvvAR3sexwu8APAm_IcfNZ4';
+// TODO - mask and change this for public github repository
+const apiKey = 'AIzaSyDqJKAoUhSpbuEZrWCTwgkxgiA7tFcKPEw';
 
 async function processYoutubeUrl(url) {
     
     // Extracts any potential YouTube IDs from the URL, creating an array
-    let potentialIds = getPotentialIds(url);
+    let potentialYouTubeIds = getPotentialYouTubeIds(url);
 
-    if (potentialIds != null) {
-        
-        // Here we process the potential Ids to try to get an object with the video information
-        let videoData = await getValidVideoObject(potentialIds);
-        
-        // If a video object is craeted, update the form with relevant details
-        if (videoData != null) {
-            updatePage(videoData);
-        }
-        else {
-            invalidId('The URL did not contain a valid ID');
-        }
+    if (potentialYouTubeIds != null) {
+        try {
+            // Here we process the potential Ids to try to get an object with the video information
+            let videoData = await getValidVideoObject(potentialYouTubeIds);
+            
+            // If a video object is craeted, update the form with relevant details
+            if (videoData != null) {
+                updatePage(videoData);
+            }
+            else {
+                invalidId('The URL did not contain a valid ID');
+            }
+        } 
+        catch (err) {
+            console.log(err);
+            invalidId('Fetch failed');
+        }    
     }
     // We didn't find any possible YouTube IDs in the URL
     else {
@@ -24,7 +30,7 @@ async function processYoutubeUrl(url) {
     }
 }
 
-function getPotentialIds(url) {
+function getPotentialYouTubeIds(url) {
     
     // At the time of writing, YouTube IDs have 11 characters
     let lengthOfValidYouTubeID = 11;
@@ -32,27 +38,29 @@ function getPotentialIds(url) {
     // This separates the URL into parts using delimiters / . ? & and =
     let urlParameters = url.split(/\/|\.|\?|&|=/);
     
-    // We create an empty array to hold the potential Ids
-    let potentialIds = [];
+    // We create an empty array to hold the potential YouTube Ids
+    let potentialYouTubeIds = [];
 
-    // We iterate through the urlParameters checking for any with length 11, pushing them into potentialIds
+    // We iterate through the urlParameters checking for any with length 11, pushing them into potentialYouTubeIds
     for (const parameter of urlParameters) {
         if (parameter.length === lengthOfValidYouTubeID) {
-            potentialIds.push(parameter);
+            potentialYouTubeIds.push(parameter);
         }
     }
 
-    if (potentialIds.length >= 1) return potentialIds;
+    // If we found some potential IDs, return these, else return null
+    if (potentialYouTubeIds.length >= 1) return potentialYouTubeIds;
     else return null;
 }
 
 async function getValidVideoObject(ids) {
 
     for (const id of ids) {
-        
+        let url = `https://www.googleapis.com/youtube/v3/videos?id=${id}&key=${apiKey}&part=snippet,contentDetails,statistics,status`;
+
         // We try to call the YouTube API with the given id and convert to JSON
-        const response = await fetch(`https://www.googleapis.com/youtube/v3/videos?id=${id}&key=${apiKey}&part=snippet,contentDetails,statistics,status`);
-        const jsonResponse = await response.json();
+        let response = await fetch(url);
+        let jsonResponse = await response.json();
         console.log(jsonResponse);
         
         // Here we are checking if the ID is valid
@@ -89,8 +97,18 @@ function createVideoObject(videoJsonData) {
 
 // this will hold our error handling for invalid ids / no response
 function invalidId(errorMessage) {
+    
+    let errorDiv = document.getElementById('error_message');
+
+    if (errorMessage == "Fetch failed") {
+        errorDiv.innerHTML = 'A system error has occurred. Please try a different browser and if the error continues, contact your teacher.';
+    } else {
+        errorDiv.innerHTML = 'The link you provided did not contain a valid YouTube ID. Please make sure that you are copying the link directly from YouTube and try again.';
+    }
+
     // Show error message
     document.getElementById('error_container').classList.remove('d-none');
+    
     // Print console error for debugging uses
     console.error(errorMessage);
 }
@@ -114,8 +132,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Reset form fields
     document.getElementById('video_form').reset()
-
     
+    // When the style field is updated, carry out the following actions:
     document.getElementById('style').onchange = () => {
         
         let stepsField = document.getElementById('steps');

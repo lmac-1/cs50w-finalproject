@@ -31,12 +31,18 @@ SECRET_KEY = 'upgsd39o22@v8hrf5gnuep#92g77bwvx%q-w(&6kwvkh%oqm8h'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# TODO - To get YouTube API to work on Chrome, should only be like this in development, not in production
+CORS_ORIGIN_ALLOW_ALL = False
+# TODO - remove when on production
+CORS_ORIGIN_WHITELIST = [
+'https://127.0.0.1:8000'
+]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'danceapp',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -49,6 +55,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
