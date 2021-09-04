@@ -1,20 +1,22 @@
+// Gets all users notifications
 let notifications = document.querySelectorAll('.notification-item');
 
-function resetNotifications() {
-    fetch('/reset_notifications', {
+// Resets notification counter in nav and also in database
+function resetNotificationCounter() {
+    fetch('/reset_notifications_counter', {
         method: 'POST'
     })
     .then(response => response.json())
     .then(result => {
-        // Print result
+        // Print result TODO remove
         console.log(result);
     });
 }
 
-// Marks given notification as read and redirects to video page
-function readNotification(notification_id, direccionHref) {
+// Marks given notification as read and redirects to video related to notification
+function readNotification(notificationId, videoId) {
     try {
-        let url = `/read_notification/${notification_id}`;
+        let url = `/read_notification/${notificationId}`;
 
         fetch(url, {
             method: 'POST'
@@ -22,8 +24,8 @@ function readNotification(notification_id, direccionHref) {
         .then(response => response.json())
         .then(result => {
             console.log(result);
-            if (result.message) location.href = `/video/${direccionHref}`;
-            
+            if (result.message) location.href = `/video/${videoId}`;
+            // TODO else?
         })
     } catch (err) {
         console.log(err);
@@ -46,7 +48,7 @@ function readAllNotificationsAndUpdatePage() {
                     }
 
                 })
-            }
+            } // TODO else?
         })
     } catch (err) {
         console.log(err);
@@ -54,16 +56,19 @@ function readAllNotificationsAndUpdatePage() {
 }
 
 // Marks notifications as read and redirects to video page when clicked
-notifications.forEach(function (notification, index) {
+notifications.forEach(function (notification) {
     notification.addEventListener('click', () => {
-        readNotification(notification.dataset.notification_id, notification.dataset.video_id);
+        let notificationId = notification.dataset.notification_id;
+        let videoId = notification.dataset.video_id;
+        readNotification(notificationId, videoId);
     }); 
 });
 
 document.getElementById('notification-toggle').addEventListener("click", function() {
     // Resets number of notifications to 0
     if (document.getElementById('circle').classList.contains('d-flex')) {
-        resetNotifications();
+        // Resets notification counter in nav and also in database
+        resetNotificationCounter();
         document.getElementById('circle').classList.remove('d-flex');
         document.getElementById('circle').classList.add('d-none')
     }
