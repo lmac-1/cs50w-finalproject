@@ -245,7 +245,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
 
         // Unhiding salsa calena steps dropdown when Salsa Calena chosen
-        if (styleValueChosenByUser == '1') { // Salsa calena
+        if (styleValueChosenByUser == '2') { // Salsa calena
             calenaStepDiv.classList.remove('d-none');
         } 
         // Cleaning up filter and menu when a different style is selected
