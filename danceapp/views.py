@@ -35,6 +35,29 @@ def videos(request):
     videos = util.get_user_videos(request)
     return JsonResponse([video.serialize() for video in videos], safe=False)
 
+@login_required(login_url='/login')
+@csrf_exempt
+def add_step(request):
+    
+    if request.method != 'POST':
+        return JsonResponse({"error": "POST request required."}, status=400)
+
+    # Gets data from POST request and pulls out step name
+    data = json.loads(request.body)
+    step_name = data.get("step_name")
+
+    # Cannot add a blank step name to the database
+    if len(step_name) == 0:
+        return JsonResponse({"error": "No step name required."}, status=400)
+
+    try: 
+        new_step = CalenaStep(name=step_name)
+        new_step.save()
+    except:
+        return JsonResponse({"error": "An error has occurred when attempting to add to the database. See the logs for more information."}, status=400)
+
+    return JsonResponse({"message": "Step added successfully", "name": step_name, "value": new_step.id}, status=201)
+
 def saved_videos(request):
     try: 
         user = User.objects.get(pk=request.user.pk)
@@ -50,18 +73,21 @@ def saved_videos(request):
 
 @login_required(login_url='/login')
 def new_video(request):
+    
     if request.method == 'POST':
-
+        
         # Only allows non-students to add videos
         if request.user.is_student != True:
             
             # Take in the data the user submitted and save it as form
             form = NewVideoForm(request.POST)
-
+            
             # Check if form data is valid (server-side)
+            # TODO go through and see if there's any conditions that dont have else that need error handling
             if form.is_valid():
                 # Sets author field in new listing
                 form.instance.author = request.user
+                
                 # Saves new listing
                 new_video = form.save()
                 
@@ -73,7 +99,6 @@ def new_video(request):
                     
                     user_student = student.user
                     message = f"{request.user.first_name} uploaded a new video: {form.cleaned_data.get('title')}"
-                    """ message = f"You have a new video available: {form.cleaned_data.get('title')}" """
                     
                     # Adds a notification to notify them of the new video
                     notification = Notification(video=new_video, user=user_student, author=request.user, message=message)
@@ -85,6 +110,10 @@ def new_video(request):
 
                 # Redirect to listing page 
                 return HttpResponseRedirect(reverse("index",))
+            else:
+                return render(request, "danceapp/error.html", {
+                    "message": "An error has occurred. Please try again."
+                })
     else:
         if request.user.is_teacher or request.user.is_staff:
             return render(request, "danceapp/newvideo.html", {

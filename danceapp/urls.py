@@ -19,4 +19,5 @@ urlpatterns = [
 
     # API Routes
     path("videos", views.videos, name ="videos"),
+    path("add_step", views.add_step, name="add_step")
 ]

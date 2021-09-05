@@ -116,13 +116,14 @@ function invalidId(errorMessage) {
 function prepopulateVideoForm(videoData) {
     // Hides error message
     let errorContainer = document.getElementById('error_container');
-    errorContainer.classList.add('d-none');
+    hideBootstrapElement(errorContainer);
     
+    // Prepopulates form based on data returned from YouTube API
     document.getElementById('videoTitle').value = videoData.title;
     document.getElementById('videoDescription').value = videoData.description;
     document.getElementById('videoThumbnailUrl').value = videoData.thumbnailUrl;
     document.getElementById('videoYoutubeId').value = videoData.id;
-    document.getElementById('newVideoForm').style.display = 'block';
+    showBootstrapElement(document.getElementById('newVideoForm'));
 }
 
 // Shows a given Bootstrap element
@@ -139,15 +140,11 @@ function hideBootstrapElement(element) {
     }
 }
 
-function saveNewStep(stepName) {
-    console.log(`User wasnts to add ${stepName}`);
-}
-
-function addNewStepHTML() {
+function addNewStepFormHTML() {
 
     let stepsContainer = document.querySelector('#steps-container');
 
-        // Create new step container
+        // Create container to add new step
         let addNewStepContainer = document.createElement('div');
         addNewStepContainer.className = 'mb-2';
         addNewStepContainer.id = 'new-step-container';
@@ -160,7 +157,7 @@ function addNewStepHTML() {
 
         // Create label
         let labelForInput = document.createElement('label');
-        labelForInput.for = 'new-step-name';
+        labelForInput.setAttribute("for",'new-step-name');
         labelForInput.innerHTML = 'Step name';
         stepFormGroup.appendChild(labelForInput);
 
@@ -179,7 +176,8 @@ function addNewStepHTML() {
         // Create cancel button
         let cancelButton = document.createElement('a');
         cancelButton.className = 'btn btn-pink-outline';
-        cancelButton.innerHTML = 'Cancel';  
+        cancelButton.innerHTML = 'Cancel';
+        // Add event listener for the button  
         cancelButton.addEventListener('click', function() {
             addNewStepContainer.remove();
             showBootstrapElement(document.querySelector('#add-new-step-button'));
@@ -197,6 +195,52 @@ function addNewStepHTML() {
 
 }
 
+function addNewStepCheckboxHTML(jsonData) {
+    
+    let listItem = document.createElement('li');
+    listItem.className = 'pr-3 pb-2';
+    document.querySelector('#all-steps').append(listItem);
+
+    let label = document.createElement('label');
+    label.setAttribute("for",`id_calena_steps_${jsonData.value}`);
+    label.innerHTML = `<input id="id_calena_steps_${jsonData.value}" 
+                        name="calena_steps" type="checkbox" value="${jsonData.value}">
+                        ${jsonData.name}`;
+    listItem.append(label);
+}
+
+// Saves new step to the database
+async function saveNewStep(stepName) {
+    try {
+        let url = '/add_step';
+
+        let response = await fetch(url, {
+            method: "POST",
+            body: JSON.stringify({
+                step_name: stepName
+            })
+        })
+        let jsonResponse = await response.json();
+        console.log(jsonResponse);
+
+        // Only adds a new checkbox to 'calena steps' if it receives a successful response
+        if (jsonResponse.value) {
+            addNewStepCheckboxHTML(jsonResponse);
+        }
+
+        // TODO add error message and make button disabled if the form is empty
+        // TODO add validation to not add same name of step
+        
+        // Remove the container to add a new step from the DOM
+        document.querySelector('#new-step-container').remove();
+        // Reshow the 'add new step' button
+        showBootstrapElement(document.querySelector('#add-new-step-button'));
+    }
+    catch(err) {
+        console.log(err);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
 
     // Clear form on page load
@@ -204,6 +248,20 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Reset form fields
     document.getElementById('video_form').reset()
+
+    // When user submits the 'Load Video' button
+    document.getElementById('add-new-video').addEventListener("click", function() {
+        
+        // Rehides form
+        hideBootstrapElement(document.getElementById('newVideoForm'));
+        // Resets form (clears all fields)
+        document.getElementById('video_form').reset()
+
+        // Gets YouTube URL from the form input
+        const youtubeUrl = document.getElementById('videoInputLink').value;
+        processYoutubeUrl(youtubeUrl);
+
+    })
     
     // When the style field is updated, carry out the following actions:
     document.getElementById('style').onchange = () => {
@@ -228,22 +286,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('#add-new-step-button').addEventListener("click", function() {
         
         hideBootstrapElement(document.querySelector('#add-new-step-button'));
-        
-        addNewStepHTML();
+        addNewStepFormHTML();
     })
-
-    // When user submits the 'New Video' button
-    document.getElementById('newVideo').onclick = () => {
-        
-        // Rehides form
-        document.getElementById('newVideoForm').style.display = 'none';
-        // Resets form (clears all fields)
-        document.getElementById('video_form').reset()
-
-        // Gets YouTube URL from the form input
-        const youtubeUrl = document.getElementById('videoInputLink').value;
-        processYoutubeUrl(youtubeUrl);
-
-    }
 
 })

@@ -15,13 +15,13 @@
                 Make sure to copy and paste the URL directly from YouTube.
             </small>
             <div class="text-center">
-                <button class="btn btn-primary mt-3 btn-block" id="newVideo">Load video</button>
+                <button class="btn btn-primary mt-3 btn-block" id="add-new-video">Load video</button>
             </div>
         </div>
     </div>
 
     <div class="row justify-content-center">
-        <div class="form-group col-sm-10 col-md-8 col-lg-5" id="newVideoForm" style="display: none;">
+        <div class="form-group col-sm-10 col-md-8 col-lg-5 d-none" id="newVideoForm">
             <form action="{% url 'new_video' %}" method="POST" id="video_form">
                 {% csrf_token %}
 
@@ -31,7 +31,7 @@
 
                         <div class="form-group" id="steps">
                             {{ field.label_tag }}
-                            <ul class="d-flex flex-wrap">
+                            <ul class="d-flex flex-wrap" id="all-steps">
                                 {% for pk, choice in field.field.widget.choices %}
                                 <li class="pr-3 pb-2">
                                     <label for="id_{{field.name}}_{{ forloop.counter0 }}">
