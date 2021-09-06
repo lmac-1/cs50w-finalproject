@@ -166,6 +166,16 @@ function addNewStepFormHTML() {
         inputNewStep.type = 'text';
         inputNewStep.className = 'form-control';
         inputNewStep.id = 'new-step-name';
+        // Makes button disabled if input field blank
+        inputNewStep.addEventListener('keyup', () => {
+            if (inputNewStep.value.length > 0) {
+                saveButton.classList.remove('disabled')
+            }
+            else {
+                
+                saveButton.classList.add('disabled');
+            }
+        })
         stepFormGroup.appendChild(inputNewStep);
 
         // Create button container
@@ -186,9 +196,10 @@ function addNewStepFormHTML() {
 
         // Create save button
         let saveButton = document.createElement('a');
-        saveButton.className = 'btn btn-pink ml-2';
+        saveButton.className = 'btn btn-pink ml-2 disabled';
         saveButton.innerHTML = 'Save';
-        saveButton.addEventListener('click', function() {
+        saveButton.disabled = true;
+        saveButton.addEventListener('click', () => {
             saveNewStep(inputNewStep.value);
         })
         buttonContainer.appendChild(saveButton);
@@ -203,6 +214,8 @@ function addNewStepCheckboxHTML(jsonData) {
 
     let label = document.createElement('label');
     label.setAttribute("for",`id_calena_steps_${jsonData.value}`);
+    // All step names are stored as lowercase in the database
+    label.className = 'text-capitalize';
     label.innerHTML = `<input id="id_calena_steps_${jsonData.value}" 
                         name="calena_steps" type="checkbox" value="${jsonData.value}">
                         ${jsonData.name}`;
@@ -227,9 +240,13 @@ async function saveNewStep(stepName) {
         if (jsonResponse.value) {
             addNewStepCheckboxHTML(jsonResponse);
         }
-
-        // TODO add error message and make button disabled if the form is empty
-        // TODO add validation to not add same name of step
+        else {
+            // If the JSON respone returns with an error, we will show to the client
+            if (jsonResponse.error) {
+                let errorMessage = document.getElementById('steps-error');
+            errorMessage.innerHTML = `<small>${jsonResponse.error}</small>`;
+            }   
+        }
         
         // Remove the container to add a new step from the DOM
         document.querySelector('#new-step-container').remove();
@@ -284,7 +301,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     document.querySelector('#add-new-step-button').addEventListener("click", function() {
-        
+        // Clears error message
+        document.getElementById('steps-error').innerHTML = '';
         hideBootstrapElement(document.querySelector('#add-new-step-button'));
         addNewStepFormHTML();
     })

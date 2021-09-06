@@ -27,14 +27,14 @@
 
                 {% for field in form %}
                     {% if field.name == 'calena_steps' %}
-                    <div id="steps-container" class="d-none">
+                    <div id="steps-container" class="d-none mb-2">
 
-                        <div class="form-group" id="steps">
+                        <div class="form-group mb-0" id="steps">
                             {{ field.label_tag }}
-                            <ul class="d-flex flex-wrap" id="all-steps">
+                            <ul class="d-flex flex-wrap mb-0" id="all-steps">
                                 {% for pk, choice in field.field.widget.choices %}
                                 <li class="pr-3 pb-2">
-                                    <label for="id_{{field.name}}_{{ forloop.counter0 }}">
+                                    <label for="id_{{field.name}}_{{ forloop.counter0 }}" class="text-capitalize">
                                     <input id="id_{{field.name}}_{{ forloop.counter0 }}" name="{{field.name}}" type="checkbox" value="{{pk}}" />
                                     {{ choice }}
                                     </label>
@@ -42,7 +42,7 @@
                                 {% endfor %}
                             </ul>
                         </div>
-
+                        <div id="steps-error" class="mb-3 text-danger"></div>
                         <a class="btn btn-pink mb-2" id="add-new-step-button">Add new step</a>                        
 
                     </div>

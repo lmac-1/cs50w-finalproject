@@ -42,13 +42,20 @@ def add_step(request):
     if request.method != 'POST':
         return JsonResponse({"error": "POST request required."}, status=400)
 
+    current_steps = CalenaStep.objects.values_list('name', flat=True).order_by('name')
+
     # Gets data from POST request and pulls out step name
     data = json.loads(request.body)
     step_name = data.get("step_name")
+    # We store all step names with lower case to make it easier to compare
+    step_name = step_name.lower()
 
     # Cannot add a blank step name to the database
     if len(step_name) == 0:
-        return JsonResponse({"error": "No step name required."}, status=400)
+        return JsonResponse({"error": "You cannot submit a step with no name. Please try again."}, status=400)
+    
+    if step_name in current_steps:
+        return JsonResponse({"error": "This step is already saved in the database, please add a different step"}, status=400)
 
     try: 
         new_step = CalenaStep(name=step_name)
