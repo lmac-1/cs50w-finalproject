@@ -47,8 +47,9 @@ def add_step(request):
     # Gets data from POST request and pulls out step name
     data = json.loads(request.body)
     step_name = data.get("step_name")
-    # We store all step names with lower case to make it easier to compare
+    # We convert the provided step name to lower and then capitalize it to allow consistency
     step_name = step_name.lower()
+    step_name = step_name.capitalize()
 
     # Cannot add a blank step name to the database
     if len(step_name) == 0:
@@ -105,7 +106,14 @@ def new_video(request):
                 for student in students:
                     
                     user_student = student.user
-                    message = f"{request.user.first_name} uploaded a new video: {form.cleaned_data.get('title')}"
+
+                    # Works out name to show in notification text
+                    if request.user.first_name != '':
+                        message_name = request.user.first_name
+                    else:
+                        message_name = request.user.username
+
+                    message = f"{message_name} uploaded a new video: {form.cleaned_data.get('title')}"
                     
                     # Adds a notification to notify them of the new video
                     notification = Notification(video=new_video, user=user_student, author=request.user, message=message)

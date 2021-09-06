@@ -34,7 +34,7 @@
                             <ul class="d-flex flex-wrap mb-0" id="all-steps">
                                 {% for pk, choice in field.field.widget.choices %}
                                 <li class="pr-3 pb-2">
-                                    <label for="id_{{field.name}}_{{ forloop.counter0 }}" class="text-capitalize">
+                                    <label for="id_{{field.name}}_{{ forloop.counter0 }}">
                                     <input id="id_{{field.name}}_{{ forloop.counter0 }}" name="{{field.name}}" type="checkbox" value="{{pk}}" />
                                     {{ choice }}
                                     </label>

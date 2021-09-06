@@ -166,7 +166,7 @@ function addNewStepFormHTML() {
         inputNewStep.type = 'text';
         inputNewStep.className = 'form-control';
         inputNewStep.id = 'new-step-name';
-        // Makes button disabled if input field blank
+        // Makes button disabled if input field blank to prevent submission
         inputNewStep.addEventListener('keyup', () => {
             if (inputNewStep.value.length > 0) {
                 saveButton.classList.remove('disabled')
@@ -214,8 +214,6 @@ function addNewStepCheckboxHTML(jsonData) {
 
     let label = document.createElement('label');
     label.setAttribute("for",`id_calena_steps_${jsonData.value}`);
-    // All step names are stored as lowercase in the database
-    label.className = 'text-capitalize';
     label.innerHTML = `<input id="id_calena_steps_${jsonData.value}" 
                         name="calena_steps" type="checkbox" value="${jsonData.value}">
                         ${jsonData.name}`;
