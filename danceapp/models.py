@@ -61,6 +61,10 @@ class CalenaStep(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta: 
+        # Orders styles by name
+        ordering = ['name']
 
 class Video(models.Model):
     LEVELS = [('BEG', 'Beginner'), ('INT', 'Intermediate'), ('ADV', 'Advanced')]
