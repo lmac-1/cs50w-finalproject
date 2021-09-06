@@ -18,6 +18,6 @@ urlpatterns = [
     path("saved_videos", views.saved_videos, name="saved_videos"),
 
     # API Routes
-    path("videos", views.videos, name ="videos"),
+    path("videos/<str:mode>", views.videos, name ="videos"),
     path("add_step", views.add_step, name="add_step")
 ]

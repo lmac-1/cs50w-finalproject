@@ -31,8 +31,25 @@ def index(request):
 
 # API route
 @login_required(login_url='/login')
-def videos(request):
-    videos = util.get_user_videos(request)
+def videos(request, mode):
+    
+    try:
+        user = User.objects.get(pk=request.user.pk)
+    except User.DoesNotExist:
+        return JsonResponse({"error": "User does not exist."}, status=400)
+
+    # Used by index page
+    if mode == "all":
+        videos = util.get_user_videos(request)
+    
+    # Used by saved video page
+    elif mode == "saved":
+        if user.is_student == True:
+            user = user.student
+            videos = user.favourites.all()
+        else:
+            return JsonResponse({"error": "Only student profiles can make this request."}, status=400)
+            
     return JsonResponse([video.serialize() for video in videos], safe=False)
 
 @login_required(login_url='/login')
@@ -67,17 +84,13 @@ def add_step(request):
     return JsonResponse({"message": "Step added successfully", "name": step_name, "value": new_step.id}, status=201)
 
 def saved_videos(request):
-    try: 
-        user = User.objects.get(pk=request.user.pk)
-    except User.DoesNotExist:
-        return render(request, "danceapp/error.html", {
-            "message": "Sorry, an error has occurred."
-        })
-    videos = user.student.favourites.all()
 
-    return render(request, "danceapp/saved_videos.html", {
-        "videos": videos
-    } )
+    if request.user.is_student == False:
+        return render(request, "danceapp/error.html", {
+                "message": "Sorry, only student profiles can see this page."
+            })
+
+    return render(request, "danceapp/saved_videos.html")
 
 @login_required(login_url='/login')
 def new_video(request):
