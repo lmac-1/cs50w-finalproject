@@ -49,6 +49,8 @@ def videos(request, mode):
             videos = user.favourites.all()
         else:
             return JsonResponse({"error": "Only student profiles can make this request."}, status=400)
+    else:
+        return JsonResponse({"error": "You must set mode to \"saved\" or \"all\"."}, status=400)
             
     return JsonResponse([video.serialize() for video in videos], safe=False)
 
@@ -70,16 +72,18 @@ def add_step(request):
 
     # Cannot add a blank step name to the database
     if len(step_name) == 0:
-        return JsonResponse({"error": "You cannot submit a step with no name. Please try again."}, status=400)
+        error_for_page_html = "You cannot submit a step with no name. Please try again."
+        return JsonResponse({"error": error_for_page_html}, status=400)
     
     if step_name in current_steps:
-        return JsonResponse({"error": "This step is already saved in the database, please add a different step"}, status=400)
+        error_for_page_html = "This step is already saved in the database, please add a different step."
+        return JsonResponse({"error": error_for_page_html}, status=400)
 
     try: 
         new_step = CalenaStep(name=step_name)
         new_step.save()
     except:
-        return JsonResponse({"error": "An error has occurred when attempting to add to the database. See the logs for more information."}, status=400)
+        return JsonResponse({"error": "An error has occurred when attempting to add to the database."}, status=400)
 
     return JsonResponse({"message": "Step added successfully", "name": step_name, "value": new_step.id}, status=201)
 
@@ -97,51 +101,53 @@ def new_video(request):
     
     if request.method == 'POST':
         
-        # Only allows non-students to add videos
-        if request.user.is_student != True:
+        if request.user.is_student == True:
+            return render(request, "danceapp/error.html", {
+                "message": "Sorry, only teacher or admin profiles can add new videos."
+            })
             
-            # Take in the data the user submitted and save it as form
-            form = NewVideoForm(request.POST)
+        # Take in the data the user submitted and save it as form
+        form = NewVideoForm(request.POST)
+        
+        # Checks if form data is valid (server-side)
+        # TODO go through and see if there's any conditions that dont have else that need error handling
+        if form.is_valid():
+            # Sets author field in new listing
+            form.instance.author = request.user
             
-            # Check if form data is valid (server-side)
-            # TODO go through and see if there's any conditions that dont have else that need error handling
-            if form.is_valid():
-                # Sets author field in new listing
-                form.instance.author = request.user
+            # Saves new listing
+            new_video = form.save()
+            
+            # Gets students from form
+            students = form.cleaned_data.get('student_access')
+
+            # Iterates through students
+            for student in students:
                 
-                # Saves new listing
-                new_video = form.save()
+                user_student = student.user
+
+                # Works out name to show in notification text
+                if request.user.first_name != '':
+                    message_name = request.user.first_name
+                else:
+                    message_name = request.user.username
+
+                message = f"{message_name} uploaded a new video: {form.cleaned_data.get('title')}"
                 
-                # Gets students from form
-                students = form.cleaned_data.get('student_access')
+                # Adds a notification to notify them of the new video
+                notification = Notification(video=new_video, user=user_student, author=request.user, message=message)
+                notification.save()
 
-                # Iterates through students
-                for student in students:
-                    
-                    user_student = student.user
+                # Increments the students total unread notifications by 1
+                user_student.unread_notifications += 1
+                user_student.save()
 
-                    # Works out name to show in notification text
-                    if request.user.first_name != '':
-                        message_name = request.user.first_name
-                    else:
-                        message_name = request.user.username
-
-                    message = f"{message_name} uploaded a new video: {form.cleaned_data.get('title')}"
-                    
-                    # Adds a notification to notify them of the new video
-                    notification = Notification(video=new_video, user=user_student, author=request.user, message=message)
-                    notification.save()
-
-                    # Increments the students total unread notifications by 1
-                    user_student.unread_notifications += 1
-                    user_student.save()
-
-                # Redirect to listing page 
-                return HttpResponseRedirect(reverse("index",))
-            else:
-                return render(request, "danceapp/error.html", {
-                    "message": "An error has occurred. Please try again."
-                })
+            # Redirect to listing page 
+            return HttpResponseRedirect(reverse("index",))
+        else:
+            return render(request, "danceapp/error.html", {
+                "message": "An error has occurred. Please try again."
+            })
     else:
         if request.user.is_teacher or request.user.is_staff:
             return render(request, "danceapp/newvideo.html", {
@@ -165,7 +171,7 @@ def reset_notifications_counter(request):
         return JsonResponse({"error": "User not found."}, status=404)
     
     if request.method != "POST":
-        return JsonResponse({"error": "Invalid request."}, status=404)
+        return JsonResponse({"error": "Invalid request. POST request required."}, status=404)
     else: 
         user.unread_notifications = 0
         user.save()
@@ -182,7 +188,7 @@ def read_notification(request, notification_id):
         return JsonResponse({"error": "Notification not found"}, status=404)
     
     if request.method != "POST":
-        return JsonResponse({"error": "Invalid request."}, status=404)
+        return JsonResponse({"error": "Invalid request. POST request required."}, status=404)
     else:
         notification.read = True
         notification.save()
@@ -199,7 +205,7 @@ def read_all_notifications(request):
             return JsonResponse({"error": "User not found"}, status=404)
     
     if request.method != "POST":
-        return JsonResponse({"error": "Invalid request."}, status=404)
+        return JsonResponse({"error": "Invalid request. POST request required."}, status=404)
     else:
         # Find unread notifications for user
         unread_notifications = request.user.notifications.all().filter(read=False)
@@ -214,6 +220,10 @@ def read_all_notifications(request):
 
 @login_required(login_url='/login')
 def video(request, video_id):
+    if request.method != "GET":
+        return render(request, "danceapp/error.html", {
+                "message": "An error has occurred."
+            })
     try: 
         video = Video.objects.get(pk = video_id)
         comments = video.comments.all()
@@ -221,12 +231,11 @@ def video(request, video_id):
         # [TODO] Improve error handling
         return HttpResponse("This video doesn't exist")
     
-    if request.method == "GET":
-        return render(request, "danceapp/video.html", {
-            "video": video,
-            "comment_form": CommentForm(),
-            "comments": comments
-        })
+    return render(request, "danceapp/video.html", {
+        "video": video,
+        "comment_form": CommentForm(),
+        "comments": comments
+    })
 
 @login_required(login_url='/login')
 @csrf_exempt
@@ -236,7 +245,11 @@ def update_favourites(request, video_id):
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=400)
     
-    user = request.user
+    # Find user
+    try:
+        user = request.user
+    except User.DoesNotExist:
+        return JsonResponse({"error": "User cannot be found"}, status=400)
 
     if user.is_student != True:
         return JsonResponse({"error": "Only students can save videos"}, status=400)
@@ -264,48 +277,57 @@ def update_favourites(request, video_id):
 
 @login_required(login_url='/login')
 def add_comment(request, video_id):
-    if request.method == "POST": 
-        # [TODO] - error handling try/catch?
+    if request.method != "POST":
+        return JsonResponse({"error": "Invalid request. POST request required"}, code=400)
+    
+    try:
         video = Video.objects.get(pk = video_id)
         teachers = video.teacher.all()
+    except Video.DoesNotExist:
+        return JsonResponse({"error": "Video cannot be found"}, code=400)
 
-        # Take in the data the user submitted and save it as form
-        form = CommentForm(request.POST)
+    # Take in the data the user submitted and save it as form
+    form = CommentForm(request.POST)
 
-        # Check if form data is valid (server-side)
-        if form.is_valid():
+    # Check if form data is valid (server-side)
+    if form.is_valid():
+        
+        # Sets item and user fields
+        form.instance.video = video
+        form.instance.author = request.user
+
+        # Saves comment to database
+        form.save()
+
+        # Raises notification for teachers of uploaded video
+        for teacher in teachers:
+            # Gets user for teacher of the video
+            user_teacher = teacher.user
             
-            # Sets item and user fields
-            form.instance.video = video
-            form.instance.author = request.user
+            # Works out name to show in notification text
+            if request.user.first_name != '':
+                message_name = request.user.first_name
+            else:
+                message_name = request.user.username
+            
+            # Creates notification message
+            message = f"{message_name} added a new comment on your video {video.title}"
+            
+            # Adds a notification to notify them of the new video
+            notification = Notification(video=video, user=user_teacher, author=request.user, message=message)
+            notification.save()
 
-            # Saves comment to database
-            form.save()
+            # Increments teachers total unread notifications by 1
+            user_teacher.unread_notifications += 1
+            user_teacher.save()
 
-            # Raises notification for teachers of uploaded video
-            for teacher in teachers:
-                # Gets user for teacher of the video
-                user_teacher = teacher.user
-                
-                # Works out name to show in notification text
-                if request.user.first_name != '':
-                    message_name = request.user.first_name
-                else:
-                    message_name = request.user.username
-                
-                # Creates notification message
-                message = f"{message_name} added a new comment on your video {video.title}"
-                
-                # Adds a notification to notify them of the new video
-                notification = Notification(video=video, user=user_teacher, author=request.user, message=message)
-                notification.save()
-
-                # Increments teachers total unread notifications by 1
-                user_teacher.unread_notifications += 1
-                user_teacher.save()
-
-            # Reloads page
-            return HttpResponseRedirect(reverse("video", args=(video_id,)))
+        # Reloads page
+        return HttpResponseRedirect(reverse("video", args=(video_id,)))
+    # Shows if form data invalid
+    else:
+        return render(request, "danceapp/error.html", {
+                "message": "Sorry, an error has occurred. Please try again."
+            })
 
 # TODO - should API routes have login_url login or something else? 
 @login_required(login_url='/login')
