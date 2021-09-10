@@ -395,6 +395,13 @@ def register_student(request):
 
     else:
         return render(request, "danceapp/register.html")
+    
+def register_teacher(request):
+    if request.method == "POST":
+        page_redirect = util.register(request,"teacher")
+        return HttpResponseRedirect(reverse(page_redirect))
+    else:
+        return render(request, "danceapp/register.html")
 
 def logout_view(request):
     logout(request)
