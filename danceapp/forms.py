@@ -1,6 +1,25 @@
 from django import forms
+from django.contrib.auth.forms import PasswordChangeForm 
 
 from .models import Video, Comment
+
+class PasswordChangeForm(PasswordChangeForm):
+    
+    def __init__(self, *args, **kwargs):
+        super(PasswordChangeForm, self).__init__(*args, **kwargs)
+        self.fields['old_password'].label = 'Current password:'
+        self.fields['old_password'].widget.attrs.update({
+            'class': 'form-control',
+            'autofocus': False,
+        })
+        self.fields['new_password1'].label = 'New password:'
+        self.fields['new_password1'].widget.attrs.update({
+            'class': 'form-control',
+        })
+        self.fields['new_password2'].label = 'Confirm new password:'
+        self.fields['new_password2'].widget.attrs.update({
+            'class': 'form-control',
+        })
 
 # Model form for a new video
 class NewVideoForm(forms.ModelForm):

@@ -8,11 +8,12 @@ from django.http import HttpResponse
 from django.db import IntegrityError
 from django.http import JsonResponse
 from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
 # TODO look into removing csrf_exempt
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import User, Student, Video, Teacher, Style, Notification, CalenaStep, Comment
-from .forms import NewVideoForm, CommentForm
+from .forms import NewVideoForm, CommentForm, PasswordChangeForm
 from . import util
 
 @login_required(login_url='/login')
@@ -372,6 +373,20 @@ def login_view(request):
         else:
             return render(request, "danceapp/login.html")
 
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important! Keeps user logged in still
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('index')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'danceapp/change_password.html', {'form': form })
+        
 # Register a new student (teachers can only be added via admin Django view)
 def register_student(request):
     if request.method == "POST":
@@ -385,9 +400,8 @@ def register_student(request):
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
         if password != confirmation:
-            return render(request, "danceapp/register.html", {
-                "message": "Passwords must match."
-            })
+            messages.error(request, 'Passwords must match.')
+            return HttpResponseRedirect(reverse("register_student"))
 
         # Attempt to create new user
         try:
@@ -405,8 +419,8 @@ def register_student(request):
             # Saves user
             user.save()
 
+            # Create student or teacher instance of user
             if account_type == "student":
-                # Creates student instance of user
                 student = Student.objects.create(user=user)
             else:
                 teacher = Teacher.objects.create(user=user)
