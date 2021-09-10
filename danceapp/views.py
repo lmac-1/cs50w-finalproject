@@ -390,47 +390,8 @@ def change_password(request):
 # Register a new student (teachers can only be added via admin Django view)
 def register_student(request):
     if request.method == "POST":
-        username = request.POST["username"]
-        email = request.POST["email"]
-        first_name = request.POST["first_name"]
-        last_name = request.POST["last_name"]
-        account_type = request.POST["account_type"]
-
-        # Ensure password matches confirmation
-        password = request.POST["password"]
-        confirmation = request.POST["confirmation"]
-        if password != confirmation:
-            messages.error(request, 'Passwords must match.')
-            return HttpResponseRedirect(reverse("register_student"))
-
-        # Attempt to create new user
-        try:
-            # Creates user
-            user = User.objects.create_user(username, email, password)
-            # Saves first name, last name and student flag
-            user.first_name = first_name
-            user.last_name = last_name
-            
-            if account_type == "student":
-                user.is_student = True
-            else:
-                user.is_teacher = True
-            
-            # Saves user
-            user.save()
-
-            # Create student or teacher instance of user
-            if account_type == "student":
-                student = Student.objects.create(user=user)
-            else:
-                teacher = Teacher.objects.create(user=user)
-
-        except IntegrityError:
-            messages.error(request, 'Username already taken.')
-            return HttpResponseRedirect(reverse("register_student"))
-
-        login(request, user)
-        return HttpResponseRedirect(reverse("index"))
+        page_redirect = util.register(request,"student")
+        return HttpResponseRedirect(reverse(page_redirect))
 
     else:
         return render(request, "danceapp/register.html")
