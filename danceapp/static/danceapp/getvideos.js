@@ -8,6 +8,7 @@ export async function getVideosHTML(videoJsonData) {
     // If no videos, update HTML
     if (videoJsonData.length === 0) {
         const noResults = document.createElement('div');
+        noResults.className = 'align-self-start mt-3';
         noResults.innerHTML = "No videos found.";
         allVideosContainer.appendChild(noResults);
     }
