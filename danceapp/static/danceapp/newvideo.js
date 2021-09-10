@@ -101,7 +101,7 @@ function invalidId(errorMessage) {
     let errorDiv = document.getElementById('error_message');
 
     if (errorMessage == "Fetch failed") {
-        errorDiv.innerHTML = 'A system error has occurred. Please try a different browser and if the error continues, contact your teacher.';
+        errorDiv.innerHTML = 'A system error has occurred. Please try a different browser and if the error continues, contact the site owner.';
     } else {
         errorDiv.innerHTML = 'The link you provided did not contain a valid YouTube ID. Please make sure that you are copying the link directly from YouTube and try again.';
     }

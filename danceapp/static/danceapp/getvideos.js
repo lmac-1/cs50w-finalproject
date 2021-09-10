@@ -71,7 +71,7 @@ export async function getVideosHTML(videoJsonData) {
         // Create div for each teacher (sometimes there are two)
         video.teacher.forEach(teacher => {
             const teacherDiv = document.createElement('div');
-            teacherDiv.classList = 'pb';
+            teacherDiv.classList = 'pb align-self-start';
             teacherDiv.innerHTML = `<i class="fas fa-user card-icon pr-1"></i>${teacher.name}`;
             videoTeachersContainer.appendChild(teacherDiv); 
         })
