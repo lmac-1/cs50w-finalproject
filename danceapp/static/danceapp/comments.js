@@ -30,10 +30,26 @@ function deleteComment(commentId) {
         .then(result => {
             // The response tells us whether the comment should be deleted or not
             const commentDeleted = result.deleted;
+            const totalComments = result.total_comments;
 
             // Deletes the comment from the page
             if (commentDeleted) {
                 document.getElementById(`comment-${commentId}`).remove();
+
+                // Updates total number of comments
+                let totalCommentsHTML = document.getElementById('comment_counter_text');
+                switch(totalComments) {
+                    case 0: 
+                        totalCommentsHTML.innerHTML = "Be the first to leave a comment!";
+                        break;
+                    case 1:
+                        totalCommentsHTML.innerHTML = "1 comment";
+                        break;
+                    default:
+                        totalCommentsHTML.innerHTML = `${totalComments} comments`;
+                        break;
+                }
+                
             } 
             // If POST request returns an error, then show this in the console
             else if (result.error) {
