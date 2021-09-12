@@ -79,9 +79,11 @@
                                 
                                 <a id="view-notifications" href="{% url 'notifications' %}" class="notification-title font-weight-bold">Notifications</a>
 
+                                {% if notifications %}
                                 <div class="d-flex flex-column">
                                     <a class="mark-read" href="javascript:void(0)">Mark all as read</a>
                                 </div>
+                                {% endif %}
                                 
                             </div>
 
