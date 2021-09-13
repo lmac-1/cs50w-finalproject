@@ -9,8 +9,9 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
 import os
+# Allows environmental variables. Full explanation here: https://alicecampkin.medium.com/how-to-set-up-environment-variables-in-django-f3c4db78c55f 
+import environ
 
 # For message tags below (taken from https://simpleisbetterthancomplex.com/tips/2016/09/06/django-tip-14-messages-framework.html)
 from django.contrib.messages import constants as messages
@@ -147,3 +148,12 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+
+# Initialise environment variables
+env = environ.Env()
+
+environ.Env.read_env()
+try: 
+    YOUTUBE_API_KEY = env('YOUTUBE_API_KEY')
+except:
+    pass  # No .env file

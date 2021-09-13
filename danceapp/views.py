@@ -9,6 +9,7 @@ from django.db import IntegrityError
 from django.http import JsonResponse
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
+from django.conf import settings
 # TODO look into removing csrf_exempt
 from django.views.decorators.csrf import csrf_exempt
 
@@ -150,8 +151,15 @@ def new_video(request):
             })
     else:
         if request.user.is_teacher or request.user.is_staff:
+            try:
+                YOUTUBE_API_KEY = settings.YOUTUBE_API_KEY
+            except:
+                YOUTUBE_API_KEY = ''
+                pass
+            
             return render(request, "danceapp/newvideo.html", {
-                "form": NewVideoForm()
+                "form": NewVideoForm(),
+                "YOUTUBE_API_KEY": YOUTUBE_API_KEY
             })
         else:
             return render(request, "danceapp/error.html", {

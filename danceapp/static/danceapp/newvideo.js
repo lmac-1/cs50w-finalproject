@@ -1,5 +1,4 @@
-// TODO - mask and change this for public github repository
-const apiKey = 'AIzaSyDqJKAoUhSpbuEZrWCTwgkxgiA7tFcKPEw';
+const apiKey = YOUTUBE_API_KEY;
 
 async function processYoutubeUrl(url) {
     
@@ -21,7 +20,7 @@ async function processYoutubeUrl(url) {
         } 
         catch (err) {
             console.log(err);
-            invalidId('Fetch failed');
+            invalidId('Fetch failed', 'A system error has occurred. Please try a different browser and if the error continues, contact the site owner.');
         }    
     }
     // We didn't find any possible YouTube IDs in the URL
@@ -96,12 +95,12 @@ function createVideoObject(videoJsonData) {
 }
 
 // this will hold our error handling for invalid ids / no response
-function invalidId(errorMessage) {
+function invalidId(devMessage, visibleMessage) {
     
     let errorDiv = document.getElementById('error_message');
 
-    if (errorMessage == "Fetch failed") {
-        errorDiv.innerHTML = 'A system error has occurred. Please try a different browser and if the error continues, contact the site owner.';
+    if (visibleMessage) {
+        errorDiv.innerHTML = visibleMessage;
     } else {
         errorDiv.innerHTML = 'The link you provided did not contain a valid YouTube ID. Please make sure that you are copying the link directly from YouTube and try again.';
     }
@@ -110,7 +109,7 @@ function invalidId(errorMessage) {
     document.getElementById('error_container').classList.remove('d-none');
     
     // Print console error for debugging uses
-    console.error(errorMessage);
+    console.error(devMessage);
 }
 
 function prepopulateVideoForm(videoData) {
@@ -266,15 +265,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // When user submits the 'Load Video' button
     document.getElementById('add-new-video').addEventListener("click", function() {
-        
-        // Rehides form
-        hideBootstrapElement(document.getElementById('newVideoForm'));
-        // Resets form (clears all fields)
-        document.getElementById('video_form').reset()
+        // Results in an error if no API key in settings
+        if (apiKey == '') {
+            invalidId('No API key', 'You do not have an API key configured. Please see the instructions in the repository in order to set up.') 
+        }
+        else {
+            // Rehides form
+            hideBootstrapElement(document.getElementById('newVideoForm'));
+            // Resets form (clears all fields)
+            document.getElementById('video_form').reset()
 
-        // Gets YouTube URL from the form input
-        const youtubeUrl = document.getElementById('videoInputLink').value;
-        processYoutubeUrl(youtubeUrl);
+            // Gets YouTube URL from the form input
+            const youtubeUrl = document.getElementById('videoInputLink').value;
+            processYoutubeUrl(youtubeUrl);
+        }
 
     })
     
