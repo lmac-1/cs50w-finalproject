@@ -111,7 +111,6 @@ def new_video(request):
         form = NewVideoForm(request.POST)
         
         # Checks if form data is valid (server-side)
-        # TODO go through and see if there's any conditions that dont have else that need error handling
         if form.is_valid():
             # Sets author field in new listing
             form.instance.author = request.user
@@ -229,8 +228,9 @@ def video(request, video_id):
         video = Video.objects.get(pk = video_id)
         comments = video.comments.all()
     except Video.DoesNotExist:
-        # [TODO] Improve error handling
-        return HttpResponse("This video doesn't exist")
+        return render(request, "danceapp/error.html", {
+                "message": "An error has occurred. This video doesn't exist."
+            })
     
     return render(request, "danceapp/video.html", {
         "video": video,
@@ -331,9 +331,10 @@ def add_comment(request, video_id):
             })
 
 # TODO - should API routes have login_url login or something else? 
-@login_required(login_url='/login')
 @csrf_exempt
 def delete_comment(request, comment_id):
+    if not request.user.is_authenticated:
+        return JsonResponse({"error": "User must be logged in."}, status=400)
 
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=400)
@@ -350,7 +351,9 @@ def delete_comment(request, comment_id):
     else:
         deleted = False
 
-    return JsonResponse({"deleted": deleted}, status=200)
+    total_comments = comment.video.comments.all().count()
+
+    return JsonResponse({"deleted": deleted, "total_comments": total_comments}, status=200)
 
 def login_view(request):
     if request.method == "POST":
