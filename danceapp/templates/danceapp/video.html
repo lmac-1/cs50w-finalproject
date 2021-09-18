@@ -58,7 +58,6 @@
                     {% csrf_token %}
                     <div class="d-flex">
                         <!-- TODO - change to profile picture -->
-                        
                         <img class="circular-picture comment-picture" src="{% if user.profile_picture %}{{user.profile_picture}}{% else %}{% static 'danceapp/images/no-profile-pic.png' %}{% endif %}" alt="profilepic">
                         {{ comment_form }}
 
@@ -74,8 +73,7 @@
             <div class="comments" style="font-size: 14px;">
                 {% for comment in comments %}
                     <div class="comment-item d-flex" id="comment-{{comment.pk}}">
-                        <!-- TODO change to profile picture -->
-                        <img class="circular-picture comment-picture" src="{% static 'danceapp/images/no-profile-pic.png' %}" alt="profilepic">
+                        <img class="circular-picture comment-picture" src="{% if comment.author.profile_picture %}{{comment.author.profile_picture}}{% else %}{% static 'danceapp/images/no-profile-pic.png' %}{% endif %}" alt="profilepic">
                         <div class="d-flex flex-column pl-3">
                             <div class="d-flex">
                                 <div class="comment-name font-weight-bold">{{ comment.author.first_name }} {{ comment.author.last_name }}</div>
