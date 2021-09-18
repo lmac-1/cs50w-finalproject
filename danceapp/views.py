@@ -310,8 +310,13 @@ def add_comment(request, video_id):
 
         # Raises notification for teachers of uploaded video
         for teacher in teachers:
+            
             # Gets user for teacher of the video
             user_teacher = teacher.user
+
+            # Don't raise notifications for teacher if they are the one commenting
+            if user_teacher == request.user:
+                break
             
             # Works out name to show in notification text
             if request.user.first_name != '':
