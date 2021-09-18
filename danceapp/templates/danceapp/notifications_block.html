@@ -7,9 +7,8 @@
                                 
     {% for notification in notifications %}
         <a data-notification_id="{{notification.pk}}" href="javascript:void(0)" data-video_id="{{notification.video.pk}}" class="notification-item px-3 d-flex border-bottom {% if notification.read != True %}unread{% endif %}">
-            <!-- TODO make profile picture work -->
-            <img class="circular-picture align-self-center" src="{% static 'danceapp/images/no-profile-pic.png' %}" alt="profile pic">
-            <div class="d-flex flex-column pl-3">
+            <img class="circular-picture align-self-center" src="{% if notification.author.profile_picture %}{{notification.author.profile_picture}}{%else%}{% static 'danceapp/images/no-profile-pic.png' %}{%endif%}" alt="profile pic">
+            <div class="d-flex flex-column pl-3 justify-content-center">
                 <div class="notification-text">{{ notification.message }}</div>
                 <div class="notification-time text-muted font-weight-light">{{ notification.time|naturaltime }}</div>
             </div>
