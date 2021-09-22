@@ -21,7 +21,7 @@
                 <h1>{{ video.title }}</h1>
                 {% if user.is_student %}
                     <h1 class="pl-2 pr-md-3" data-video_id="{{video.pk}}" id="save-video"><i id="heart-icon" class="{% if user.student in video.saved_by.all %}fas fa-heart{% else %}far fa-heart{% endif %}"></i></h1>
-                {% endif %}
+                {% endif %} 
             </div>
 
             <p style="white-space: pre-line; max-width: 600px;">{{video.description}}</p>
@@ -57,12 +57,10 @@
                 <form action="{% url 'add_comment' video.id %}" method="POST">
                     {% csrf_token %}
                     <div class="d-flex">
-                        <!-- TODO - change to profile picture -->
                         <img class="circular-picture comment-picture" src="{% if user.profile_picture %}{{user.profile_picture}}{% else %}{% static 'danceapp/images/no-profile-pic.png' %}{% endif %}" alt="profilepic">
                         {{ comment_form }}
 
                     </div>
-                    <!-- TODO add animation to make smoother -->
                     <div id="comment-buttons" class="text-right mt-3 d-none">
                         <a id="cancel-comment" class="btn btn-pink-outline mr-2">Cancel</a>
                         <button id="add-comment" class="btn btn-pink">Add comment</button>
@@ -94,9 +92,9 @@
 {% endblock %}
 
 {% block script %}
-<script type="text/javascript" src="{% static 'danceapp/comments.js' %}" defer></script>
+<script type="text/javascript" src="{% static 'danceapp/js/comments.js' %}" defer></script>
 {% if user.is_student %}
-    <script type="text/javascript" src="{% static 'danceapp/likevideo.js' %}" defer></script>
+    <script type="text/javascript" src="{% static 'danceapp/js/likevideo.js' %}" defer></script>
 {% endif %}
 
 {% endblock %}
