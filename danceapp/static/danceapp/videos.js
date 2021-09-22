@@ -83,9 +83,8 @@ function filterVideos(videoJsonData, filter) {
 // Fetches video JSON data of all videos visible to logged in user
 async function getAllVideos() {
     try {
-        // TODO const or let here
-        const response = await fetch(`/videos/all`);
-        const jsonVideoData = await response.json();
+        let response = await fetch(`/videos/all`);
+        let jsonVideoData = await response.json();
         //console.log(jsonVideoData); // Debugging purposes
         return jsonVideoData;
     }
