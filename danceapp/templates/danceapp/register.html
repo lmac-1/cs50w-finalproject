@@ -6,7 +6,7 @@
 
 <div class="d-flex pt-5 flex-column align-content-centre">
 
-    <div class="align-self-center text-center border rounded py-5 px-3 px-sm-4 px-sm-5 bg-light">
+    <div class="align-self-center text-center rounded px-1">
 
         <h2 class="text-center title pb-3">Register</h2>
 
@@ -23,22 +23,22 @@
         {% endif %}
                 {% csrf_token %}
                 <div class="form-group">
-                    <input class="form-control" autofocus type="text" name="username" placeholder="Username">
+                    <input class="form-control" autofocus type="text" name="username" placeholder="Username" required>
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="email" name="email" placeholder="Email Address">
+                    <input class="form-control" type="email" name="email" placeholder="Email Address" required>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="first_name" placeholder="First name">
+                    <input type="text" class="form-control" name="first_name" placeholder="First name" required> 
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="last_name" placeholder="Surname">
+                    <input type="text" class="form-control" name="last_name" placeholder="Surname" required>
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="password" name="password" placeholder="Password">
+                    <input class="form-control" type="password" name="password" placeholder="Password" required>
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
+                    <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password" required>
                 </div>
                 <input class="btn btn-lg btn-primary btn-block mt-2 mb-2" type="submit" value="Register">
             </form>
