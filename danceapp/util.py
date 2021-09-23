@@ -22,7 +22,6 @@ def get_user_videos(request):
         return ''
 
 def register(request, account_type):
-    print('hi')
     username = request.POST["username"]
     email = request.POST["email"]
     first_name = request.POST["first_name"]
