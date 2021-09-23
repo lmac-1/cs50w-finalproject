@@ -1,5 +1,5 @@
 import {getVideosHTML} from "./getvideos.js";
-console.log('hello')
+
 // Loads all videos on page load
 let savedVideos = await getSavedVideos();
 getVideosHTML(savedVideos);
