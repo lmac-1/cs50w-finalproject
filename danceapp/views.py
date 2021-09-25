@@ -235,6 +235,7 @@ def video(request, video_id):
     try: 
         video = Video.objects.get(pk = video_id)
         comments = video.comments.all()
+        
     except Video.DoesNotExist:
         return render(request, "danceapp/error.html", {
                 "message": "An error has occurred. This video doesn't exist."
@@ -398,7 +399,7 @@ def change_password(request):
             messages.success(request, 'Your password was successfully updated!')
             return redirect('index')
         else:
-            messages.error(request, 'Please correct the error below.')
+            messages.error(request, 'Please correct the error(s) below.')
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'danceapp/change_password.html', {'form': form })
