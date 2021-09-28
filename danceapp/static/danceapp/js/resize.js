@@ -1,21 +1,22 @@
-function screenWidth() {
-    let notificationContainer = document.getElementById('notification-section');
+function resizeScreen() {
+    // Page name
     let page = window.location.pathname;
+    // Notifications
+    let notificationContainer = document.getElementById('notification-section');
+    // Filters
+    let filterContainer = document.getElementById('filter-container');
+    let teacherFilterValue = document.getElementById('search_teacher').value;
+    let levelFilterValue = document.getElementById('search_level').value;
+    let styleFilterValue = document.getElementById('search_style').value;
+    let stepFilterValue= document.getElementById('search_step').value;
     
     // If notifications are open and screen is resized to medium screen or lower, hide notifications
     if (window.innerWidth < 992 & !notificationContainer.classList.contains('d-none')) {
         notificationContainer.classList.add('d-none');
     }
 
-    // TODO store class names essential to each size in an array ?
-
     // If we are on the home page
     if (page.length === 0 || page === "/" || page.match(/^\/?index/)) {
-        let filterContainer = document.getElementById('filter-container');
-        let teacherFilter = document.getElementById('search_teacher').value;
-        let levelFilter = document.getElementById('search_level').value;
-        let styleFilter = document.getElementById('search_style').value;
-        let stepFilter = document.getElementById('search_step').value;
 
         if (window.innerWidth <= 1199) {
         
@@ -26,7 +27,7 @@ function screenWidth() {
                 filterContainer.classList.remove('d-block');
                 
                 // Only hide filters in transition if none have been applied
-                if (styleFilter == '' && levelFilter == '' && teacherFilter == '' && stepFilter == '') {
+                if (styleFilterValue == '' && levelFilterValue == '' && teacherFilterValue == '' && stepFilterValue == '') {
                     filterContainer.classList.add('d-none');
                 }
             }
@@ -46,8 +47,6 @@ function screenWidth() {
 }   
 
 document.addEventListener('DOMContentLoaded', function() {
-    // I have done this instead of window.onload as it seems to be faster
-    screenWidth()
-    
-    window.onresize = screenWidth;
+    resizeScreen()
+    window.onresize = resizeScreen;
 })
