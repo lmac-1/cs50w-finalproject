@@ -1,3 +1,4 @@
+// Comes from other script just above this one in the HTML template
 const apiKey = YOUTUBE_API_KEY;
 
 async function processYoutubeUrl(url) {
@@ -113,6 +114,7 @@ function invalidId(devMessage, visibleMessage) {
 }
 
 function prepopulateVideoForm(videoData) {
+    
     // Hides error message
     let errorContainer = document.getElementById('error_container');
     hideBootstrapElement(errorContainer);
@@ -143,65 +145,65 @@ function addNewStepFormHTML() {
 
     let stepsContainer = document.querySelector('#steps-container');
 
-        // Create container to add new step
-        let addNewStepContainer = document.createElement('div');
-        addNewStepContainer.className = 'mb-2';
-        addNewStepContainer.id = 'new-step-container';
-        stepsContainer.appendChild(addNewStepContainer);
+    // Create container to add new step
+    let addNewStepContainer = document.createElement('div');
+    addNewStepContainer.className = 'mb-2';
+    addNewStepContainer.id = 'new-step-container';
+    stepsContainer.appendChild(addNewStepContainer);
 
-        // Create form group to hold the input
-        let stepFormGroup = document.createElement('div');
-        stepFormGroup.className = 'form-group';
-        addNewStepContainer.appendChild(stepFormGroup);
+    // Create form group to hold the input
+    let stepFormGroup = document.createElement('div');
+    stepFormGroup.className = 'form-group';
+    addNewStepContainer.appendChild(stepFormGroup);
 
-        // Create label
-        let labelForInput = document.createElement('label');
-        labelForInput.setAttribute("for",'new-step-name');
-        labelForInput.innerHTML = 'Step name';
-        stepFormGroup.appendChild(labelForInput);
+    // Create label
+    let labelForInput = document.createElement('label');
+    labelForInput.setAttribute("for",'new-step-name');
+    labelForInput.innerHTML = 'Step name';
+    stepFormGroup.appendChild(labelForInput);
 
-        // Create input
-        let inputNewStep = document.createElement('input');
-        inputNewStep.type = 'text';
-        inputNewStep.className = 'form-control';
-        inputNewStep.id = 'new-step-name';
-        // Makes button disabled if input field blank to prevent submission
-        inputNewStep.addEventListener('keyup', () => {
-            if (inputNewStep.value.length > 0) {
-                saveButton.classList.remove('disabled')
-            }
-            else {
-                
-                saveButton.classList.add('disabled');
-            }
-        })
-        stepFormGroup.appendChild(inputNewStep);
+    // Create input
+    let inputNewStep = document.createElement('input');
+    inputNewStep.type = 'text';
+    inputNewStep.className = 'form-control';
+    inputNewStep.id = 'new-step-name';
+    // Makes button disabled if input field blank to prevent submission
+    inputNewStep.addEventListener('keyup', () => {
+        if (inputNewStep.value.length > 0) {
+            saveButton.classList.remove('disabled')
+        }
+        else {
+            
+            saveButton.classList.add('disabled');
+        }
+    })
+    stepFormGroup.appendChild(inputNewStep);
 
-        // Create button container
-        let buttonContainer = document.createElement('div');
-        buttonContainer.className = 'd-flex justify-content-end my-2';
-        addNewStepContainer.appendChild(buttonContainer);
+    // Create button container
+    let buttonContainer = document.createElement('div');
+    buttonContainer.className = 'd-flex justify-content-end my-2';
+    addNewStepContainer.appendChild(buttonContainer);
 
-        // Create cancel button
-        let cancelButton = document.createElement('a');
-        cancelButton.className = 'btn btn-pink-outline';
-        cancelButton.innerHTML = 'Cancel';
-        // Add event listener for the button  
-        cancelButton.addEventListener('click', function() {
-            addNewStepContainer.remove();
-            showBootstrapElement(document.querySelector('#add-new-step-button'));
-        })
-        buttonContainer.appendChild(cancelButton);
+    // Create cancel button
+    let cancelButton = document.createElement('a');
+    cancelButton.className = 'btn btn-pink-outline';
+    cancelButton.innerHTML = 'Cancel';
+    // Add event listener for the button  
+    cancelButton.addEventListener('click', function() {
+        addNewStepContainer.remove();
+        showBootstrapElement(document.querySelector('#add-new-step-button'));
+    })
+    buttonContainer.appendChild(cancelButton);
 
-        // Create save button
-        let saveButton = document.createElement('a');
-        saveButton.className = 'btn btn-pink ml-2 disabled';
-        saveButton.innerHTML = 'Save';
-        saveButton.disabled = true;
-        saveButton.addEventListener('click', () => {
-            saveNewStep(inputNewStep.value);
-        })
-        buttonContainer.appendChild(saveButton);
+    // Create save button
+    let saveButton = document.createElement('a');
+    saveButton.className = 'btn btn-pink ml-2 disabled';
+    saveButton.innerHTML = 'Save';
+    saveButton.disabled = true;
+    saveButton.addEventListener('click', () => {
+        saveNewStep(inputNewStep.value);
+    })
+    buttonContainer.appendChild(saveButton);
 
 }
 
