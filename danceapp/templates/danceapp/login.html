@@ -1,4 +1,5 @@
 {% extends "danceapp/layout.html" %}
+{% load static %}
 
 {% block title %}Login {% endblock %}
 
@@ -7,8 +8,8 @@
 <div class="d-flex pt-5 flex-column align-content-center justify-content-center">
         
     <div class="align-self-center text-center py-5 px-3 px-sm-4 px-md-5">
-
-        <h2 class="text-center title pb-4">Login</h2>
+        <img src="{% static 'danceapp/images/couple.png' %}" alt="Couple dancing together" class="mb-3 login-icon">
+        <h2 class="text-center title pb-3">Login</h2>
 
         {% for message in messages %}
             <div class="alert {{ message.tags }}" role="alert">

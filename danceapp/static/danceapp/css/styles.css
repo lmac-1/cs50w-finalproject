@@ -14,6 +14,11 @@ ul {
     color: #FF8CC6;
 }
 
+/* LOGIN */
+.login-icon {
+    height: 6.25rem;
+}
+
 /* NOTIFICATIONS */
 
 .notification-icon {
@@ -232,11 +237,6 @@ ul {
 /* INDEX STYLING (VIDEOS) */
 
 .card-box-shadow {
-    /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
-
-    /* box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px; */
-
-    /* box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px; */
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
@@ -246,16 +246,12 @@ ul {
     }
     100% {
         box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-        /* box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px; */
     }
 }
 
 .card-box-shadow:hover {
-    /* box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px; */
     animation: linkhover ease-in-out 300ms forwards;
 }
-
-
 
 .card-homepage {
     padding: 0;
@@ -270,7 +266,6 @@ ul {
 .card-subtext {
     height: 3.375rem;
     font-size: 0.73rem;
-    /* color: #a9a9a9; */
     line-height: 0.73rem;
     border-top: 1px solid #EBF2FA;
 }
@@ -281,8 +276,6 @@ ul {
 }
 
 .card-icon {
-    /* color: #D55672; */
-    /* color: #1B263B; */
     color: #FF8CC6;
 }
 
