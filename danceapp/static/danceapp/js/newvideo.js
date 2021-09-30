@@ -11,7 +11,7 @@ async function processYoutubeUrl(url) {
             // Here we process the potential Ids to try to get an object with the video information
             let videoData = await getValidVideoObject(potentialYouTubeIds);
             
-            // If a video object is craeted, update the form with relevant details
+            // If a video object is created, update the form with relevant details
             if (videoData != null) {
                 prepopulateVideoForm(videoData);
             }
@@ -63,7 +63,7 @@ async function getValidVideoObject(ids) {
         let jsonResponse = await response.json();
         console.log(jsonResponse);
         
-        // Here we are checking if the ID is valid
+        // Check if the ID is valid
         if (jsonResponse.hasOwnProperty('pageInfo') && jsonResponse.pageInfo.totalResults === 1 && jsonResponse.items[0].kind==='youtube#video') {
             // If the results give a youtube video, we will create the youtube object
                 return createVideoObject(jsonResponse);
@@ -76,10 +76,8 @@ async function getValidVideoObject(ids) {
 function createVideoObject(videoJsonData) {
 
     // This part of the JsonData holds all info about the youtube video
-    // We have previously verified that this is the only result in the JsonData
     let video = videoJsonData.items[0].snippet;
 
-    /* [TODO] Build a constructor for this type of object */
     // We pull the title, description, thumbnail url and id of the youtube video from the youtube API
     let id = videoJsonData.items[0].id;
     let title = video.title;
@@ -95,11 +93,12 @@ function createVideoObject(videoJsonData) {
         };
 }
 
-// this will hold our error handling for invalid ids / no response
+// This will hold our error handling for invalid ids / no response
 function invalidId(devMessage, visibleMessage) {
     
     let errorDiv = document.getElementById('error_message');
 
+    // Updates the error message on page
     if (visibleMessage) {
         errorDiv.innerHTML = visibleMessage;
     } else {
@@ -116,8 +115,7 @@ function invalidId(devMessage, visibleMessage) {
 function prepopulateVideoForm(videoData) {
     
     // Hides error message
-    let errorContainer = document.getElementById('error_container');
-    hideBootstrapElement(errorContainer);
+    hideBootstrapElement(document.getElementById('error_container'));
     
     // Prepopulates form based on data returned from YouTube API
     document.getElementById('videoTitle').value = videoData.title;
@@ -167,7 +165,7 @@ function addNewStepFormHTML() {
     inputNewStep.type = 'text';
     inputNewStep.className = 'form-control';
     inputNewStep.id = 'new-step-name';
-    // Makes button disabled if input field blank to prevent submission
+    // Makes button disabled if input field blank to prevent blank submission
     inputNewStep.addEventListener('keyup', () => {
         if (inputNewStep.value.length > 0) {
             saveButton.classList.remove('disabled')
@@ -268,7 +266,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // When user submits the 'Load Video' button
     document.getElementById('add-new-video').addEventListener("click", function() {
         // Results in an error if no API key in settings
-        if (apiKey == '') {
+        if (!apiKey) {
             invalidId('No API key', 'You do not have an API key configured. Please see the instructions in the repository in order to set up.') 
         }
         else {
@@ -287,15 +285,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // When the style field is updated, carry out the following actions:
     document.getElementById('style').onchange = () => {
         
-        let stepsField = document.getElementById('steps-container');
+        let stepsContainer = document.getElementById('steps-container');
 
         // If salsa calena is selected, show the salsa calena steps field
         if (document.getElementById('style').value == 2) {
-            stepsField.classList.remove('d-none');
+            stepsContainer.classList.remove('d-none');
         } else {
             // Hides calena steps field
-            if (!stepsField.classList.contains('d-none')) {
-                stepsField.classList.add('d-none');
+            if (!stepsContainer.classList.contains('d-none')) {
+                stepsContainer.classList.add('d-none');
             }
             // Unticks any checkboxes in the calena step field
             document.querySelectorAll('#steps input').forEach(checkbox => {
