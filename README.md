@@ -116,11 +116,11 @@ Summary of files created by me (if you want more information on any particular f
 
 There are 8 models for the DanceApp database:
 
-1. `User` - An extension of Django's `AbstractUser` model. Stores the logic for whether the account is a student or teacher. Stores the profile picture URL and total unread notifications for the user.
+1. `User` - An extension of Django's `AbstractUser` model. Stores the logic for account type (staff, student or teacher). Stores the profile picture URL and total unread notifications for the user.
 2. `Student` - Creates a `OneToOne` relationship with `User` for student users.
 3. `Teacher` - Creates a `OneToOne` relationship with `User` for teacher users.
-4. `Style` - Stores names of video styles
-5. `CalenaStep` - Stores names of salsa caleña steps
+4. `Style` - Stores names of video styles.
+5. `CalenaStep` - Stores names of salsa caleña steps.
 6. `Video` - Stores videos uploaded by teachers. Holds many relationships with other models (`Style`, `Teacher`, `Student`, `User`, `CalenaStep`). The `student_access` field determines which videos are visible to each student. This model is used in the `/videos` API route, when we make a `GET` request.
 7. `Comment` - Stores comments made by users on a video and creates a relationship with `Video` and `User`.
 8. `Notifications` - Stores notifications for users and creates a relationship with `Video` and `User`. Holds logic for whether a notification has been read or not.
@@ -140,24 +140,24 @@ User must enter their username, email address, first name, surname, password and
 1. The password must match the confirm password field
 2. There is no existing user with the username provided
 
-Once the details have passed validation, a new user is created in the `User` model with `is_student` flag set to `True`. A student instance of the user is created using the `Student` model.
+If the details are valid, a new user is created in the `User` model with `is_student` flag set to `True`. A student instance of the user is created using the `Student` model.
 
 ### Register Teacher `/register_teacher`
 
-This page is exactly the same as the [Register Student](Register Student) page, only instead it creates a user in the `User` model with the `is_teacher` flag set to `True` and creates a teacher instance of the user using the `Teacher` model.
+This page is exactly the same as the [Register Student](#register-student-register) page, only instead it creates a user in the `User` model with the `is_teacher` flag set to `True` and creates a teacher instance of the user using the `Teacher` model.
 
 All logic is stored in `util.py` as it's shared between both pages.
 
 ### Change Password `/change_password`
 
-The user can change their password, and has the following validation: 
+The user can change their password, and the page has the following validation: 
 
 1. Your password can’t be too similar to your other personal information.
 2. Your password must contain at least 8 characters.
 3. Your password can’t be a commonly used password.
 4. Your password can’t be entirely numeric.
 
-If the details pass validation, the user will remain logged in and is redirected to [Index](#index-) with a success message.
+If the details are valid, the password will be changed, and the user is redirected to [Index](#index-) with a success message.
 
 This page uses the `PasswordChangeForm` from Django, which I have customised to include Bootstrap styling in `forms.py`. 
 
@@ -167,7 +167,7 @@ If the user clicks 'Logout' in the navigation bar, it will log the user out and 
 
 ### Index `/`
 
-This page makes a `GET` request to the `/videos` API route to get all available videos for the logged in user (logic for this is stored in `utils.py`. Then, the page uses `fetch` in JavaScript to get the JSON video data which is used to display the videos using HTML. The API route uses the following logic:
+This page makes a `GET` request to the `/videos` API route to get all available videos for the logged in user (logic for this is stored in `utils.py`). Then, the page uses `fetch` in JavaScript to get the JSON video data to display the videos using HTML. The API route uses the following logic:
 
 1. Teacher and admin users can see all videos in the database
 2. Students can only see the videos which teachers have made available to them
