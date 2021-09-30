@@ -192,10 +192,10 @@ When the teacher submits the form, a new instance in the `Video` model is saved.
 
 This page can be accessed by clicking on a video from the [Index](#index-) page. It includes an embedded YouTube video and basic information about the video, and the user is able to carry out the following actions:
 
-- Student users can add or remove the video from their 'Saved Videos', by clicking the heart icon. This makes a `POST` request to the `/update_favourites` API route and `fetch` is used to update the heart icon using JavaScript. 
+- Student users can add or remove the video from their 'Saved Videos', by clicking the heart icon. This makes a `POST` request to the `/update_favourites/{videoId}` API route and `fetch` is used to update the heart icon using JavaScript. 
 - All users can add and delete their own comments:
   - Comments are added with a full page reload after submitting the form (using the `/add_comment` route)  
-  - Comments are deleted using  `fetch` which makes a `POST` request to the `delete_comment` API route and then updates the page using JavaScript based on the response.
+  - Comments are deleted using  `fetch` which makes a `POST` request to the `delete_comment/{videoId}` API route and then updates the page using JavaScript based on the response.
 
 The embedded video, and entire page are completely responsive. 
 
