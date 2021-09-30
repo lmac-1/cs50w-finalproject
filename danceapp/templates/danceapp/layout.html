@@ -18,7 +18,7 @@
     <body>
         
         <nav class="navbar navbar-expand-lg navbar-light align-items-center layout-nav">
-            <img src="{% static 'danceapp/images/baila.png' %}" alt="icon for dance app" class="d-block" style="width: 116px;">
+            <img src="{% static 'danceapp/images/baila.png' %}" alt="Icon for dance app" class="d-block" style="width: 116px;">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -26,16 +26,16 @@
                 <ul class="navbar-nav mr-auto">
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a style="color: #d9d9d9;" class="nav-link" href="{% url 'index' %}">All Videos</a>
+                        <a class="nav-link" href="{% url 'index' %}">All Videos</a>
                     </li>
                         {% if user.is_teacher or user.is_staff %}
                         <li class="nav-item">
-                            <a style="color: #d9d9d9;" class="nav-link" href="{% url 'new_video' %}">Add Video</a>
+                            <a class="nav-link" href="{% url 'new_video' %}">Add Video</a>
                         </li>
                         {% endif %}
                         {% if user.is_student %}
                         <li class="nav-item">
-                            <a style="color: #d9d9d9;" class="nav-link" href="{% url 'saved_videos' %}">Saved Videos</a>
+                            <a class="nav-link" href="{% url 'saved_videos' %}">Saved Videos</a>
                         </li>
                         {% endif %}
 
