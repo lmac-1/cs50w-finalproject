@@ -3,6 +3,7 @@ let notifications = document.querySelectorAll('.notification-item');
 
 // Resets notification counter in nav and also in database
 function resetNotificationCounter() {
+    // TODO change to try and catch
     fetch('/reset_notifications_counter', {
         method: 'POST'
     })
@@ -14,7 +15,7 @@ function resetNotificationCounter() {
 }
 
 // Marks given notification as read and redirects to video related to notification
-function readNotification(notificationId, videoId) {
+function readNotificationAndRedirectToPage(notificationId, videoId) {
     try {
         let url = `/read_notification/${notificationId}`;
 
@@ -60,12 +61,11 @@ notifications.forEach(function (notification) {
     notification.addEventListener('click', () => {
         let notificationId = notification.dataset.notification_id;
         let videoId = notification.dataset.video_id;
-        readNotification(notificationId, videoId);
+        readNotificationAndRedirectToPage(notificationId, videoId);
     }); 
 });
 
 document.getElementById('notification-toggle').addEventListener("click", function() {
-    // Resets number of notifications to 0
     if (document.getElementById('circle').classList.contains('d-flex')) {
         // Resets notification counter in nav and also in database
         resetNotificationCounter();
