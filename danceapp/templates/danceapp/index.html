@@ -40,7 +40,7 @@
             <div class="form-group filter-section d-none" id="steps">
                 <div class="filter-label">Step</div>
                 <select class="form-control" id="search_step">
-                    <option value="">All</option>
+                    <option value="" selected>All</option>
                     {% for step in steps %}
                         <option value="{{ step.pk }}">{{ step.name }}</option>
                     {% endfor %}
@@ -58,7 +58,6 @@
             </div>
             <!-- Level -->
             <div class="form-group filter-section">
-                
                 <div class="filter-label">Level</div>
                 <select class="form-control" id="search_level">
                     <option value="" selected>All</option>
@@ -67,7 +66,6 @@
                     {% endfor %}
                 </select>
             </div>
-            
         </div>
 
         <div class="d-flex flex-wrap justify-content-center align-items-center col-12 col-lg-10 containerVideos" id="videoContainer">
