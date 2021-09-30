@@ -233,21 +233,13 @@ There are two types of notifications that can be raised on the platform:
 ### API key set up
 
 First, you will need to set up an API key for the YouTube Data API: 
-
 1. Sign in or create an account here https://console.developers.google.com/
-
 2. Create a project in the dashboard
-
 3. Click 'Credentials' in the left sidebar
-
 4. Click 'Create Credentials' at the top of the middle section, and then "API key"
-
 5. Copy this API key
-
 6. In the `finalproject` folder, create an file called `.env`
-
 7. Suppose my API key is xxx, this file should contain (with no spaces or apostrophes):
-
    ```
    YOUTUBE_API_KEY=xxx
    ```
@@ -259,27 +251,19 @@ First, you will need to set up an API key for the YouTube Data API:
 1. Copy the repo to your system.
 2. Verify you have Python and Django installed on your system. If not you will need to load them.
 3. Make sure that you have the packages installed from the `requirements.txt` file.
-
-2. Run the following to start up the Django web server:
-
+4. Run the following to start up the Django web server:
    ```python
    python manage.py runserver 
    ```
-
-3. Visit the website in your browser. 
-
+5. Visit the website in your browser. 
    - Use the following credentials to log in as a teacher:
-
      ```
      username: lucy
      password: password
      ```
-
    - Use the following credentials to log in a student with available videos: 
-
      ```
      username: becky
      password: password
      ```
-
    - Or, create a new student account by clicking Register in the nav bar.
