@@ -3,7 +3,6 @@ let notifications = document.querySelectorAll('.notification-item');
 
 // Resets notification counter in nav and also in database
 function resetNotificationCounter() {
-    // TODO change to try and catch
     try {
         fetch('/reset_notifications_counter', {
             method: 'POST'
@@ -53,7 +52,7 @@ function readAllNotificationsAndUpdatePage() {
                     }
 
                 })
-            } // TODO else?
+            }
         })
     } catch (err) {
         console.log(err);

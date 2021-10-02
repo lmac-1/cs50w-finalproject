@@ -10,7 +10,6 @@ from django.http import JsonResponse
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.conf import settings
-# TODO look into removing csrf_exempt
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import User, Student, Video, Teacher, Style, Notification, CalenaStep, Comment
