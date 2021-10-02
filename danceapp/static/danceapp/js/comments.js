@@ -3,6 +3,30 @@ let commentTextArea = document.getElementById('comment-textarea');
 let submitButton = document.getElementById('add-comment');
 let cancelButton = document.getElementById('cancel-comment');
 
+// Clicking on text area shows the comment buttons
+commentTextArea.addEventListener('focus', function() {
+    showBootstrapElement(commentButtons);
+})
+
+// Submitting the comment rehides the buttons
+submitButton.addEventListener('click', function() {
+    hideBootstrapElement(commentButtons);
+})
+
+// Cancel button hides buttons and clears comment
+cancelButton.addEventListener('click', function() {
+    hideBootstrapElement(commentButtons);
+    commentTextArea.value = '';
+})
+
+// Deletes comments
+document.querySelectorAll('.delete-comment').forEach(deleteCommentButton => {
+    deleteCommentButton.addEventListener('click', event => {
+        let commentId = deleteCommentButton.dataset.comment_id;
+        deleteComment(commentId);
+    })
+})
+
 // Shows a given Bootstrap element
 function showBootstrapElement(element) {
     if (element.classList.contains('d-none')) {
@@ -62,29 +86,4 @@ function deleteComment(commentId) {
     } catch (err) {
         console.log(err);
     } 
-    
 }
-
-// Clicking on text area shows the comment buttons
-commentTextArea.addEventListener('focus', function() {
-    showBootstrapElement(commentButtons);
-})
-
-// Submitting the comment rehides the buttons
-submitButton.addEventListener('click', function() {
-    hideBootstrapElement(commentButtons);
-})
-
-// Cancel button hides buttons and clears comment
-cancelButton.addEventListener('click', function() {
-    hideBootstrapElement(commentButtons);
-    commentTextArea.value = '';
-})
-
-// Deletes comments
-document.querySelectorAll('.delete-comment').forEach(deleteCommentButton => {
-    deleteCommentButton.addEventListener('click', event => {
-        let commentId = deleteCommentButton.dataset.comment_id;
-        deleteComment(commentId);
-    })
-})
