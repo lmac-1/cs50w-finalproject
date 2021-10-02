@@ -28,13 +28,6 @@ function resizeScreen() {
     let page = window.location.pathname;
     // Notifications
     let notificationContainer = document.getElementById('notification-section');
-    // Filters
-    let filters = {
-        teacherFilterValue: document.getElementById('search_teacher').value,
-        levelFilterValue: document.getElementById('search_level').value,
-        styleFilterValue: document.getElementById('search_style').value,
-        stepFilterValue: document.getElementById('search_step').value
-    }
     
     // If notifications are open and screen is resized to medium screen or lower, hide notifications
     if (window.innerWidth < 992 & !notificationContainer.classList.contains('d-none')) {
@@ -43,6 +36,14 @@ function resizeScreen() {
 
     // If we are on the home page
     if (page.length === 0 || page === "/" || page.match(/^\/?index/)) {
+        // Filters
+        let filters = {
+            teacherFilterValue: document.getElementById('search_teacher').value,
+            levelFilterValue: document.getElementById('search_level').value,
+            styleFilterValue: document.getElementById('search_style').value,
+            stepFilterValue: document.getElementById('search_step').value
+        }
+        
         if (window.innerWidth <= 1199) {
             changeIndexPageToSmallerScreenView(filters)
         } else {
