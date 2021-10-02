@@ -4,14 +4,19 @@ let notifications = document.querySelectorAll('.notification-item');
 // Resets notification counter in nav and also in database
 function resetNotificationCounter() {
     // TODO change to try and catch
-    fetch('/reset_notifications_counter', {
-        method: 'POST'
-    })
-    .then(response => response.json())
-    .then(result => {
-        // Print result TODO remove
-        console.log(result);
-    });
+    try {
+        fetch('/reset_notifications_counter', {
+            method: 'POST'
+        })
+        .then(response => response.json())
+        .then(result => {
+            console.log(result);
+        });
+    }
+    catch(err) {
+        console.log(err);
+    }
+    
 }
 
 // Marks given notification as read and redirects to video related to notification
@@ -26,7 +31,6 @@ function readNotificationAndRedirectToPage(notificationId, videoId) {
         .then(result => {
             console.log(result);
             if (result.message) location.href = `/video/${videoId}`;
-            // TODO else?
         })
     } catch (err) {
         console.log(err);
