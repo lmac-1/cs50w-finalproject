@@ -3,6 +3,109 @@ import {getVideosHTML} from "./getvideos.js";
 // Creates empty filter object
 let filter = {}
 
+// Resets search filters on page load
+document.getElementById('search_teacher').value = "";
+document.getElementById('search_style').value = "";
+document.getElementById('title_input').value = "";
+document.getElementById('search_level').value = ""; 
+document.getElementById('search_step').value = ""; 
+
+// Loads all videos on page load
+let allVideos = await getAllVideos();
+getVideosHTML(allVideos);
+
+// Toggles filters on smaller devices
+document.getElementById('filter-toggle').addEventListener("click", function() {
+    toggleFilters();
+    filterVideos(allVideos,filter);
+});
+
+document.getElementById('search_title').addEventListener("click", function() {
+    searchTitle();
+})
+
+document.getElementById('title_input').addEventListener("keyup", function(event) {
+    if (event.key == "Enter") {
+        searchTitle();
+    }
+})
+
+document.getElementById('search_teacher').addEventListener("change", function() {
+    let teacherValueChosenByUser = document.getElementById("search_teacher").value;
+    // Adds teacher to filter
+    if (teacherValueChosenByUser != "") {
+        filter.teacher = parseInt(teacherValueChosenByUser);
+    } 
+    // Deletes 'teacher' property if it exists and no teacher has been selected to search
+    else if (filter.hasOwnProperty('teacher') && teacherValueChosenByUser == "") {
+        delete filter.teacher;
+    }
+    // Apply filter
+    filterVideos(allVideos, filter);
+})
+
+document.getElementById('search_style').addEventListener("change", function() {
+    let styleValueChosenByUser = document.getElementById("search_style").value;
+    let calenaStepDiv = document.getElementById("steps");
+
+    // Adds style to filter
+    if (styleValueChosenByUser != "") {
+        filter.style = parseInt(styleValueChosenByUser);
+    }
+    // Deletes 'style' property from filter if it exists and no style has been selected to search
+    else if (filter.hasOwnProperty('style') && styleValueChosenByUser == "") {
+        delete filter.style;
+    }
+
+    // Unhiding salsa calena steps dropdown when Salsa Calena chosen
+    if (styleValueChosenByUser == '2') { // Salsa calena
+        calenaStepDiv.classList.remove('d-none');
+    } 
+    // Cleaning up filter and menu when a different style is selected
+    else {
+        document.getElementById('search_step').value = '';
+        
+        if (!calenaStepDiv.classList.contains('d-none')) {
+            calenaStepDiv.classList.add('d-none');
+        }
+
+        if (filter.hasOwnProperty('step')) {
+            delete filter.step;
+        }
+    }
+
+    filterVideos(allVideos, filter);
+})
+
+document.getElementById('search_step').addEventListener("change", function() {
+    let stepValueChosenByUser = document.getElementById('search_step').value;
+    
+    // Adds step to filter
+    if (stepValueChosenByUser != "") {
+        filter.step = parseInt(stepValueChosenByUser);
+    }
+    // Deletes 'step' property from filter if it exists and no step has been selected to search
+    else if (filter.hasOwnProperty('step') && stepValueChosenByUser == "") {
+        delete filter.step;
+    }
+
+    filterVideos(allVideos, filter);
+})
+
+document.getElementById('search_level').addEventListener("change", function() {
+    let levelValueChosenByUser = document.getElementById("search_level").value;
+    // Adds level to the filter
+    if (levelValueChosenByUser != "") {
+        filter.level = levelValueChosenByUser;
+    }
+    // Deletes 'level' property fom filter if it exists and no level has been selected to search
+    else if (filter.hasOwnProperty('level') && levelValueChosenByUser == "") {
+        delete filter.level;
+    }
+    filterVideos(allVideos, filter);
+})
+
+
 function toggleFilters() {
     // Defines elements we are going to use
     let filtersContainer = document.getElementById('filter-container');
@@ -93,115 +196,16 @@ async function getAllVideos() {
     }
 }
 
-
-document.addEventListener('DOMContentLoaded', async function() {
-    
-    // Resets search filters on page load
-    document.getElementById('search_teacher').value = "";
-    document.getElementById('search_style').value = "";
-    document.getElementById('title_input').value = "";
-    document.getElementById('search_level').value = ""; 
-    document.getElementById('search_step').value = ""; 
-
-    // Loads all videos on page load
-    let allVideos = await getAllVideos();
-    getVideosHTML(allVideos);
-
-    // Toggles filters on smaller devices
-    document.getElementById('filter-toggle').addEventListener("click", function() {
-        toggleFilters();
-        filterVideos(allVideos,filter);
-    });
-
-    // TODO - make work with enter key too (try doing search event)
-    document.getElementById('search_title').addEventListener("click", function() {
-        // Converts title string to lower case
-        let titleUserSearchString = document.getElementById('title_input').value.toLowerCase();
-
-        // Adds title to filter if non blank
-        if (titleUserSearchString != "") {
-            filter.title = titleUserSearchString;
-        }
-        // Else, reset filter
-        else if (filter.hasOwnProperty('title') && titleUserSearchString == "") {
-            delete filter.title;
-        }
-        // Apply filter
-        filterVideos(allVideos, filter);
-    })
-
-    document.getElementById('search_teacher').addEventListener("change", function() {
-        let teacherValueChosenByUser = document.getElementById("search_teacher").value;
-        // Adds teacher to filter
-        if (teacherValueChosenByUser != "") {
-            filter.teacher = parseInt(teacherValueChosenByUser);
-        } 
-        // Deletes 'teacher' property if it exists and no teacher has been selected to search
-        else if (filter.hasOwnProperty('teacher') && teacherValueChosenByUser == "") {
-            delete filter.teacher;
-        }
-        // Apply filter
-        filterVideos(allVideos, filter);
-    })
-
-    document.getElementById('search_style').addEventListener("change", function() {
-        let styleValueChosenByUser = document.getElementById("search_style").value;
-        let calenaStepDiv = document.getElementById("steps");
-
-        // Adds style to filter
-        if (styleValueChosenByUser != "") {
-            filter.style = parseInt(styleValueChosenByUser);
-        }
-        // Deletes 'style' property from filter if it exists and no style has been selected to search
-        else if (filter.hasOwnProperty('style') && styleValueChosenByUser == "") {
-            delete filter.style;
-        }
-
-        // Unhiding salsa calena steps dropdown when Salsa Calena chosen
-        if (styleValueChosenByUser == '2') { // Salsa calena
-            calenaStepDiv.classList.remove('d-none');
-        } 
-        // Cleaning up filter and menu when a different style is selected
-        else {
-            document.getElementById('search_step').value = '';
-            
-            if (!calenaStepDiv.classList.contains('d-none')) {
-                calenaStepDiv.classList.add('d-none');
-            }
-
-            if (filter.hasOwnProperty('step')) {
-                delete filter.step;
-            }
-        }
-
-        filterVideos(allVideos, filter);
-    })
-
-    document.getElementById('search_step').addEventListener("change", function() {
-        let stepValueChosenByUser = document.getElementById('search_step').value;
-        
-        // Adds step to filter
-        if (stepValueChosenByUser != "") {
-            filter.step = parseInt(stepValueChosenByUser);
-        }
-        // Deletes 'step' property from filter if it exists and no step has been selected to search
-        else if (filter.hasOwnProperty('step') && stepValueChosenByUser == "") {
-            delete filter.step;
-        }
-
-        filterVideos(allVideos, filter);
-    })
-
-    document.getElementById('search_level').addEventListener("change", function() {
-        let levelValueChosenByUser = document.getElementById("search_level").value;
-        // Adds level to the filter
-        if (levelValueChosenByUser != "") {
-            filter.level = levelValueChosenByUser;
-        }
-        // Deletes 'level' property fom filter if it exists and no level has been selected to search
-        else if (filter.hasOwnProperty('level') && levelValueChosenByUser == "") {
-            delete filter.level;
-        }
-        filterVideos(allVideos, filter);
-    })
-});
+function searchTitle() {
+    let titleUserSearchString = document.getElementById('title_input').value.toLowerCase();
+    // Adds title to filter if non blank
+    if (titleUserSearchString != "") {
+        filter.title = titleUserSearchString;
+    }
+    // Else, reset filter
+    else if (filter.hasOwnProperty('title') && titleUserSearchString == "") {
+        delete filter.title;
+    }
+    // Apply filter
+    filterVideos(allVideos, filter);
+}
