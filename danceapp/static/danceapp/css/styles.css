@@ -16,6 +16,8 @@ ul {
 
 .brand-name {
     display: none;
+    width: 116px;
+    height: 40px;
 }
 
 .text-pink {
