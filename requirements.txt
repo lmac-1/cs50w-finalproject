@@ -1,17 +1,4 @@
-In order to get the YouTube API working on Google Chrome, you will need to:
-1. Sign in or create an account here https://console.developers.google.com/
-2. Create a project in the dashboard
-3. Click 'Credentials' in the left sidebar
-4. Click 'Create Credentials' at the top of the middle section, and then "API key"
-5. Copy this API key
-6. In the finalproject folder, create an file called .env
-7. Suppose my API key is xxx, this file should contain YOUTUBE_API_KEY=xxx
-    (with no spaces or apostrophes)
-8. The Google API should now work successfully
-
-
-You will also need to install the following packages:
+Django=3.1.6
 
 pip install django-cors-headers
-
 pip install django-environ
