@@ -21,6 +21,8 @@
   - [How to run the application](#how-to-run-the-application)
     - [API key set up](#api-key-set-up)
     - [Running the application](#running-the-application)
+  - [Important note](#important-note)
+  - [Features I would like to improve/add](#features-i-would-like-to-improveadd)
 
 [  ] review requirements.txt of other people
 
@@ -268,3 +270,18 @@ First, you will need to set up an API key for the YouTube Data API:
      password: password
      ```
    - Or, create a new student account by clicking Register in the nav bar.
+
+## Important note
+
+The solution I have built isn't perfect, as it displays unlisted YouTube videos on the website. The student users can easily go and watch the videos on YouTube and share the links with others. This project is a 'low-cost' solution for teachers with a few students that they trust. It's for people who don't have enough students to make it worthwhile paying for an expensive video-hosting subscription that is on offer at the moment.
+
+## Features I would like to improve/add
+
+- [ ] Add student filter on homepage for teachers
+- [ ] Add clear filters button
+- [ ] Allow different sorting on index page (most recent, oldest)
+- [ ] Date validation on New Video form
+- [ ] Deploy application somewhere
+- [ ] Edit comment
+- [ ] Able to edit saved videos list from index / saved videos page
+- [ ] Make 'Add Comment' work using JavaScript only
