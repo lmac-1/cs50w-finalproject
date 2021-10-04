@@ -252,7 +252,7 @@ First, you will need to set up an API key for the YouTube Data API:
 ### Running the application
 
 1. Copy the repo to your system.
-2. Verify you have Python and Django installed on your system. If not you will need to load them.
+2. Verify you have Python and Django installed on your system. If not you will need to install them.
 3. Make sure that you have the packages installed from the `requirements.txt` file.
 4. Run the following to start up the Django web server:
    ```python
