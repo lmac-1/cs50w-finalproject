@@ -45,7 +45,7 @@ I believe that my project meets this requirement for the following reasons:
 1. My project is based on an original idea, that solves a real-life personal problem which has no similarity to any of the projects built as part of the CS50W course. 
 2. The website is built with different user types: admin, student and teacher.
 3. The [New Video](#new-video-new_video) page uses the Youtube Data API from Google and `fetch` in JavaScript to get the YouTube video data and dynamically prepopulate the form. I have built this in such a way that the real API key is hidden on my public deployment to GitHub.
-4. I built a simple [notification](#notifications) system, which notifies students of new videos and teachers when a new comment is added to one of their videos. The notifications section is completely responsive and updates dynamically using JavaScript. **TODO make it work dynamically to show new notifications**
+4. I built a simple [notification](#notifications) system, which notifies students of new videos and teachers when a new comment is added to one of their videos. The notifications section is completely responsive and updates dynamically using JavaScript.
 5. The filter on [Index](#index-) (homepage) was built completely from scratch and uses a JavaScript function to update the page to display videos that meet the criteria selected by the different filters on the page. 
 6. On the [New Video](#new-video-new_video)  page I challenged myself to build functionality that allows users to add a new field to the `CalenaStep` model using JavaScript and update a `CheckboxSelectMultiple` field on a Django form dynamically. 
 
@@ -289,5 +289,6 @@ The solution I have built isn't perfect, as it displays unlisted YouTube videos 
 - [ ] Edit comment
 - [ ] Able to edit saved videos list from index / saved videos page
 - [ ] Make 'Add Comment' work using JavaScript only
+- [ ] Make notifications icon (total notifications) update in real time
 
 [Back to Top](#cs50-final-project---dance-app) 

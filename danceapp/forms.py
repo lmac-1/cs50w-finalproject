@@ -36,7 +36,6 @@ class NewVideoForm(forms.ModelForm):
                     'level': forms.Select(attrs={'class': 'form-control'}),
                     'teacher': forms.CheckboxSelectMultiple(attrs={'class': 'column-checkbox'}), 
                     'student_access': forms.CheckboxSelectMultiple(attrs={'class': 'column-checkbox'}),
-                    #TODO - add validation
                     'class_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'})
 
                     }

@@ -343,7 +343,6 @@ def add_comment(request, video_id):
                 "message": "Sorry, an error has occurred. Please try again."
             })
 
-# TODO - should API routes have login_url login or something else? 
 @csrf_exempt
 def delete_comment(request, comment_id):
     if not request.user.is_authenticated:
