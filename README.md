@@ -24,13 +24,11 @@
   - [Important note](#important-note)
   - [Features I would like to improve/add](#features-i-would-like-to-improveadd)
 
-[  ] review requirements.txt of other people
-
 ## Overview
 
 During the pandemic, my partner and I have been teaching salsa caleña on Zoom for an online dance school. After every class, we send short videos to our students showing what we have taught via Whatsapp. However, after more than a year of classes, these videos are taking up too much space. I built my final project to create a solution for this problem.
 
-I have built an online platform for teachers and students, where teachers can add unlisted YouTube videos and make them visible to selected students. The website has lots of different features, which I will summarise below.
+I have built an online platform for teachers and students, where teachers can add unlisted YouTube videos and make them visible to selected students. The website has lots of different features, which I will summarise below (see [Routes](#routes)).
 
 My web application was built using Django, JavaScript and Bootstrap.
 
