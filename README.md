@@ -275,7 +275,7 @@ First, you will need to set up an API key for the YouTube Data API:
 
 ## Important note
 
-The solution I have built isn't perfect, as it displays unlisted YouTube videos on the website. The student users can easily go and watch the videos on YouTube and share the links with others. This project is a 'low-cost' solution for teachers with a few students that they trust. It's for people who don't have enough students to make it worthwhile paying for an expensive video-hosting subscription that is on offer at the moment.
+The solution I have built isn't perfect, as it displays unlisted YouTube videos on the website. The student users can easily go and watch the videos on YouTube and share the links with others. This project is a 'low-cost' solution for teachers with a few students that they trust. It's for people who don't have enough students to make it worthwhile paying for an expensive video-hosting subscription.
 
 [Back to Top](#cs50-final-project---dance-app) 
 
