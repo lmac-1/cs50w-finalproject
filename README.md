@@ -288,5 +288,7 @@ The solution I have built isn't perfect, as it displays unlisted YouTube videos 
 - [ ] Able to edit saved videos list from index / saved videos page
 - [ ] Make 'Add Comment' work using JavaScript only
 - [ ] Make notifications icon (total notifications) update in real time
+- [ ] Change register student to be a single sign on link with email
+- [ ] Change register student to be a single sign on link with email (and remove register teacher page)
 
 [Back to Top](#cs50-final-project---dance-app) 
